@@ -5,7 +5,7 @@ import { jakarta } from "@/libs/fonts";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "PPDB | Login",
+  title: "PPDB",
   description: "PPDB SMK Pekerjaan Umum Negeri Bandung",
 };
 

@@ -29,6 +29,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "daisyui": "^4.11.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",
