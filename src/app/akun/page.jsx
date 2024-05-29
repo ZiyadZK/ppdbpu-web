@@ -1,17 +1,43 @@
 'use client'
 
 import MainLayoutPage from "@/components/mainLayout"
+import { M_Akun_getAll } from "@/libs/models/M_Akun"
 import { faEdit, faEye, faFile, faSave } from "@fortawesome/free-regular-svg-icons"
 import { faPlusSquare, faSearch, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useEffect, useState } from "react"
 
 export default function AkunPage() {
+
+    const [loadingFetch, setLoadingFetch] = useState({
+        akun: '', pegawai: ''
+    })
+
+    const [data, setData] = useState([])
+    const [filteredData, setFilteredData] = useState([])
+    const [dataPegawai, setDataPegawai] = useState([])
+    const [filteredDataPegawai, setFilteredDataPegawai] = useState([])
+    const [searchValue, setSearchValue] = useState('')
+    const [pagination, setPagination] = useState(1)
+    const [totalList, setTotalList] = useState(10)
+    const [selectedData, setSelectedData] = useState([])
+
 
     const submitTambahAkun = async (e, modal) => {
         e.preventDefault()
 
         document.getElementById(modal).close()
     }
+
+    const getData = async () => {
+        await M_Akun_getAll()
+    }
+
+    useEffect(() => {
+        getData()
+    }, [])
+
+
 
     return (
         <MainLayoutPage>
