@@ -1,7 +1,7 @@
 'use server'
 
 import { cookies } from "next/headers"
-import { urlGet, urlPost } from "../web_service"
+import { urlDelete, urlGet, urlPost } from "../web_service"
 import { decryptData } from "../cryptor"
 
 export const M_Akun_login = async (email_akun, password_akun, duration) => {
@@ -85,8 +85,25 @@ export const M_Akun_create = async (payload) => {
     try {
         const response = await urlPost('/v1/data/akun', payload)
 
-        console.log(response)
+        return {
+            success: true,
+            message: response.message
+        }
+    } catch (error) {
+        console.log(error)
+        return {
+            success: false,
+            message: response.message
+        }
+    }
+}
 
+export const M_Akun_delete = async (id_akun) => {
+    try {
+        const response = await urlDelete('/v1/data/akun', {id_akun})
+
+        console.log(response)
+        
     } catch (error) {
         console.log(error)
         return {

@@ -12,24 +12,20 @@ export async function middleware(request) {
     }
 
     const encryptedUserdata = cookies().get('userdata')
-    try {
-        const decryptedUserdata = await decryptData(encryptedUserdata)
-        const pathname = request.nextUrl.pathname;
-        for (const path of adminPath) {
-            if(pathname.startsWith(path)) {
-                if(decryptedUserdata['role_akun'] !== 'Admin') {
-                    return NextResponse.redirect(new URL('/', request.url))
-                }
+    const decryptedUserdata = await decryptData(encryptedUserdata)
+    const pathname = request.nextUrl.pathname;
+    for (const path of adminPath) {
+        if(pathname.startsWith(path)) {
+            if(decryptedUserdata['role_akun'] !== 'Admin') {
+                return NextResponse.redirect(new URL('/', request.url))
             }
         }
-
-        return NextResponse.next()
-        
-    } catch (error) {
-        return NextResponse.redirect(new URL('/login', request.url))
     }
+
+    return NextResponse.next()
+    
 }
 
 export const config = {
-    matcher: ['/']
+    matcher: ['/', '/akun', '/riwayat', '/siswa/terdaftar', '/siswa/diterima']
 }
