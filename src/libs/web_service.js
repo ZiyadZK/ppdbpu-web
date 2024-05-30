@@ -1,3 +1,5 @@
+'use server'
+
 import axios from "axios"
 
 export const urlGet = async (url) => {
@@ -47,7 +49,10 @@ export const urlPut = async (url, payload) => {
 
 export const urlDelete = async (url, payload) => {
     try {
-        const response = await axios.delete(`${process.env.API_URL}${url}`, payload, {
+        const response = await axios({
+            method: 'DELETE',
+            url: `${process.env.API_URL}${url}`,
+            data: payload,
             headers: {
                 'X-API-KEY': process.env.API_KEY
             }

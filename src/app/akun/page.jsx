@@ -2,7 +2,7 @@
 
 import MainLayoutPage from "@/components/mainLayout"
 import { toast } from "@/libs/alert"
-import { M_Akun_create, M_Akun_getAll } from "@/libs/models/M_Akun"
+import { M_Akun_create, M_Akun_delete, M_Akun_getAll, M_Akun_update } from "@/libs/models/M_Akun"
 import { M_Pegawai_getAll } from "@/libs/models/M_Pegawai"
 import { faEdit, faEye, faFile, faSave } from "@fortawesome/free-regular-svg-icons"
 import { faExclamationTriangle, faPlusSquare, faSearch, faTrash, faXmark } from "@fortawesome/free-solid-svg-icons"
@@ -84,8 +84,7 @@ export default function AkunPage() {
             updatedData = updatedData.filter(akun => 
                 akun['nama_akun'].toLowerCase().includes(searchAkun.toLowerCase()) ||
                 akun['email_akun'].toLowerCase().includes(searchAkun.toLowerCase()) ||
-                akun['password_akun'].toLowerCase().includes(searchAkun.toLowerCase()) ||
-                akun['id_pegawai_akun'].toLowerCase().includes(searchAkun.toLowerCase())
+                akun['password_akun'].toLowerCase().includes(searchAkun.toLowerCase())
             )
         }
 
@@ -129,6 +128,123 @@ export default function AkunPage() {
                 
             }
         })
+    }
+
+    const handleDeleteAkun = async (id_akun) => {
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: 'Anda akan menghapus akun tersebut',
+            icon: 'error',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
+        }).then(result => {
+            if(result.isConfirmed) {
+                Swal.fire({
+                    title: 'Sedang memproses data',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    allowEnterKey: false,
+                    allowEscapeKey: false,
+                    timer: 10000,
+                    timerProgressBar: true,
+                    didOpen: async () => {
+                        const response = await M_Akun_delete(id_akun ? [id_akun] : selectedData)
+                        Swal.close()
+                        if(response.success) {
+                            await getData()
+                            return toast.fire({
+                                title: 'Sukses',
+                                text: 'Berhasil menghapus akun tersebut',
+                                icon: 'success'
+                            })
+                        }else{
+                            return toast.fire({
+                                title: 'Gagal',
+                                text: response.message,
+                                icon: 'error'
+                            })
+                        }
+                    }
+                }).then(() => {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Gagal memproses data, silahkan hubungi administrator',
+                        icon: 'error'
+                    })
+                })
+            }
+        })
+    }
+
+    const submitEditAkun = async (e, modal, id_akun) => {
+        e.preventDefault()
+
+        const jsonBody = {
+            id_pegawai_akun: e.target[0].value,
+            nama_akun: e.target[1].value,
+            email_akun: e.target[2].value,
+            password_akun: e.target[3].value,
+            role_akun: e.target[4].value
+        }
+        document.getElementById(modal).close()
+
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: 'Anda akan menyimpan perubahan akun tersebut',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
+        }).then(result => {
+            if(result.isConfirmed) {
+                Swal.fire({
+                    title: 'Sedang memproses data',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    allowEnterKey: false,
+                    allowEscapeKey: false,
+                    timer: 10000,
+                    timerProgressBar: true,
+                    didOpen: async () => {
+                        const response = await M_Akun_update(id_akun ? [id_akun] : selectedData, jsonBody)
+                        Swal.close()
+                        if(response.success) {
+                            await getData()
+                            return toast.fire({
+                                title: 'Sukses',
+                                text: 'Berhasil mengubah akun tersebut',
+                                icon: 'success'
+                            })
+                        }else{
+                            return toast.fire({
+                                title: 'Gagal',
+                                text: response.message,
+                                icon: 'error'
+                            })
+                        }
+                    }
+                }).then(() => {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Gagal memproses data, silahkan hubungi administrator',
+                        icon: 'error'
+                    })
+                })
+            }else{
+                document.getElementById(modal).showModal()
+            }
+        })
+    }
+
+    const handleSelectData = async (id_akun) => {
+        if(selectedData.includes(id_akun)) {
+            const updatedSelectedData = selectedData.filter(id => id !== id_akun)
+            setSelectedData(updatedSelectedData)
+        }else{
+            const updatedSelectedData = [...selectedData, id_akun]
+            setSelectedData(updatedSelectedData)
+        }
     }
 
     return (
@@ -236,7 +352,7 @@ export default function AkunPage() {
                         Role
                     </div>
                     <div className="col-span-6 md:col-span-2 flex items-center gap-2">
-                        <input type="text" className="px-3 py-1 rounded border bg-zinc-100 w-full text-zinc-700" placeholder="Cari disini" />
+                        <input type="text" value={searchAkun} onChange={e => setSearchAkun(e.target.value)} className="px-3 py-1 rounded border bg-zinc-100 w-full text-zinc-700" placeholder="Cari disini" />
                     </div>
                 </div>
                 {loadingFetch['akun'] !== 'fetched' ? (
@@ -246,10 +362,10 @@ export default function AkunPage() {
                     </div>
                 ): (
                     <div className="divide-y py-2 divide-zinc-200 relative overflow-auto w-full max-h-[500px] md:max-h-[500px]">
-                        {filteredData.map((akun, index) => (
+                        {filteredData.slice(pagination === 1 ? totalList - totalList : (totalList * pagination) - totalList, totalList * pagination).map((akun, index) => (
                             <div key={index} className="grid grid-cols-12 hover:bg-zinc-50 *:px-3 *:py-4 text-zinc-700 text-xs md:text-sm group">
                                 <div className="col-span-6 md:col-span-3 flex items-center gap-2 ">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" checked={selectedData.includes(akun['id_akun'])} onChange={() => handleSelectData(akun['id_akun'])} />
                                     {akun['email_akun']}
                                 </div>
                                 <div className="col-span-3 hidden md:flex items-center gap-2 opacity-70">
@@ -320,7 +436,7 @@ export default function AkunPage() {
                                             </form>
                                             <h3 className="font-bold text-lg">Edit Akun</h3>
                                             <hr className="my-3 opacity-0" />
-                                            <form className="">
+                                            <form onSubmit={e => submitEditAkun(e, `edit_akun_${index}`, akun['id_akun'])}>
                                                 <div className="space-y-3">
                                                     <div className="flex md:items-center flex-col md:flex-row md:text-sm text-xs">
                                                         <p className="opacity-50 w-full md:w-1/3">
@@ -363,7 +479,7 @@ export default function AkunPage() {
                                             </form>
                                         </div>
                                     </dialog>
-                                    <button type="button" className="w-6 h-6 flex items-center justify-center bg-red-200 text-red-700 rounded hover:bg-red-300">
+                                    <button type="button" onClick={() => handleDeleteAkun(akun['id_akun'])} className="w-6 h-6 flex items-center justify-center bg-red-200 text-red-700 rounded hover:bg-red-300">
                                         <FontAwesomeIcon icon={faTrash} className="w-3 h-3 text-inherit" />
                                     </button>
                                 </div>
@@ -375,32 +491,29 @@ export default function AkunPage() {
                     <div className="flex md:items-center gap-2 md:justify-start justify-between">
                         <div className="flex items-center gap-2">
                             <p className="px-2 py-1 rounded bg-zinc-100 text-zinc-600 font-medium">
-                                2
+                                {selectedData.length}
                             </p>
                             <p>
                                 Data dipilih
                             </p>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <button type="button" className="w-6 h-6 flex items-center justify-center bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300">
+                        {selectedData.length > 0 && <div className="flex items-center gap-2">
+                            <button type="button" onClick={() => handleDeleteAkun()} className="w-6 h-6 flex items-center justify-center bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300">
                                 <FontAwesomeIcon icon={faTrash} className="w-3 h-3 text-inherit" />
                             </button>
-                            <button type="button" className="w-6 h-6 flex items-center justify-center bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300">
+                            <button type="button" onClick={() => setSelectedData([])} className="w-6 h-6 flex items-center justify-center bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300">
                                 <FontAwesomeIcon icon={faXmark} className="w-3 h-3 text-inherit" />
                             </button>
-                            <button type="button" className="w-6 h-6 flex items-center justify-center bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300">
-                                <FontAwesomeIcon icon={faEye} className="w-3 h-3 text-inherit" />
-                            </button>
-                        </div>
+                        </div>}
                     </div>
                     <div className="flex items-center justify-between w-full md:w-fit gap-5">
-                        <p>1300 Data</p>
+                        <p>{data.length} Data</p>
                         <div className="join">
-                            <button className="join-item px-3 py-2 bg-zinc-100 hover:bg-zinc-200">«</button>
-                            <button className="join-item px-3 py-2 bg-zinc-100 hover:bg-zinc-200">Page 22</button>
-                            <button className="join-item px-3 py-2 bg-zinc-100 hover:bg-zinc-200">»</button>
+                            <button className="join-item px-3 py-2 bg-zinc-100 hover:bg-zinc-200" onClick={() => setPagination(state => state > 1 ? state - 1 : state)}>«</button>
+                            <button className="join-item px-3 py-2 bg-zinc-100 hover:bg-zinc-200">Page {pagination}</button>
+                            <button className="join-item px-3 py-2 bg-zinc-100 hover:bg-zinc-200" onClick={() => setPagination(state => state < Math.ceil(data.length / totalList) ? state + 1 : state)}>»</button>
                         </div>
-                        <select className="w-fit px-3 py-2 rounded hover:bg-zinc-100 text-zinc-700 cursor-pointer">
+                        <select value={totalList} onChange={e => setTotalList(e.target.value)} className="w-fit px-3 py-2 rounded hover:bg-zinc-100 text-zinc-700 cursor-pointer">
                             <option value={10}>10</option>
                             <option value={20}>20</option>
                             <option value={50}>50</option>
