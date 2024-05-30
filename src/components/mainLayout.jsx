@@ -2,7 +2,7 @@
 
 import { toast } from "@/libs/alert"
 import { M_Akun_getUserdata, M_Akun_logout } from "@/libs/models/M_Akun"
-import { faBars, faHouse, faSignOut, faTimeline, faUserCheck, faUserShield, faUsers, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { faBars, faHouse, faSignOut, faTimeline, faUserCheck, faUserGroup, faUserShield, faUsers, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
@@ -17,6 +17,7 @@ const navLinkMasterData = [
 ]
 const navLink = [
     { url: '/', icon: faHouse, page: 'Dashboard', name: 'Dashboard', role: ['Admin', 'Operator']},
+    { url: '/siswa', icon: faUserGroup, page: 'Siswa Page', name: 'Siswa', role: ['Admin', 'Operator']},
     ...navLinkMasterData
 ]
 
