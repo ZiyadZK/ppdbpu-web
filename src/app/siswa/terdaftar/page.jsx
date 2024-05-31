@@ -6,12 +6,14 @@ import { xlsx_getSheets } from "@/libs/excel"
 import { formatFileSize } from "@/libs/formatFileSize"
 import { M_Akun_getUserdata } from "@/libs/models/M_Akun"
 import { faEdit, faFile, faSave } from "@fortawesome/free-regular-svg-icons"
-import { faCheck, faDownload, faPlusSquare, faPowerOff, faSearch, faTrash, faTurnDown, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { faArrowDown, faArrowUp, faArrowsUpDown, faCheck, faDownload, faPlusSquare, faPowerOff, faSearch, faTrash, faTurnDown, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react"
 import Swal from "sweetalert2"
 import * as XLSX from 'xlsx'
 import Papa from 'papaparse'
+import { M_Siswa_create, M_Siswa_delete, M_Siswa_getAll } from "@/libs/models/M_Siswa"
+import { date_getYear } from "@/libs/date"
 
 const formatData = {
     id_siswa: "ID siswa",
@@ -82,6 +84,28 @@ const formatData = {
 };
 
 
+const formatRombel = {
+    'DESAIN PEMODELAN DAN INFORMASI BANGUNAN': 'DPIB',
+    'TEKNIK GEOSPASIAL': 'GEO',
+    'TEKNIK JARINGAN KOMPUTER DAN TELEKOMUNIKASI': 'TKJ',
+    'TEKNIK KETENAGALISTRIKAN': 'TITL',
+    'TEKNIK MESIN': 'TPM',
+    'TEKNIK OTOMOTIF': 'TKR'
+}
+
+const formatWarnaRombel = {
+    ' DESAIN PEMODELAN DAN INFORMASI BANGUNAN ': 'amber',
+    ' TEKNIK GEOSPASIAL ': 'red',
+    ' TEKNIK JARINGAN KOMPUTER DAN TELEKOMUNIKASI ': 'green',
+    ' TEKNIK KETENAGALISTRIKAN ': 'zinc',
+    ' TEKNIK MESIN ': 'orange',
+    ' TEKNIK OTOMOTIF ': 'blue'
+}
+
+const formatSorting = {
+    nama_siswa: '', nisn: '', nomor_reg: '', nisn: ''
+}
+
 export default function SiswaTerdaftarPage() {
 
     const [fileData, setFileData] = useState(null)
@@ -101,15 +125,29 @@ export default function SiswaTerdaftarPage() {
     const [totalList, setTotalList] = useState(10)
     const [selectedData, setSelectedData] = useState([])
     const [searchData, setSearchData] = useState('')
-    const [sorting, setSorting] = useState({
-        nama_siswa: '', nisn: ''
-    })
+    const [selectAllData, setSelectAllData] = useState(false)
+    const [sorting, setSorting] = useState(formatSorting)
     const [filterData, setFilterData] = useState({
         id_rombel: [], agama: [], jk_siswa: [], kategori: []
     })
     const [loadingFetch, setLoadingFetch] = useState('')
 
     const [loggedAkun, setLoggedAkun] = useState(null)
+
+    const getData = async () => {
+        setLoadingFetch('loading')
+        const response = await M_Siswa_getAll({
+            tahun_masuk: date_getYear() - 1,
+            aktif: 1,
+            daftar_ulang: 0
+        })
+
+        if(response.success) {
+            setData(response.data)
+            setFilteredData(response.data)
+            console.log(response.data)
+        }
+    }
 
     const getLoggedAkun = async () => {
         const response = await M_Akun_getUserdata()
@@ -120,6 +158,7 @@ export default function SiswaTerdaftarPage() {
 
     useEffect(() => {
         getLoggedAkun()
+        getData()
     }, [])
 
     const handleChangeFile = async (file) => {
@@ -128,7 +167,7 @@ export default function SiswaTerdaftarPage() {
 
             const fileName = file.name
             const fileExtension = fileName.split('.').pop()
-            if(fileExtension === 'xlsx' || fileExtension === 'csv'){
+            if(fileExtension === 'xlsx'){
                 const sheets = await xlsx_getSheets(file)
                 setNamaSheet('')
                 setListSheet(Object.keys(sheets))
@@ -169,6 +208,7 @@ export default function SiswaTerdaftarPage() {
 
                 if(isNotSimilar) {
                     setUploadedData([])
+                    setUploadedFile(null)
                     setLoadingReadFormat('fetched')
                     document.getElementById(modal).close()
                     return Swal.fire({
@@ -182,6 +222,7 @@ export default function SiswaTerdaftarPage() {
 
                 setIsUploadedDataValid(true)
                 setUploadedData(response.data)
+                setUploadedFile(fileData)
                 setLoadingReadFormat('fetched')
             } catch (error) {
                 console.log(error)
@@ -201,7 +242,11 @@ export default function SiswaTerdaftarPage() {
                     const formattedData = result.data.map(row => {
                         const newRow = {};
                         Object.keys(row).forEach(key => {
-                            newRow[key.toLowerCase()] = row[key];
+                            if(key === 'id_rombel') {
+                                newRow[key.toLowerCase()] = String(row[key].trim().replace(/\s+/g, ' '))
+                            }else{
+                                newRow[key.toLowerCase()] = row[key];
+                            }
                         });
                         return newRow;
                     });
@@ -209,7 +254,7 @@ export default function SiswaTerdaftarPage() {
                     setInfoFileData(state => ({
                         ...state, 
                         jumlahData: formattedData.length, 
-                        jumlahKolom: Object.keys(formattedData[0])
+                        jumlahKolom: Object.keys(formattedData[0]).length
                     }));
             
                     let isNotSimilar = false;
@@ -274,12 +319,19 @@ export default function SiswaTerdaftarPage() {
 
                 if(records.length > 1) {
                     const columns = records[0]
+                    console.log(records)
                     const dataObjects = records.slice(1).map((row, index) => {
                         if(row.length > 0) {
                             let obj = {}
                             columns.forEach((column, index) => {
                                 const newColumn = column.toLowerCase()
-                                obj[newColumn] = String(row[index])
+                                if(newColumn === 'id_rombel') {
+                                    obj[newColumn] = String(row[index].trim().replace(/\s+/g, ' '))
+                                }else if(newColumn === 'tgl_lahir_siswa'){
+                                    obj[newColumn] = `${row[index]}`
+                                }else{
+                                    obj[newColumn] = String(row[index])
+                                }
                             })
                             return obj
                         }else{
@@ -304,6 +356,279 @@ export default function SiswaTerdaftarPage() {
             reader.onerror = reject
 
             reader.readAsArrayBuffer(file)
+        })
+    }
+
+    const submitImport = async modal => {
+        document.getElementById(modal).close()
+
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            icon: 'question',
+            text: 'Anda akan import data ke dalam Daftar Calon Siswa',
+            showCancelButton: true,
+            confirmButtonText: "Ya",
+            cancelButtonText: 'Tidak',
+        }).then(answer => {
+            if(answer.isConfirmed) {
+                Swal.fire({
+                    title: 'Sedang memproses data',
+                    text: 'Harap bersabar, dikarenakan kami sedang memproses data anda.',
+                    timer: 15000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    allowEnterKey: false,
+                    allowEscapeKey: false,
+                    didOpen: async () => {
+                        let responseData = { success: false }
+                        console.log(uploadedData)
+                        if(uploadedData.length > 50) {
+                            console.log('batch')
+                            const numBatches = Math.ceil(uploadedData.length / 50)
+                            const responseList = []
+                            for(let i = 0; i < numBatches; i ++) {
+                                const start = i * 50
+                                const end = Math.min(start + 50, uploadedData.length)
+                                const batch = uploadedData.slice(start, end)
+                                const response = await M_Siswa_create(batch)
+                                console.log(response)
+                                responseList.push(response.success ? 'success': 'failed')
+                            }
+                            responseData.success = responseList.includes('success')
+                        }else{
+                            console.log('single')
+                            const response = await M_Siswa_create(uploadedData)
+                            console.log(response)
+                            responseData.success = response.success
+                        }
+
+                        const successMessage = responseData.success ? 'Berhasil memproses data!' : 'Gagal memproses data..';
+                        const messageText = responseData.success ? 'Berhasil mengupload data import ke data siswa!' : 'Terdapat kendala disaat anda mengimport data ke data siswa!';
+
+                        Swal.fire({
+                            icon: responseData.success ? 'success' : 'error',
+                            title: successMessage,
+                            text: messageText,
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(async () => {
+                            if (responseData.success) {
+                                await getData()
+                            }
+                        });
+                    }
+                })
+            }else{
+                Swal.close()
+                document.getElementById(modal).showModal()
+            }
+        })
+
+    }
+    const handleFilter = (key, value) => {
+        setFilterData(state => {
+            let updatedState 
+            let updatedFilter
+            if(state[key].includes(value)){
+                updatedFilter = state[key].filter(v => v !== value)
+                updatedState = {...state, [key]: updatedFilter}
+            }else{
+                updatedState = {...state, [key]: [...state[key], value]}
+            }
+            return updatedState
+        })
+    }
+
+    const submitFilter = () => {
+        let updatedData = data
+
+        // Filter Jurusan
+        if(filterData['id_rombel'].length > 0) {
+            updatedData = updatedData.filter(value => filterData['id_rombel'].includes(value['id_rombel']))
+        }
+
+        // Filter Jenis Kelamin
+        if(filterData['jk_siswa'].length > 0) {
+            updatedData = updatedData.filter(value => filterData['jk_siswa'].includes(value['jk_siswa']))
+        }
+
+        // FIlter Kategori
+        if(filterData['kategori'].length > 0) {
+            updatedData = updatedData.filter(value => filterData['kategori'].includes(value['kategori']))
+        }
+
+        // Filter Search Data
+        if(searchData !== '') {
+            updatedData = updatedData.filter(value => 
+                value['nama_siswa'].toLowerCase().includes(searchData) ||
+                value['nomor_reg'].includes(searchData) ||
+                value['nisn'].includes(searchData)
+            )
+        }
+
+        // Sorting
+        
+        let sortedFilter = [];
+        if(sorting.nama_siswa !== '') {
+            sortedFilter = updatedData.sort((a, b) => {
+                if(sorting.nama_siswa === 'asc') {
+                    if (a.nama_siswa < b.nama_siswa) return -1;
+                    if (a.nama_siswa > b.nama_siswa) return 1;
+                    return 0;
+                }
+                
+                if(sorting.nama_siswa === 'dsc') {
+                    if (a.nama_siswa < b.nama_siswa) return 1;
+                    if (a.nama_siswa > b.nama_siswa) return -1;
+                    return 0;
+                }
+            })
+        }
+
+        if(sorting.nomor_reg !== '') {
+            sortedFilter = updatedData.sort((a, b) => {
+                if(sorting.nomor_reg === 'asc') {
+                    if (a.nomor_reg < b.nomor_reg) return -1;
+                    if (a.nomor_reg > b.nomor_reg) return 1;
+                    return 0;
+                }
+                
+                if(sorting.nomor_reg === 'dsc') {
+                    if (a.nomor_reg < b.nomor_reg) return 1;
+                    if (a.nomor_reg > b.nomor_reg) return -1;
+                    return 0;
+                }
+            })
+        }
+
+        if(sorting.nisn !== '') {
+            sortedFilter = updatedData.sort((a, b) => {
+                if(sorting.nisn === 'asc') {
+                    if (a.nisn < b.nisn) return -1;
+                    if (a.nisn > b.nisn) return 1;
+                    return 0;
+                }
+                
+                if(sorting.nisn === 'dsc') {
+                    if (a.nisn < b.nisn) return 1;
+                    if (a.nisn > b.nisn) return -1;
+                    return 0;
+                }
+            })
+        }
+
+        updatedData = sortedFilter.length > 0 ? sortedFilter : updatedData
+
+        setFilteredData(updatedData)
+
+    }
+
+    useEffect(() => {
+        submitFilter()
+    }, [searchData, filterData, sorting])
+
+    const handleSelectData = (nisn) => {
+        let updatedData
+        if(selectedData.includes(nisn)) {
+            updatedData = selectedData.filter(value => value !== nisn)
+        }else{
+            updatedData = [...selectedData, nisn]
+        }
+
+        setSelectedData(updatedData)
+    }
+
+    const handleSelectAllData = () => {
+        if(!selectAllData) {
+            let updatedData = selectedData
+            filteredData.forEach(value => {
+                if(!updatedData.includes(value.nisn)) {
+                    updatedData.push(value.nisn)
+                }else{
+                    updatedData = updatedData.filter(v => v !== nisn)
+                }
+            })
+    
+            setSelectedData(updatedData)
+            setSelectAllData(state => true)
+        }else{
+            setSelectedData([])
+            setSelectAllData(state => false)
+        }
+    }
+
+    const handleDeleteData = async (nisn) => {
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: `Anda akan menghapus data siswa ${typeof nisn === 'undefined' ? ' Yang dipilih' : 'dengan NISN ' + nisn}, dan data ini akan hilang dari database. Jika anda menghapus ini, maka tidak bisa dikembalikan!`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+            timer: 10000,
+            timerProgressBar: true
+        }).then(answer => {
+            if(answer.isConfirmed) {
+                Swal.fire({
+                    title: 'Sedang memproses data',
+                    timer: 10000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    didOpen: async () => {
+                        const response = await M_Siswa_delete(typeof nisn === 'undefined' ? selectedData : nisn)
+
+                        if(response.success) {
+                            Swal.close()
+                            return toast.fire({
+                                title: 'Sukses',
+                                text: `Berhasil menghapus Data Siswa ${typeof nisn === 'undefined' ? 'yang dipilih' : 'dengan NISN ' + nisn}`,
+                                icon: 'success',
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: async () => {
+                                    await getData()
+                                }
+                            })
+                        }else{
+                            Swal.close()
+                            return toast.fire({
+                                title: 'Gagal',
+                                text: response.message,
+                                icon: 'error',
+                                timer: 5000,
+                                timerProgressBar: true
+                            })
+                        }
+                    }
+                })
+            }
+        })
+    }
+
+    const handleSorting = (key) => {
+        setSorting(state => {
+            let updatedState = formatSorting
+
+            if(state[key] === '') {
+                updatedState = {...updatedState, [key]: 'asc'}
+                console.log(updatedState)
+                return updatedState
+            }
+
+            if(state[key] === 'asc') {
+                updatedState = {...updatedState, [key]: 'dsc'}
+                console.log(updatedState)
+                return updatedState
+            }
+            if(state[key] === 'dsc') {
+                updatedState = {...updatedState, [key]: ''}
+                console.log(updatedState)
+                return updatedState
+            }
         })
     }
 
@@ -386,7 +711,7 @@ export default function SiswaTerdaftarPage() {
                                             Ukuran
                                         </p>
                                         <p className="w-2/3">
-                                            212 KB
+                                            {infoFileData['ukuran']}
                                         </p>
                                     </div>
                                     <div className="flex items-center w-full">
@@ -394,7 +719,7 @@ export default function SiswaTerdaftarPage() {
                                             Jumlah Data
                                         </p>
                                         <p className="w-2/3">
-                                            120 Baris
+                                            {infoFileData['jumlahData']} Baris
                                         </p>
                                     </div>
                                     <div className="flex items-center w-full">
@@ -402,7 +727,7 @@ export default function SiswaTerdaftarPage() {
                                             Ekstensi
                                         </p>
                                         <p className="w-2/3">
-                                            .CSV
+                                            {infoFileData['ekstensi']}
                                         </p>
                                     </div>
                                     <div className="flex items-center w-full">
@@ -410,14 +735,14 @@ export default function SiswaTerdaftarPage() {
                                             Jumlah Kolom
                                         </p>
                                         <p className="w-2/3">
-                                            0 <span className="opacity-50">/ {Object.keys(formatData).length}</span>
+                                            {infoFileData['jumlahKolom']} <span className="opacity-50">/ {Object.keys(formatData).length}</span>
                                         </p>
                                     </div>
                                 </div>
                             )}
                             <hr className="my-2 opacity-0" />
                             {isUploadedDataValid && (
-                                <button type="button" className="px-3 py-2 rounded-lg bg-green-500 hover:bg-green-400 focus:bg-green-600 flex items-center gap-3 text-white text-sm">
+                                <button type="button" onClick={() => submitImport('import_data')} className="px-3 py-2 rounded-lg bg-green-500 hover:bg-green-400 focus:bg-green-600 flex items-center gap-3 text-white text-sm">
                                     <FontAwesomeIcon icon={faSave} className="w-4 h-4 text-inherit" />
                                     Simpan
                                 </button>
@@ -432,37 +757,11 @@ export default function SiswaTerdaftarPage() {
                             Filter Jurusan
                         </p>
                         <div className="w-full md:w-5/6 flex-shrink-0 text-xs md:text-sm flex items-center gap-3 relative overflow-auto">
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
-                                TKJ
-                            </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
-                                TITL
-                            </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
-                                TKR
-                            </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
-                                TPM
-                            </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
-                                DPIB
-                            </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
-                                GEO
-                            </button>
-                        </div>
-                    </div>
-                    <div className="flex flex-col md:flex-row gap-1 md:gap-0 md:items-center">
-                        <p className="w-full md:w-1/6 flex-shrink-0 text-xs md:text-sm opacity-70">
-                            Filter Agama
-                        </p>
-                        <div className="w-full md:w-5/6 flex-shrink-0 text-xs md:text-sm flex items-center gap-3 relative overflow-auto">
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
-                                Islam
-                            </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
-                                Non Islam
-                            </button>
+                            {Object.keys(formatRombel).map((rombel, index) => (
+                                <button key={index} type="button" onClick={() => handleFilter('id_rombel', rombel)} className={`rounded px-3 py-2 ${filterData.id_rombel.includes(rombel) ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
+                                    {formatRombel[rombel]}
+                                </button>
+                            ))}
                         </div>
                     </div>
                     <div className="flex flex-col md:flex-row gap-1 md:gap-0 md:items-center">
@@ -470,10 +769,10 @@ export default function SiswaTerdaftarPage() {
                             Filter Jenis Kelamin
                         </p>
                         <div className="w-full md:w-5/6 flex-shrink-0 text-xs md:text-sm flex items-center gap-3 relative overflow-auto">
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
+                            <button type="button" onClick={() => handleFilter('jk_siswa', 'Laki - laki')} className={`rounded px-3 py-2 ${filterData.jk_siswa.includes('Laki - laki') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
                                 Laki-laki
                             </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
+                            <button type="button" onClick={() => handleFilter('jk_siswa', 'Perempuan')} className={`rounded px-3 py-2 ${filterData.jk_siswa.includes('Perempuan') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
                                 Perempuan
                             </button>
                         </div>
@@ -483,28 +782,28 @@ export default function SiswaTerdaftarPage() {
                             Filter Kategori
                         </p>
                         <div className="w-full md:w-5/6 flex-shrink-0 text-xs md:text-sm flex items-center gap-3 relative overflow-auto">
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
+                            <button type="button" onClick={() => handleFilter('kategori', 'ABK')} className={`rounded px-3 py-2 ${filterData.kategori.includes('ABK') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
                                 ABK
                             </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
+                            <button type="button" onClick={() => handleFilter('kategori', 'KETM')} className={`rounded px-3 py-2 ${filterData.kategori.includes('KETM') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
                                 KETM
                             </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
+                            <button type="button" onClick={() => handleFilter('kategori', 'KONDISI TERTENTU')} className={`rounded px-3 py-2 ${filterData.kategori.includes('KONDISI TERTENTU') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
                                 Kondisi Tertentu
                             </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
+                            <button type="button" onClick={() => handleFilter('kategori', 'PERPINDAHAN TUGAS ORTU / ANAK GURU')} className={`rounded px-3 py-2 ${filterData.kategori.includes('PERPINDAHAN TUGAS ORTU / ANAK GURU') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
                                 Perpindahan Tugas Ortu / Anak Guru
                             </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
+                            <button type="button" onClick={() => handleFilter('kategori', 'PERSIAPAN KELAS INDUSTRI')} className={`rounded px-3 py-2 ${filterData.kategori.includes('PERSIAPAN KELAS INDUSTRI') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
                                 Persiapan Kelas Industri
                             </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
+                            <button type="button" onClick={() => handleFilter('kategori', 'PRESTASI KEJUARAAN')} className={`rounded px-3 py-2 ${filterData.kategori.includes('PRESTASI KEJUARAAN') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
                                 Prestasi Kejuaraan
                             </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
+                            <button type="button" onClick={() => handleFilter('kategori', 'PRESTASI RAPOR UMUM')} className={`rounded px-3 py-2 ${filterData.kategori.includes('PRESTASI RAPOR UMUM') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
                                 Prestasi Rapor Umum
                             </button>
-                            <button type="button" className={"rounded px-3 py-2 hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700 flex-shrink-0"}>
+                            <button type="button" onClick={() => handleFilter('kategori', 'PRIORITAS JARAK')} className={`rounded px-3 py-2 ${filterData.kategori.includes('PRIORITAS JARAK') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
                                 Prioritas Jarak
                             </button>
                         </div>
@@ -523,17 +822,26 @@ export default function SiswaTerdaftarPage() {
                 <hr className="my-1 opacity-0" />
                 <div className="grid grid-cols-12 *:px-3 *:py-2 rounded-lg border border-zinc-500">
                     <div className="col-span-7 md:col-span-2 flex items-center gap-2">
-                        <input type="checkbox"  />
+                        <input type="checkbox" checked={selectAllData} onChange={() => handleSelectAllData()}  />
                         <p className="opacity-50 text-sm">Nama</p>
+                        <button type="button" onClick={() => handleSorting('nama_siswa')} className="text-zinc-400 w-5 h-5 flex items-center justify-center rounded  hover:bg-zinc-100 hover:text-zinc-700">
+                            <FontAwesomeIcon icon={sorting.nama_siswa === '' ? faArrowsUpDown : (sorting.nama_siswa === 'asc' ? faArrowUp : faArrowDown )} className="w-3 h-3 text-inherit" />
+                        </button>
                     </div>
                     <div className="col-span-2 hidden md:flex items-center gap-2">
                         <p className="opacity-50 text-sm">No. Pendaftaran</p>
+                        <button type="button" onClick={() => handleSorting('nomor_reg')} className="text-zinc-400 w-5 h-5 flex items-center justify-center rounded  hover:bg-zinc-100 hover:text-zinc-700">
+                            <FontAwesomeIcon icon={sorting.nomor_reg === '' ? faArrowsUpDown : (sorting.nomor_reg === 'asc' ? faArrowUp : faArrowDown )} className="w-3 h-3 text-inherit" />
+                        </button>
                     </div>
                     <div className="col-span-1 hidden md:flex items-center gap-2">
                         <p className="opacity-50 text-sm">Jurusan</p>
                     </div>
                     <div className="col-span-1 hidden md:flex items-center gap-2">
                         <p className="opacity-50 text-sm">NISN</p>
+                        <button type="button" onClick={() => handleSorting('nisn')} className="text-zinc-400 w-5 h-5 flex items-center justify-center rounded  hover:bg-zinc-100 hover:text-zinc-700">
+                            <FontAwesomeIcon icon={sorting.nisn === '' ? faArrowsUpDown : (sorting.nisn === 'asc' ? faArrowUp : faArrowDown )} className="w-3 h-3 text-inherit" />
+                        </button>
                     </div>
                     <div className="col-span-2 hidden md:flex items-center gap-2">
                         <p className="opacity-50 text-sm">Tempat, Tanggal Lahir</p>
@@ -542,39 +850,47 @@ export default function SiswaTerdaftarPage() {
                         <p className="opacity-50 text-sm">Kategori</p>
                     </div>
                     <div className="col-span-5 md:col-span-2 flex items-center gap-2">
-                        <input type="text" className="w-full px-2 py-1 text-sm rounded border bg-zinc-50 hover:border-zinc-700" placeholder="Cari disini" />
+                        <input type="text" value={searchData} onChange={e => setSearchData(e.target.value)} className="w-full px-2 py-1 text-sm rounded border bg-zinc-50 hover:border-zinc-700" placeholder="Cari disini" />
                     </div>
                 </div>
                 <div className="divide-y relative overflow-auto w-full max-h-[400px] py-2">
-                    {Array.from({ length: 50 }).slice(pagination === 1 ? totalList - totalList : (totalList * pagination) - totalList, totalList * pagination).map((_, index) => (
+                    {filteredData.slice(pagination === 1 ? totalList - totalList : (totalList * pagination) - totalList, totalList * pagination).map((siswa, index) => (
                         <div key={index} className="grid grid-cols-12 *:px-3 *:py-4 hover:bg-zinc-50 group">
                             <div className="col-span-7 md:col-span-2 flex items-center gap-2">
-                                <input type="checkbox"  />
-                                <p className="text-xs font-medium">Ziyad Jahizh Kartiwa</p>
+                                <input type="checkbox" checked={selectedData.includes(siswa.nisn)} onChange={() => handleSelectData(siswa.nisn)}  />
+                                <p className="text-xs font-medium">
+                                    {siswa.nama_siswa}
+                                </p>
                             </div>
                             <div className="col-span-2 hidden md:flex items-center gap-2">
-                                <p className="opacity-50 text-xs font-medium">1023012930213912309</p>
+                                <p className="opacity-50 text-xs font-medium">
+                                    {siswa.nomor_reg}
+                                </p>
                             </div>
                             <div className="col-span-1 hidden md:flex items-center gap-2">
-                                <p className="text-xs font-medium px-2 py-1 rounded-full bg-green-500/10 text-green-500">X TKJ 1</p>
+                                <p className="text-xs font-medium px-2 py-1 rounded-full bg-green-500/10 text-green-500">
+                                    X {formatRombel[siswa['id_rombel']]} 1
+                                </p>
                             </div>
                             <div className="col-span-1 hidden md:flex items-center gap-2">
-                                <p className="opacity-50 text-xs font-medium">1232103921039</p>
+                                <p className="opacity-50 text-xs font-medium">
+                                    {siswa.nisn}
+                                </p>
                             </div>
                             <div className="col-span-2 hidden md:flex items-center gap-2">
-                                <p className="text-xs font-medium">Bandung, 13 November 2003</p>
+                                <p className="text-xs font-medium">
+                                    {siswa.tempat_lahir_siswa}, {siswa.tgl_lahir_siswa} </p>
                             </div>
                             <div className="col-span-2 hidden md:flex items-center gap-2">
-                                <p className="opacity-50 text-xs font-medium">ALDHAO DKJAHW DLWA DWAD WA IJD A</p>
+                                <p className="opacity-50 text-xs font-medium">
+                                    {siswa.kategori}
+                                </p>
                             </div>
                             <div className="col-span-5 md:col-span-2 flex items-center justify-center gap-1 md:gap-2 md:opacity-0 md:group-hover:opacity-100">
-                                <button type="button" className="w-6 h-6 rounded bg-blue-500 hover:bg-blue-400 focus:bg-blue-700 text-blue-200 flex items-center justify-center">
-                                    <FontAwesomeIcon icon={faFile} className="w-3 h-3 text-inherit" />
-                                </button>
                                 <button type="button" className="w-6 h-6 rounded bg-amber-500 hover:bg-amber-400 focus:bg-amber-700 text-amber-200 flex items-center justify-center">
                                     <FontAwesomeIcon icon={faEdit} className="w-3 h-3 text-inherit" />
                                 </button>
-                                <button type="button" className="w-6 h-6 rounded bg-red-500 hover:bg-red-400 focus:bg-red-700 text-red-200 flex items-center justify-center">
+                                <button type="button" onClick={() => handleDeleteData(siswa.nisn)} className="w-6 h-6 rounded bg-red-500 hover:bg-red-400 focus:bg-red-700 text-red-200 flex items-center justify-center">
                                     <FontAwesomeIcon icon={faTrash} className="w-3 h-3 text-inherit" />
                                 </button>
                             </div>
@@ -592,7 +908,7 @@ export default function SiswaTerdaftarPage() {
                             </p>
                         </div>
                         {selectedData.length > 0 && <div className="flex items-center gap-2">
-                            <button type="button" onClick={() => handleDeleteAkun()} className="w-6 h-6 flex items-center justify-center bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300">
+                            <button type="button" onClick={() => handleDeleteData()} className="w-6 h-6 flex items-center justify-center bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300">
                                 <FontAwesomeIcon icon={faTrash} className="w-3 h-3 text-inherit" />
                             </button>
                             <button type="button" onClick={() => setSelectedData([])} className="w-6 h-6 flex items-center justify-center bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300">
