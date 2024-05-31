@@ -14,6 +14,7 @@ import * as XLSX from 'xlsx'
 import Papa from 'papaparse'
 import { M_Siswa_create, M_Siswa_delete, M_Siswa_getAll } from "@/libs/models/M_Siswa"
 import { date_getYear } from "@/libs/date"
+import { useRouter } from "next/navigation"
 
 const formatData = {
     id_siswa: "ID siswa",
@@ -107,6 +108,7 @@ const formatSorting = {
 }
 
 export default function SiswaTerdaftarPage() {
+    const router = useRouter()
 
     const [fileData, setFileData] = useState(null)
     const [infoFileData, setInfoFileData] = useState({
@@ -887,7 +889,7 @@ export default function SiswaTerdaftarPage() {
                                 </p>
                             </div>
                             <div className="col-span-5 md:col-span-2 flex items-center justify-center gap-1 md:gap-2 md:opacity-0 md:group-hover:opacity-100">
-                                <button type="button" className="w-6 h-6 rounded bg-amber-500 hover:bg-amber-400 focus:bg-amber-700 text-amber-200 flex items-center justify-center">
+                                <button type="button" onClick={() => router.push(`/siswa/terdaftar/update/${siswa.nisn}`)} className="w-6 h-6 rounded bg-amber-500 hover:bg-amber-400 focus:bg-amber-700 text-amber-200 flex items-center justify-center">
                                     <FontAwesomeIcon icon={faEdit} className="w-3 h-3 text-inherit" />
                                 </button>
                                 <button type="button" onClick={() => handleDeleteData(siswa.nisn)} className="w-6 h-6 rounded bg-red-500 hover:bg-red-400 focus:bg-red-700 text-red-200 flex items-center justify-center">
