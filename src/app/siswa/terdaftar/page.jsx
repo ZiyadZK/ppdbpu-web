@@ -139,7 +139,7 @@ export default function SiswaTerdaftarPage() {
     const getData = async () => {
         setLoadingFetch('loading')
         const response = await M_Siswa_getAll({
-            tahun_masuk: date_getYear() - 1,
+            tahun_masuk: date_getYear(),
             aktif: 1,
             daftar_ulang: 0
         })
@@ -147,7 +147,6 @@ export default function SiswaTerdaftarPage() {
         if(response.success) {
             setData(response.data)
             setFilteredData(response.data)
-            console.log(response.data)
         }
     }
 
@@ -193,9 +192,9 @@ export default function SiswaTerdaftarPage() {
         setLoadingReadFormat('loading')
 
         if(fileExtension === 'xlsx') {
+            console.log('excel')
             try {
                 const response = await readXLSXFile(fileData)
-                console.log(response)
 
                 setInfoFileData(state => ({...state, jumlahData: response.data.length, jumlahKolom: Object.keys(response.data[0]).length}))
                 let isNotSimilar = false
@@ -246,8 +245,16 @@ export default function SiswaTerdaftarPage() {
                         Object.keys(row).forEach(key => {
                             if(key === 'id_rombel') {
                                 newRow[key.toLowerCase()] = String(row[key].trim().replace(/\s+/g, ' '))
+                            }else if(key === 'tgl_lahir_siswa'){
+                                newRow[key.toLowerCase()] = `${row[key].split('/')[2]}-${row[key].split('/')[0]}-${row[key].split('/')[1]}`
+                            }else if(key === 'pekerjaan_ayah') {
+                                newRow[key.toLowerCase()] = typeof(row[key]) !== 'undefined' || row[key] !== '0' || row[key] !== 0 || row[key] !== '#N/A' ? (row[key] === 'DI RUMAH SAJA' ? 'TIDAK BEKERJA' : String(row[key])) : ''
+                            }else if(key === 'pekerjaan_ibu') {
+                                newRow[key.toLowerCase()] = typeof(row[key]) !== 'undefined' || row[key] !== '0' || row[key] !== 0 || row[key] !== '#N/A' ? (row[key] === 'DI RUMAH SAJA' ? 'TIDAK BEKERJA' : String(row[key])) : ''
+                            }else if(key === 'pekerjaan_wali') {
+                                newRow[key.toLowerCase()] = typeof(row[key]) !== 'undefined' || row[key] !== '0' || row[key] !== 0 || row[key] !== '#N/A' ? (row[key] === 'DI RUMAH SAJA' ? 'TIDAK BEKERJA' : String(row[key])) : ''
                             }else{
-                                newRow[key.toLowerCase()] = row[key];
+                                newRow[key.toLowerCase()] = row[key] === 0 || row[key] === '0' || typeof row[key] === 'undefined' || row[key] === '#N/A' ? '' : row[key];
                             }
                         });
                         return newRow;
@@ -321,26 +328,39 @@ export default function SiswaTerdaftarPage() {
 
                 if(records.length > 1) {
                     const columns = records[0]
-                    console.log(records)
                     const dataObjects = records.slice(1).map((row, index) => {
                         if(row.length > 0) {
                             let obj = {}
                             columns.forEach((column, index) => {
                                 const newColumn = column.toLowerCase()
+
                                 if(newColumn === 'id_rombel') {
                                     obj[newColumn] = String(row[index].trim().replace(/\s+/g, ' '))
                                 }else if(newColumn === 'tgl_lahir_siswa'){
-                                    obj[newColumn] = `${row[index]}`
+                                    
+                                    const dateValue = new Date((row[index] - 25569) * 86400 * 1000)
+                                    
+                                    // Construct the date string in the format 'dd/MM/yyyy'
+                                    const day = String(dateValue.getDate()).padStart(2, '0');
+                                    const month = String(dateValue.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+                                    const year = dateValue.getFullYear();
+                                    obj[newColumn] = `${year}-${month}-${day}`;
+                                }else if(newColumn === 'pekerjaan_ayah') {
+                                    obj[newColumn] = row[index] === '0' || row[index] === 0 || typeof row[index] === 'undefined' || row[index] === '#N/A' ? '' : (row[index] === 'DI RUMAH SAJA' ? 'TIDAK BEKERJA' : String(row[index]))
+                                }else if(newColumn === 'pekerjaan_ibu') {
+                                    obj[newColumn] = row[index] === '0' || row[index] === 0 || typeof row[index] === 'undefined' || row[index] === '#N/A' ? '' : (row[index] === 'DI RUMAH SAJA' ? 'TIDAK BEKERJA' : String(row[index]))
+                                }else if(newColumn === 'pekerjaan_wali') {
+                                    obj[newColumn] = row[index] === '0' || row[index] === 0 || typeof row[index] === 'undefined' || row[index] === '#N/A' ? '' : (row[index] === 'DI RUMAH SAJA' ? 'TIDAK BEKERJA' : String(row[index]))
                                 }else{
-                                    obj[newColumn] = String(row[index])
+                                    obj[newColumn] = row[index] === '0' || row[index] === 0 || typeof row[index] === 'undefined' || row[index] === '#N/A' ? '' : String(row[index])
                                 }
                             })
+                            console.log(obj)
                             return obj
                         }else{
                             return null
                         }
                     }).filter(obj => obj !== null)
-                    console.log(dataObjects)
                     resolve({
                         success: true,
                         message: 'Sheet ditemukan!',
@@ -384,9 +404,7 @@ export default function SiswaTerdaftarPage() {
                     allowEscapeKey: false,
                     didOpen: async () => {
                         let responseData = { success: false }
-                        console.log(uploadedData)
                         if(uploadedData.length > 50) {
-                            console.log('batch')
                             const numBatches = Math.ceil(uploadedData.length / 50)
                             const responseList = []
                             for(let i = 0; i < numBatches; i ++) {
@@ -394,14 +412,11 @@ export default function SiswaTerdaftarPage() {
                                 const end = Math.min(start + 50, uploadedData.length)
                                 const batch = uploadedData.slice(start, end)
                                 const response = await M_Siswa_create(batch)
-                                console.log(response)
                                 responseList.push(response.success ? 'success': 'failed')
                             }
                             responseData.success = responseList.includes('success')
                         }else{
-                            console.log('single')
                             const response = await M_Siswa_create(uploadedData)
-                            console.log(response)
                             responseData.success = response.success
                         }
 
@@ -574,7 +589,7 @@ export default function SiswaTerdaftarPage() {
             if(answer.isConfirmed) {
                 Swal.fire({
                     title: 'Sedang memproses data',
-                    timer: 10000,
+                    timer: 20000,
                     timerProgressBar: true,
                     showConfirmButton: false,
                     allowOutsideClick: false,
@@ -592,6 +607,7 @@ export default function SiswaTerdaftarPage() {
                                 timer: 3000,
                                 timerProgressBar: true,
                                 didOpen: async () => {
+                                    setSelectedData([])
                                     await getData()
                                 }
                             })
@@ -617,18 +633,15 @@ export default function SiswaTerdaftarPage() {
 
             if(state[key] === '') {
                 updatedState = {...updatedState, [key]: 'asc'}
-                console.log(updatedState)
                 return updatedState
             }
 
             if(state[key] === 'asc') {
                 updatedState = {...updatedState, [key]: 'dsc'}
-                console.log(updatedState)
                 return updatedState
             }
             if(state[key] === 'dsc') {
                 updatedState = {...updatedState, [key]: ''}
-                console.log(updatedState)
                 return updatedState
             }
         })
@@ -881,14 +894,14 @@ export default function SiswaTerdaftarPage() {
                             </div>
                             <div className="col-span-2 hidden md:flex items-center gap-2">
                                 <p className="text-xs font-medium">
-                                    {siswa.tempat_lahir_siswa}, {siswa.tgl_lahir_siswa} </p>
+                                    {siswa.tempat_lahir_siswa}, {siswa.tgl_lahir_siswa.split('-').reverse().join('/')} </p>
                             </div>
                             <div className="col-span-2 hidden md:flex items-center gap-2">
                                 <p className="opacity-50 text-xs font-medium">
                                     {siswa.kategori}
                                 </p>
                             </div>
-                            <div className="col-span-5 md:col-span-2 flex items-center justify-center gap-1 md:gap-2 md:opacity-0 md:group-hover:opacity-100">
+                            <div className="col-span-5 md:col-span-2 flex items-center justify-center gap-1 md:gap-2 ">
                                 <button type="button" onClick={() => router.push(`/siswa/terdaftar/update/${siswa.nisn}`)} className="w-6 h-6 rounded bg-amber-500 hover:bg-amber-400 focus:bg-amber-700 text-amber-200 flex items-center justify-center">
                                     <FontAwesomeIcon icon={faEdit} className="w-3 h-3 text-inherit" />
                                 </button>

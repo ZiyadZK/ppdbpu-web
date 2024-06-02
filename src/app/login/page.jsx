@@ -44,7 +44,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="w-full h-screen flex items-center justify-center bg-gradient-to-t from-teal-100">
+        <div className="w-full h-screen flex items-center justify-center bg-gradient-to-t from-teal-100 to-white text-zinc-700">
             <form onSubmit={submitLoginForm} className="w-full h-full md:w-1/3 p-5 flex md:block justify-between flex-col md:rounded-2xl bg-white md:h-fit">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">

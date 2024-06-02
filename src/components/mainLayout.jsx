@@ -159,7 +159,7 @@ export default function MainLayoutPage({ children }) {
                             </div>
                         )}
                     </div>
-                    <div className="md:p-5 w-full">
+                    <div className="md:p-5 w-full text-zinc-700">
                         {children}
                     </div>
                 </div>

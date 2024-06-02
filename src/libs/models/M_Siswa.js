@@ -23,10 +23,10 @@ export const M_Siswa_getAll = async (parameter) => {
     }
 }
 
-export const M_Siswa_get = async (nisn) => {
+export const M_Siswa_get = async (nisn, parameter) => {
     try {
 
-        const response = await urlGet(`/v1/data/siswa/nisn/${nisn}`)
+        const response = await urlGet(`/v1/data/siswa/nisn/${nisn}${objToQueryURL(parameter)}`)
         
         return {
             success: true,

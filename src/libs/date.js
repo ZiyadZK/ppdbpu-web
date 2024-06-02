@@ -36,9 +36,11 @@ export const date_getDay = (date) => {
     return day;
 }
 
-export const date_getMonth = (date) => {
+export const date_getMonth = (format = 'number', date) => {
     let delimiter = null;
     let month;
+
+    const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
     if (date) {
         if (date.includes('-')) {
@@ -56,9 +58,9 @@ export const date_getMonth = (date) => {
                 const [ , part1, part2, year ] = match;
                 // Check if part1 and part2 are likely to be day or month
                 if (parseInt(part1) > 12) {
-                    month = part2;
+                    month = parseInt(part2);
                 } else {
-                    month = part1;
+                    month = parseInt(part1);
                 }
             } else {
                 return 'Invalid date format';
@@ -68,10 +70,14 @@ export const date_getMonth = (date) => {
         }
     } else {
         const currentDate = new Date();
-        month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed in JS
+        month = currentDate.getMonth() + 1; // Months are zero-indexed in JS
     }
 
-    return month;
+    if (format === 'string') {
+        return monthNames[month - 1];
+    } else {
+        return String(month).padStart(2, '0'); // Return month as a zero-padded number
+    }
 }
 
 export const date_getYear = (date) => {
@@ -122,7 +128,7 @@ export const date_getTime = (type) => {
 }
 
 export const date_toFormat = (date) => {
-    const [year, month, day] = date.split('-')
+    const [year, day, month] = date.split('-')
 
     return `${day}/${month}/${year}`
 }
@@ -130,5 +136,5 @@ export const date_toFormat = (date) => {
 export const date_toInputHtml = (date) => {
     const [day, month, year] = date.split('/')
 
-    return `${year}-${month}-${day}`
+    return `${year}-${day}-${month}`
 }
