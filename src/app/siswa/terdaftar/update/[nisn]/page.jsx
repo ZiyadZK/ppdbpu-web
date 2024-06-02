@@ -112,11 +112,12 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
     const getData = async () => {
         setLoadingFetch('loading')
         const response = await M_Siswa_get(nisn, { daftar_ulang: 0, aktif: 1 })
-        console.log(response)
         if(response.success) {
             setData(response.data)
-            if(response.data['nama_wali'] !== '') {
-                setBersamaWali(true)
+            if(response.data !== null) {
+                if(response.data['nama_wali'] !== '') {
+                    setBersamaWali(true)
+                }
             }
         }
         setLoadingFetch('fetched')

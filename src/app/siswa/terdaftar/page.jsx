@@ -651,7 +651,7 @@ export default function SiswaTerdaftarPage() {
         <MainLayoutPage>
             <div className="bg-white h-full md:p-5 px-5 md:rounded-2xl">
                 <div className="flex items-center w-full md:w-fit gap-2">
-                    <button className="w-1/2 bg-blue-500 hover:bg-blue-400 focus:bg-blue-600 md:w-fit px-3 py-2 rounded flex items-center justify-center gap-3 text-white text-sm">
+                    <button type="button" onClick={() => router.push('/siswa/terdaftar/new')} className="w-1/2 bg-blue-500 hover:bg-blue-400 focus:bg-blue-600 md:w-fit px-3 py-2 rounded flex items-center justify-center gap-3 text-white text-sm">
                         <FontAwesomeIcon icon={faPlusSquare} className="w-4 h-4 text-inherit" />
                         Tambah
                     </button>
