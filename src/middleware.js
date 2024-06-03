@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 
 const rolePath = {
     'Account Manager': ['/', '/akun', '/riwayat'],
-    'Operator': ['/', '/siswa/diterima', '/siswa/terdaftar'],
-    'Admin': ['/', '/akun', '/siswa/diterima', '/siswa/terdaftar', '/riwayat']
+    'Operator': ['/', '/siswa/diterima', '/siswa/diterima/update', '/siswa/terdaftar', '/siswa/terdaftar/update', '/siswa/terdaftar/new'],
+    'Admin': ['/', '/akun', '/siswa/diterima', '/siswa/diterima/update', '/siswa/terdaftar', '/siswa/terdaftar/new', '/siswa/terdaftar/update', '/riwayat']
 }
 
 export async function middleware(request) {
@@ -16,11 +16,6 @@ export async function middleware(request) {
     const encryptedUserdata = cookies().get('userdata')
     const decryptedUserdata = await decryptData(encryptedUserdata)
     const pathname = request.nextUrl.pathname;
-    // for(const path of rolePath[decryptedUserdata['role_akun']]) {
-    //     if(pathname.startsWith(path)) {
-    //         return NextResponse.redirect(new URL('/', request.url))
-    //     }
-    // }
 
     // Ensure the user's role exists in the rolePath object
     const allowedPaths = rolePath[decryptedUserdata['role_akun']];
@@ -29,7 +24,7 @@ export async function middleware(request) {
     }
 
     // Check if the path is allowed for the user's role
-    const isAllowed = allowedPaths.some(path => pathname.startsWith(path) && pathname === path);
+    const isAllowed = allowedPaths.some(path => pathname.startsWith(path) || pathname === '/');
     if (!isAllowed) {
         return NextResponse.redirect(new URL('/', request.url)); // Redirect to home page if path is not allowed
     }
