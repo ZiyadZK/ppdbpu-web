@@ -621,7 +621,9 @@ export default function SiswaTerdaftarPage() {
                 <hr className="my-1 opacity-0" />
                 <div className="grid grid-cols-12 *:px-3 *:py-2 rounded-lg border border-zinc-500">
                     <div className="col-span-7 md:col-span-2 flex items-center gap-2">
-                        <input type="checkbox" checked={selectAllData} onChange={() => handleSelectAllData()}  />
+                        {loggedAkun && ['Admin'].includes(loggedAkun['role_akun']) && (
+                            <input type="checkbox" checked={selectAllData} onChange={() => handleSelectAllData()}  />
+                        )}
                         <p className="opacity-50 text-sm">Nama</p>
                         <button type="button" onClick={() => handleSorting('nama_siswa')} className="text-zinc-400 w-5 h-5 flex items-center justify-center rounded  hover:bg-zinc-100 hover:text-zinc-700">
                             <FontAwesomeIcon icon={sorting.nama_siswa === '' ? faArrowsUpDown : (sorting.nama_siswa === 'asc' ? faArrowUp : faArrowDown )} className="w-3 h-3 text-inherit" />
@@ -656,7 +658,9 @@ export default function SiswaTerdaftarPage() {
                     {filteredData.slice(pagination === 1 ? totalList - totalList : (totalList * pagination) - totalList, totalList * pagination).map((siswa, index) => (
                         <div key={index} className="grid grid-cols-12 *:px-3 *:py-4 hover:bg-zinc-50 group">
                             <div className="col-span-7 md:col-span-2 flex items-center gap-2">
-                                <input type="checkbox" checked={selectedData.includes(siswa.nisn)} onChange={() => handleSelectData(siswa.nisn)}  />
+                                {loggedAkun && ['Admin'].includes(loggedAkun['role_akun']) && (
+                                    <input type="checkbox" checked={selectedData.includes(siswa.nisn)} onChange={() => handleSelectData(siswa.nisn)}  />
+                                )}
                                 <p className="text-xs font-medium">
                                     {siswa.nama_siswa}
                                 </p>
@@ -692,32 +696,36 @@ export default function SiswaTerdaftarPage() {
                                 <button type="button" onClick={() => router.push(`/siswa/diterima/update/${siswa.nisn}`)} className="w-6 h-6 rounded bg-amber-500 hover:bg-amber-400 focus:bg-amber-700 text-amber-200 flex items-center justify-center">
                                     <FontAwesomeIcon icon={faEdit} className="w-3 h-3 text-inherit" />
                                 </button>
-                                <button type="button" onClick={() => handleDeleteData(siswa.nisn)} className="w-6 h-6 rounded bg-red-500 hover:bg-red-400 focus:bg-red-700 text-red-200 flex items-center justify-center">
-                                    <FontAwesomeIcon icon={faTrash} className="w-3 h-3 text-inherit" />
-                                </button>
+                                {loggedAkun && ['Admin'].includes(loggedAkun['role_akun']) && (
+                                    <button type="button" onClick={() => handleDeleteData(siswa.nisn)} className="w-6 h-6 rounded bg-red-500 hover:bg-red-400 focus:bg-red-700 text-red-200 flex items-center justify-center">
+                                        <FontAwesomeIcon icon={faTrash} className="w-3 h-3 text-inherit" />
+                                    </button>
+                                )}
                             </div>
                         </div>
                     ))}
                 </div>
                 <div className="flex flex-col md:flex-row gap-3 md:gap-0 md:items-center md:justify-between text-xs md:text-sm my-3">
-                    <div className="flex md:items-center gap-2 md:justify-start justify-between">
-                        <div className="flex items-center gap-2">
-                            <p className="px-2 py-1 rounded bg-zinc-100 text-zinc-600 font-medium">
-                                {selectedData.length}
-                            </p>
-                            <p>
-                                Data dipilih
-                            </p>
+                    {loggedAkun && ['Admin'].includes(loggedAkun['role_akun']) && (
+                        <div className="flex md:items-center gap-2 md:justify-start justify-between">
+                            <div className="flex items-center gap-2">
+                                <p className="px-2 py-1 rounded bg-zinc-100 text-zinc-600 font-medium">
+                                    {selectedData.length}
+                                </p>
+                                <p>
+                                    Data dipilih
+                                </p>
+                            </div>
+                            {selectedData.length > 0 && <div className="flex items-center gap-2">
+                                <button type="button" onClick={() => handleDeleteData()} className="w-6 h-6 flex items-center justify-center bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300">
+                                    <FontAwesomeIcon icon={faTrash} className="w-3 h-3 text-inherit" />
+                                </button>
+                                <button type="button" onClick={() => setSelectedData([])} className="w-6 h-6 flex items-center justify-center bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300">
+                                    <FontAwesomeIcon icon={faXmark} className="w-3 h-3 text-inherit" />
+                                </button>
+                            </div>}
                         </div>
-                        {selectedData.length > 0 && <div className="flex items-center gap-2">
-                            <button type="button" onClick={() => handleDeleteData()} className="w-6 h-6 flex items-center justify-center bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300">
-                                <FontAwesomeIcon icon={faTrash} className="w-3 h-3 text-inherit" />
-                            </button>
-                            <button type="button" onClick={() => setSelectedData([])} className="w-6 h-6 flex items-center justify-center bg-zinc-200 text-zinc-700 rounded hover:bg-zinc-300">
-                                <FontAwesomeIcon icon={faXmark} className="w-3 h-3 text-inherit" />
-                            </button>
-                        </div>}
-                    </div>
+                    )}
                     <div className="flex items-center justify-between w-full md:w-fit gap-5">
                         <p>{data.length} Data</p>
                         <div className="join">
