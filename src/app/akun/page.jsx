@@ -325,6 +325,7 @@ export default function AkunPage() {
                                     </p>
                                     <select value={formTambah['role_akun']} onChange={e => setFormTambah(state => ({...state, role_akun: e.target.value}))} className="w-full md:w-2/3 border px-3 py-1 rounded">
                                         <option value="Operator">Operator</option>
+                                        <option value="Account Manager">Account Manager</option>
                                         <option value="Admin">Admin</option>
                                     </select>
                                 </div>
