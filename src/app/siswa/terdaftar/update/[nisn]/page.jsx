@@ -199,9 +199,9 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                         pdf.addPage()
     
                         addImageToPDF(imgData_2, pdf)
-    
-                        pdf.save(`DATA CALON SISWA DITERIMA - ${data.nama_siswa} - ${data.id_rombel} - ${data.nisn}`)
-    
+                        const pdfDataUri = pdf.output('datauristring')
+                        // pdf.save(`DATA CALON SISWA DITERIMA - ${data.nama_siswa} - ${data.id_rombel} - ${data.nisn}`)
+                        
                         Swal.close()
                         Swal.fire({
                             title: 'Sukses',
@@ -210,6 +210,8 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                             timer: 3000,
                             timerProgressBar: true
                         }).then(() => {
+                            const newTab = window.open();
+                            newTab.document.write(`<iframe src="${pdfDataUri}" width="100%" height="100%"></iframe>`);
                             router.push('/siswa/terdaftar')
                         })
                     }else{

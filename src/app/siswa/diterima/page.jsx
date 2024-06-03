@@ -423,7 +423,10 @@ export default function SiswaTerdaftarPage() {
 
                 addImageToPDF(imgData_2, pdf)
 
-                pdf.save(`DATA CALON SISWA DITERIMA - ${data.nama_siswa} - ${data.id_rombel} - ${data.nisn}`)
+                // pdf.save(`DATA CALON SISWA DITERIMA - ${printedData.nama_siswa} - ${formatRombel[printedData.id_rombel]} - ${printedData.nisn}`)
+                const pdfDataUri = pdf.output('datauristring');
+                const pdfBlob = pdf.output('blob')
+                const pdfUrl = URL.createObjectURL(pdfBlob)
 
                 Swal.close()
                 toast.fire({
@@ -431,6 +434,11 @@ export default function SiswaTerdaftarPage() {
                     text: 'Berhasil mengexport data siswa tersebut!',
                     icon: 'success'
                 })
+
+                // window.open(pdfUrl, '_blank')
+                // setTimeout(() => URL.revokeObjectURL(pdfUrl), 10000)
+                const newTab = window.open()
+                newTab.document.write(`<iframe src="${pdfDataUri}" width="100%" height="100%"></iframe>`)
             }
         })
     }
@@ -577,7 +585,7 @@ export default function SiswaTerdaftarPage() {
                                 <button type="button" onClick={() => handlePrintData(siswa.nisn)} className="w-6 h-6 rounded bg-blue-500 hover:bg-blue-400 focus:bg-blue-700 text-blue-200 flex items-center justify-center">
                                     <FontAwesomeIcon icon={faPrint} className="w-3 h-3 text-inherit" />
                                 </button>
-                                <button type="button" onClick={() => router.push(`/siswa/terdaftar/update/${siswa.nisn}`)} className="w-6 h-6 rounded bg-amber-500 hover:bg-amber-400 focus:bg-amber-700 text-amber-200 flex items-center justify-center">
+                                <button type="button" onClick={() => router.push(`/siswa/diterima/update/${siswa.nisn}`)} className="w-6 h-6 rounded bg-amber-500 hover:bg-amber-400 focus:bg-amber-700 text-amber-200 flex items-center justify-center">
                                     <FontAwesomeIcon icon={faEdit} className="w-3 h-3 text-inherit" />
                                 </button>
                                 <button type="button" onClick={() => handleDeleteData(siswa.nisn)} className="w-6 h-6 rounded bg-red-500 hover:bg-red-400 focus:bg-red-700 text-red-200 flex items-center justify-center">
@@ -732,7 +740,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p className="font-extrabold">:</p>
                                             </div>
                                             <p className="w-3/5">
-                                            {printedData ? printedData['tempat_lahir_siswa'] : '-'}, {printedData ? printedData['tgl_lahir_siswa'].split('-').reverse().join('/') : '-'}
+                                            {printedData ? printedData['tempat_lahir_siswa'] : '-'}, {printedData['tgl_lahir_siswa']  ? printedData['tgl_lahir_siswa'].split('-').reverse().join('/') : '-'}
                                             </p>
                                         </div>
                                         <div className="flex items-center gap-2">
@@ -809,7 +817,7 @@ export default function SiswaTerdaftarPage() {
                                                     <p className="font-extrabold">:</p>
                                                 </div>
                                                 <p className="w-3/5">
-                                                {printedData ? printedData['nik'] : '-'} kg
+                                                {printedData ? printedData['berat_badan'] : '-'} kg
                                                 </p>
                                             </div>
                                             <div className="flex items-center gap-2">
@@ -818,14 +826,14 @@ export default function SiswaTerdaftarPage() {
                                                     <p className="font-extrabold">:</p>
                                                 </div>
                                                 <p className="w-3/5">
-                                                {printedData ? printedData['nik'] : '-'}
+                                                {printedData ? printedData['jarak'] : '-'}
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <hr className="my-8 opacity-0" />
-                                <h1 className="font-bold text-3xl">printedData ORANG TUA DAN WALI SISWA</h1>
+                                <h1 className="font-bold text-3xl">DATA ORANG TUA DAN WALI SISWA</h1>
                                 <hr className="my-3 opacity-0" />
                                 <div className="grid grid-cols-12 border-b-4 py-3 px-1">
                                     <div className="col-span-3 flex items-center font-bold text-2xl">
@@ -847,13 +855,13 @@ export default function SiswaTerdaftarPage() {
                                             Nama
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['nama_ayah'] : '-'}
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['nama_ibu'] : '-'}
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['nama_wali'] : '-'}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-12 py-4 px-1">
@@ -861,13 +869,13 @@ export default function SiswaTerdaftarPage() {
                                             No. Telepon
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['no_telp_ayah'] : '-'}
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['no_telp_ibu'] : '-'}
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['no_telp_wali'] : '-'}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-12 py-4 px-1">
@@ -875,13 +883,13 @@ export default function SiswaTerdaftarPage() {
                                             Pekerjaan
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['pekerjaan_ayah'] : '-'}
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['pekerjaan_ibu'] : '-'}
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['pekerjaan_wali'] : '-'}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-12 py-4 px-1">
@@ -889,13 +897,13 @@ export default function SiswaTerdaftarPage() {
                                             Pendidikan
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['pendidikan_ayah'] : '-'}
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['pendidikan_ibu'] : '-'}
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['pendidikan_wali'] : '-'}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-12 py-4 px-1">
@@ -903,13 +911,13 @@ export default function SiswaTerdaftarPage() {
                                             Penghasilan
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['penghasilan_ayah'] : '-'}
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['penghasilan_ibu'] : '-'}
                                         </div>
                                         <div className="col-span-3 text-xl flex items-center">
-                                        {printedData ? printedData['nik'] : '-'}
+                                        {printedData ? printedData['penghasilan_wali'] : '-'}
                                         </div>
                                     </div>
                                 </div>
@@ -931,7 +939,7 @@ export default function SiswaTerdaftarPage() {
                                                 </p>   
                                             </div>
                                             <p className="font-extrabold text-xl text-center">
-                                            {printedData ? printedData['nik'] : '-'}
+                                            {printedData ? printedData['nama_siswa'] : '-'}
                                             </p>   
                                         </div>
                                     </div>
@@ -1006,7 +1014,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>1.</p>
                                                 <p>Nama</p>
                                             </div>
-                                            <p className="font-medium w-2/3">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3">: {printedData ? printedData['nama_siswa'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1026,7 +1034,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>3.</p>
                                                 <p>Jenis Kelamin</p>
                                             </div>
-                                            <p className="font-medium w-2/3">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3">: {printedData ? printedData['jk_siswa'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1036,7 +1044,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>4.</p>
                                                 <p>Tempat dan Tanggal Lahir</p>
                                             </div>
-                                            <p className="font-medium w-2/3">: {printedData ? printedData['nik'] : '-'}, {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3">: {printedData ? printedData['tempat_lahir_siswa'] : '-'}, {printedData['tgl_lahir_siswa'] ? printedData['tgl_lahir_siswa'].split('-').reverse().join('/') : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1046,7 +1054,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>5.</p>
                                                 <p>Agama</p>
                                             </div>
-                                            <p className="font-medium w-2/3">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3">: {printedData ? printedData['agama'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1056,7 +1064,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>6.</p>
                                                 <p>Anak ke</p>
                                             </div>
-                                            <p className="font-medium w-2/3">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3">: {printedData ? printedData['anak_ke_berapa'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1066,7 +1074,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>7.</p>
                                                 <p>Status dalam Keluarga</p>
                                             </div>
-                                            <p className="font-medium w-2/3">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3">: {printedData ? printedData['status_anak'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1076,7 +1084,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>8.</p>
                                                 <p className="">No Telp</p>
                                             </div>
-                                            <p className="font-medium w-2/3">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3">: {printedData ? printedData['no_telp_siswa'] : '-'}</p>
                                         </div>
                                     </div>
                                     <hr className="my-3 opacity-0" />
@@ -1091,7 +1099,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>9.</p>
                                                 <p>Alamat</p>
                                             </div>
-                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['alamat_siswa'] : '-'}</p>
                                         </div>
                                     </div>
                                     <hr className="my-3 opacity-0" />
@@ -1106,7 +1114,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>10.</p>
                                                 <p>Asal Sekolah</p>
                                             </div>
-                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['asal_sekolah'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1116,7 +1124,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>11.</p>
                                                 <p>Tahun Masuk</p>
                                             </div>
-                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['tahun_masuk'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1126,7 +1134,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>12.</p>
                                                 <p>Jalur Masuk</p>
                                             </div>
-                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['kategori'] : '-'}</p>
                                         </div>
                                     </div>
                                     <hr className="my-3 opacity-0" />
@@ -1141,7 +1149,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>13.</p>
                                                 <p>Nama Ayah</p>
                                             </div>
-                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nama_ayah'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1151,7 +1159,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>14.</p>
                                                 <p>Pekerjaan Ayah</p>
                                             </div>
-                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['pekerjaan_ayah'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1161,7 +1169,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>15.</p>
                                                 <p>No Telp Ayah</p>
                                             </div>
-                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['no_telp_ayah'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1171,7 +1179,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>16.</p>
                                                 <p>Nama Ibu</p>
                                             </div>
-                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nama_ibu'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1181,7 +1189,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>17.</p>
                                                 <p>Pekerjaan Ibu</p>
                                             </div>
-                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['pekerjaan_ibu'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1191,7 +1199,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>18.</p>
                                                 <p>No Telp Ibu</p>
                                             </div>
-                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['no_telp_ibu'] : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">
@@ -1201,7 +1209,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>19.</p>
                                                 <p>No Kartu Keluarga</p>
                                             </div>
-                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['no_kk'] : '-'}</p>
                                         </div>
                                     </div>
                                     <hr className="my-5 opacity-0" />
@@ -1213,7 +1221,7 @@ export default function SiswaTerdaftarPage() {
                                             </div>
                                             <p className="text-sm">tanda tangan siswa dan cap tiga jari</p>
                                             <hr className="my-12 opacity-0" />
-                                            <p className="font-bold">{printedData ? printedData['nik'] : '-'}</p>
+                                            <p className="font-bold">{printedData ? printedData['nama_siswa'] : '-'}</p>
                                         </div>
                                     </div>
                                 </div>
