@@ -2,17 +2,14 @@
 
 import MainLayoutPage from "@/components/mainLayout"
 import { toast } from "@/libs/alert"
-import { xlsx_export, xlsx_getSheets } from "@/libs/excel"
-import { formatFileSize } from "@/libs/formatFileSize"
+import { xlsx_export} from "@/libs/excel"
 import { M_Akun_getUserdata } from "@/libs/models/M_Akun"
-import { faEdit,  faSave, faUser } from "@fortawesome/free-regular-svg-icons"
-import { faArrowDown, faArrowUp, faArrowsUpDown, faCheck, faDownload, faFile, faPlusSquare, faPowerOff, faPrint, faSearch, faTrash, faTurnDown, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { faEdit, faUser } from "@fortawesome/free-regular-svg-icons"
+import { faArrowDown, faArrowUp, faArrowsUpDown, faFile, faPrint, faTrash, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useRef, useState } from "react"
 import Swal from "sweetalert2"
-import * as XLSX from 'xlsx'
-import Papa from 'papaparse'
-import { M_Siswa_create, M_Siswa_delete, M_Siswa_getAll } from "@/libs/models/M_Siswa"
+import {  M_Siswa_delete, M_Siswa_getAll } from "@/libs/models/M_Siswa"
 import { date_getDay, date_getMonth, date_getYear } from "@/libs/date"
 import { useRouter } from "next/navigation"
 import Image from "next/image"

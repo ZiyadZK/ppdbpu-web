@@ -2,20 +2,14 @@
 
 import MainLayoutPage from "@/components/mainLayout"
 import { toast } from "@/libs/alert"
-import { date_getDay, date_getMonth, date_getYear, date_toFormat, date_toInputHtml } from "@/libs/date"
 import { M_Siswa_create, M_Siswa_get, M_Siswa_update } from "@/libs/models/M_Siswa"
-import { faNewspaper, faUser } from "@fortawesome/free-regular-svg-icons"
-import { faArrowLeft, faPenRuler, faSave } from "@fortawesome/free-solid-svg-icons"
+import { faArrowLeft,  faSave } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import html2canvas from "html2canvas-pro"
 
-import jsPDF from "jspdf"
-import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import Swal from "sweetalert2"
 
-const mmToPx = mm => mm * (96 / 25.4)
 
 const formatDataSiswa = {
         nomor_reg: '',
