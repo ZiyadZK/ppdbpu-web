@@ -89,3 +89,21 @@ export const M_Siswa_update = async (nisn, payload) => {
         }
     }
 }
+
+export const M_Siswa_rekap = async () => {
+    try {
+        const response = await urlGet('/v1/dashboard/rekap')
+
+        return {
+            success: true,
+            data: response.data
+        }
+        
+    } catch (error) {
+        console.log(error)
+        return {
+            success: false,
+            message: error.response.data
+        }
+    }
+}

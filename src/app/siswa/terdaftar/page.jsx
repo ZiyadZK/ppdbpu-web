@@ -81,7 +81,8 @@ const formatData = {
     tanggal_lahir_ibu: "Tanggal lahir ibu",
     nik_wali: "NIK wali",
     tempat_lahir_wali: "Tempat lahir wali",
-    tanggal_lahir_wali: "Tanggal lahir wali"
+    tanggal_lahir_wali: "Tanggal lahir wali",
+    tahap: 'Tahap Penerimaan'
 };
 
 const formatRombel = {
@@ -147,6 +148,7 @@ export default function SiswaTerdaftarPage() {
             setData(response.data)
             setFilteredData(response.data)
         }
+        setLoadingFetch('fetched')
     }
 
     const getLoggedAkun = async () => {
@@ -873,6 +875,11 @@ export default function SiswaTerdaftarPage() {
                         <input type="text" value={searchData} onChange={e => setSearchData(e.target.value)} className="w-full px-2 py-1 text-sm rounded border bg-zinc-50 hover:border-zinc-700" placeholder="Cari disini" />
                     </div>
                 </div>
+                {loadingFetch !== 'fetched' && (
+                    <div className="w-full flex justify-center items-center py-5">
+                        <div className="loading loading-dots loading-lg text-zinc-500"></div>
+                    </div>
+                )}
                 <div className="divide-y relative overflow-auto w-full max-h-[400px] py-2">
                     {filteredData.slice(pagination === 1 ? totalList - totalList : (totalList * pagination) - totalList, totalList * pagination).map((siswa, index) => (
                         <div key={index} className="grid grid-cols-12 *:px-3 *:py-4 hover:bg-zinc-50 group">
