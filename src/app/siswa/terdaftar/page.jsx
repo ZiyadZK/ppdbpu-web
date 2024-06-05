@@ -408,7 +408,7 @@ export default function SiswaTerdaftarPage() {
                 Swal.fire({
                     title: 'Sedang memproses data',
                     text: 'Harap bersabar, dikarenakan kami sedang memproses data anda.',
-                    timer: 15000,
+                    timer: 30000,
                     timerProgressBar: true,
                     showConfirmButton: false,
                     allowOutsideClick: false,
@@ -595,13 +595,13 @@ export default function SiswaTerdaftarPage() {
             showCancelButton: true,
             confirmButtonText: 'Ya',
             cancelButtonText: 'Tidak',
-            timer: 10000,
+            timer: 3000,
             timerProgressBar: true
         }).then(answer => {
             if(answer.isConfirmed) {
                 Swal.fire({
                     title: 'Sedang memproses data',
-                    timer: 20000,
+                    timer: 30000,
                     timerProgressBar: true,
                     showConfirmButton: false,
                     allowOutsideClick: false,

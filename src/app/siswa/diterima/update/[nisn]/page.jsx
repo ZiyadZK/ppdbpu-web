@@ -132,7 +132,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
 
         Swal.fire({
             title: 'Sedang menyimpan data..',
-            timer: 15000,
+            timer: 30000,
             timerProgressBar: true,
             showConfirmButton: false,
             allowOutsideClick: false,
