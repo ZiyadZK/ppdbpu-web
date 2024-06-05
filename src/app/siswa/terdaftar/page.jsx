@@ -892,7 +892,7 @@ export default function SiswaTerdaftarPage() {
                                 </p>
                             </div>
                             <div className="col-span-1 hidden md:flex items-center gap-2">
-                                <p className={`text-xs font-medium px-2 py-1 rounded-full bg-${formatWarnaRombel[siswa['id_rombel']]}-500/10 text-${formatWarnaRombel[siswa['id_rombel']]}-500`}>
+                                <p className={`text-xs font-medium px-2 py-1 rounded-full bg-zinc-500/10 text-zinc-500`}>
                                     X {formatRombel[siswa['id_rombel']]} 1
                                 </p>
                             </div>
