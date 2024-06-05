@@ -100,7 +100,7 @@ export default function RiwayatPage() {
                 )}
                 {loadingFetch === 'fetched' && (
                     <div className="divide-y relative py-2 overflow-auto w-full max-h-[400px]">
-                        {filteredData.slice(pagination === 1 ? totalList - totalList : (totalList * pagination) - totalList, totalList * pagination).map((value, index) => (
+                        {filteredData.slice().reverse().slice(pagination === 1 ? totalList - totalList : (totalList * pagination) - totalList, totalList * pagination).map((value, index) => (
                             <div key={index} className="grid grid-cols-12 *:px-3 *:py-4 text-sm hover:bg-zinc-50">
                                 <div className="col-span-6 md:col-span-3 flex items-center gap-2">
                                     <input type="checkbox" checked={selectedData.includes(value['no_riwayat'])} onChange={() => handleSelectData(value['no_riwayat'])} />
@@ -155,7 +155,7 @@ export default function RiwayatPage() {
                                     </dialog>
                                 </div>
                             </div>
-                        )).reverse()}
+                        ))}
                     </div>
                 )}
                 <div className="flex flex-col md:flex-row gap-3 md:gap-0 md:items-center md:justify-between text-xs md:text-sm my-3">
