@@ -95,12 +95,12 @@ const formatRombel = {
 }
 
 const formatWarnaRombel = {
-    ' DESAIN PEMODELAN DAN INFORMASI BANGUNAN ': 'amber',
-    ' TEKNIK GEOSPASIAL ': 'red',
-    ' TEKNIK JARINGAN KOMPUTER DAN TELEKOMUNIKASI ': 'green',
-    ' TEKNIK KETENAGALISTRIKAN ': 'zinc',
-    ' TEKNIK MESIN ': 'orange',
-    ' TEKNIK OTOMOTIF ': 'blue'
+    'DESAIN PEMODELAN DAN INFORMASI BANGUNAN': 'amber',
+    'TEKNIK GEOSPASIAL': 'red',
+    'TEKNIK JARINGAN KOMPUTER DAN TELEKOMUNIKASI': 'green',
+    'TEKNIK KETENAGALISTRIKAN': 'zinc',
+    'TEKNIK MESIN': 'orange',
+    'TEKNIK OTOMOTIF': 'blue'
 }
 
 const formatSorting = {
@@ -132,6 +132,7 @@ export default function SiswaTerdaftarPage() {
     const [filterData, setFilterData] = useState({
         id_rombel: [], agama: [], jk_siswa: [], kategori: []
     })
+    const [filterKategori, setFilterKategori] = useState([])
     const [loadingFetch, setLoadingFetch] = useState('')
 
     const [loggedAkun, setLoggedAkun] = useState(null)
@@ -147,6 +148,16 @@ export default function SiswaTerdaftarPage() {
         if(response.success) {
             setData(response.data)
             setFilteredData(response.data)
+
+            setFilterKategori(state => {
+                const updatedState = []
+                response.data.forEach(value => {
+                    if(!updatedState.includes(value['kategori'])) {
+                        updatedState.push(value['kategori'])
+                    }
+                })
+                return updatedState
+            })
         }
         setLoadingFetch('fetched')
     }
@@ -802,30 +813,14 @@ export default function SiswaTerdaftarPage() {
                             Filter Kategori
                         </p>
                         <div className="w-full md:w-5/6 flex-shrink-0 text-xs md:text-sm flex items-center gap-3 relative overflow-auto">
-                            <button type="button" onClick={() => handleFilter('kategori', 'ABK')} className={`rounded px-3 py-2 ${filterData.kategori.includes('ABK') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
-                                ABK
-                            </button>
-                            <button type="button" onClick={() => handleFilter('kategori', 'KETM')} className={`rounded px-3 py-2 ${filterData.kategori.includes('KETM') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
-                                KETM
-                            </button>
-                            <button type="button" onClick={() => handleFilter('kategori', 'KONDISI TERTENTU')} className={`rounded px-3 py-2 ${filterData.kategori.includes('KONDISI TERTENTU') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
-                                Kondisi Tertentu
-                            </button>
-                            <button type="button" onClick={() => handleFilter('kategori', 'PERPINDAHAN TUGAS ORTU / ANAK GURU')} className={`rounded px-3 py-2 ${filterData.kategori.includes('PERPINDAHAN TUGAS ORTU / ANAK GURU') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
-                                Perpindahan Tugas Ortu / Anak Guru
-                            </button>
-                            <button type="button" onClick={() => handleFilter('kategori', 'PERSIAPAN KELAS INDUSTRI')} className={`rounded px-3 py-2 ${filterData.kategori.includes('PERSIAPAN KELAS INDUSTRI') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
-                                Persiapan Kelas Industri
-                            </button>
-                            <button type="button" onClick={() => handleFilter('kategori', 'PRESTASI KEJUARAAN')} className={`rounded px-3 py-2 ${filterData.kategori.includes('PRESTASI KEJUARAAN') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
-                                Prestasi Kejuaraan
-                            </button>
-                            <button type="button" onClick={() => handleFilter('kategori', 'PRESTASI RAPOR UMUM')} className={`rounded px-3 py-2 ${filterData.kategori.includes('PRESTASI RAPOR UMUM') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
-                                Prestasi Rapor Umum
-                            </button>
-                            <button type="button" onClick={() => handleFilter('kategori', 'PRIORITAS JARAK')} className={`rounded px-3 py-2 ${filterData.kategori.includes('PRIORITAS JARAK') ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
-                                Prioritas Jarak
-                            </button>
+                            {loadingFetch !== 'fetched' && (
+                                <div className="loading loading-spinner loading-md py-5 px-2 text-zinc-400"></div>
+                            )}
+                            {filterKategori.map((kategori, index) => (
+                                <button key={index} type="button" onClick={() => handleFilter('kategori', kategori)} className={`rounded px-3 py-2 ${filterData.kategori.includes(kategori) ? 'bg-zinc-100 hover:bg-zinc-200 text-zinc-400 hover:text-zinc-700' : 'hover:bg-zinc-100 text-zinc-400 hover:text-zinc-700'} flex-shrink-0`}>
+                                    {kategori}
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -897,7 +892,7 @@ export default function SiswaTerdaftarPage() {
                                 </p>
                             </div>
                             <div className="col-span-1 hidden md:flex items-center gap-2">
-                                <p className="text-xs font-medium px-2 py-1 rounded-full bg-green-500/10 text-green-500">
+                                <p className={`text-xs font-medium px-2 py-1 rounded-full bg-${formatWarnaRombel[siswa['id_rombel']]}-500/10 text-${formatWarnaRombel[siswa['id_rombel']]}-500`}>
                                     X {formatRombel[siswa['id_rombel']]} 1
                                 </p>
                             </div>

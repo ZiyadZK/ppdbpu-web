@@ -2,6 +2,7 @@
 
 import MainLayoutPage from "@/components/mainLayout"
 import { toast } from "@/libs/alert"
+import { date_getYear } from "@/libs/date"
 import { M_Siswa_create, M_Siswa_get, M_Siswa_update } from "@/libs/models/M_Siswa"
 import { faArrowLeft,  faSave } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -42,7 +43,6 @@ const formatDataSiswa = {
         cita_cita: '',
         anak_ke_berapa: '',
         tinggal: '',
-        tahun_masuk: '',
         asal_sekolah: '',
         no_ijazah: '',
         tgl_ijazah: '',
@@ -74,7 +74,9 @@ const formatDataSiswa = {
         penghasilan_wali: '',
         tempat_lahir_wali: '',
         tanggal_lahir_wali: '',
-        hubungan_wali: ''
+        hubungan_wali: '',
+        tahap: 1,
+        tahun_masuk: date_getYear()
 }
 
 
@@ -92,8 +94,6 @@ export default function SiswaTerdaftarUpdatePage() {
 
     const [data, setData] = useState(formatDataSiswa)
     const [bersamaWali, setBersamaWali] = useState(false)
-    const componentPDF_1 = useRef(null)
-    const componentPDF_2 = useRef(null)
 
     const submitData = async (e) => {
         e.preventDefault()
@@ -108,12 +108,12 @@ export default function SiswaTerdaftarUpdatePage() {
                 try {
                     let response
                     if(bersamaWali) {
-                        response = await M_Siswa_create({...data, aktif: true, daftar_ulang: false})
+                        response = await M_Siswa_create({...data, aktif: 1, daftar_ulang: 0})
                     }else{
                         response = await M_Siswa_create({
                             ...data,
-                            aktif: true,
-                            daftar_ulang: false,
+                            aktif: 1,
+                            daftar_ulang: 0,
                             nama_wali: '',
                             no_telp_wali: '',
                             nik_wali: '',
@@ -181,6 +181,18 @@ export default function SiswaTerdaftarUpdatePage() {
                         </div>
                         <div className="collapse-content"> 
                             <div className="space-y-2">
+                                <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
+                                    <div className="w-full md:w-1/5 opacity-70">
+                                       Tahap
+                                    </div>
+                                    <div className="w-full md:w-4/5">
+                                        <select value={data['tahap']} required onChange={e => setData(state => ({...state, tahap: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer" >
+                                            <option value="" disabled>-- Pilih Tahap --</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
                                     <div className="w-full md:w-1/5 opacity-70">
                                         No Pendaftaran
