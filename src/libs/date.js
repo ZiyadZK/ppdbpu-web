@@ -10,18 +10,12 @@ export const date_getDay = (date) => {
         }
 
         if (delimiter) {
-            // Regex to match dd-mm-yyyy or mm-dd-yyyy
-            const datePattern = new RegExp(`^(\\d{2})${delimiter}(\\d{2})${delimiter}(\\d{4})$`);
+            // Regex to match yyyy-mm-dd or yyyy/mm/dd
+            const datePattern = new RegExp(`^(\\d{4})${delimiter}(\\d{2})${delimiter}(\\d{2})$`);
             const match = date.match(datePattern);
 
             if (match) {
-                const [ , part1, part2, year ] = match;
-                // Check if part1 and part2 are likely to be day or month
-                if (parseInt(part1) > 12) {
-                    day = part1;
-                } else {
-                    day = part2;
-                }
+                day = match[3];
             } else {
                 return 'Invalid date format';
             }
@@ -50,18 +44,12 @@ export const date_getMonth = (format = 'number', date) => {
         }
 
         if (delimiter) {
-            // Regex to match dd-mm-yyyy or mm-dd-yyyy
-            const datePattern = new RegExp(`^(\\d{2})${delimiter}(\\d{2})${delimiter}(\\d{4})$`);
+            // Regex to match yyyy-mm-dd or yyyy/mm/dd
+            const datePattern = new RegExp(`^(\\d{4})${delimiter}(\\d{2})${delimiter}(\\d{2})$`);
             const match = date.match(datePattern);
 
             if (match) {
-                const [ , part1, part2, year ] = match;
-                // Check if part1 and part2 are likely to be day or month
-                if (parseInt(part1) > 12) {
-                    month = parseInt(part2);
-                } else {
-                    month = parseInt(part1);
-                }
+                month = parseInt(match[2]);
             } else {
                 return 'Invalid date format';
             }
@@ -92,12 +80,12 @@ export const date_getYear = (date) => {
         }
 
         if (delimiter) {
-            // Regex to match dd-mm-yyyy or mm-dd-yyyy
-            const datePattern = new RegExp(`^(\\d{2})${delimiter}(\\d{2})${delimiter}(\\d{4})$`);
+            // Regex to match yyyy-mm-dd or yyyy/mm/dd
+            const datePattern = new RegExp(`^(\\d{4})${delimiter}(\\d{2})${delimiter}(\\d{2})$`);
             const match = date.match(datePattern);
 
             if (match) {
-                year = match[3];
+                year = match[1];
             } else {
                 return 'Invalid date format';
             }
@@ -111,6 +99,7 @@ export const date_getYear = (date) => {
 
     return year;
 }
+
 
 export const date_getTime = (type) => {
     const currentDate = new Date();

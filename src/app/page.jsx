@@ -42,6 +42,9 @@ export default function Home() {
     if(response.success) {
       console.log(response.data)
       setDataRekap(response.data)
+      if(!Object.keys(response.data).includes(date_getYear())) {
+        setRekapTahun(Object.keys(response.data)[0])
+      }
     }
     setLoadingFetch('fetched')
   }
@@ -55,16 +58,16 @@ export default function Home() {
     setRekapTahun(state => {
 
       if(type === 'add') {
-        const jumlah = state + number
-        if(jumlah > date_getYear()) {
-          return date_getYear()
+        const jumlah = Number(state) + number
+        if(jumlah > Object.keys(dataRekap).reverse()[0]) {
+          return Object.keys(dataRekap).reverse()[0]
         }else{
           return jumlah
         }
       }
 
       if(type === 'rem') {
-        const jumlah = state - number;
+        const jumlah = Number(state) - number;
         if(jumlah < Math.min.apply(null, Object.keys(dataRekap))) {
           return state
         }else{

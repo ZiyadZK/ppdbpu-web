@@ -851,7 +851,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p className="font-extrabold">:</p>
                                             </div>
                                             <p className="w-3/5">
-                                            {printedData ? printedData['tempat_lahir_siswa'] : '-'}, {printedData['tgl_lahir_siswa']  ? printedData['tgl_lahir_siswa'].split('-').reverse().join('/') : '-'}
+                                            {printedData ? printedData['tempat_lahir_siswa'] : '-'}, {printedData['tgl_lahir_siswa']  ? `${date_getDay(printedData['tgl_lahir_siswa'])} ${date_getMonth('string' ,printedData['tgl_lahir_siswa'])} ${date_getYear(printedData['tgl_lahir_siswa'])}` : '-'}
                                             </p>
                                         </div>
                                         <div className="flex items-center gap-2">
@@ -1155,7 +1155,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p>4.</p>
                                                 <p>Tempat dan Tanggal Lahir</p>
                                             </div>
-                                            <p className="font-medium w-2/3">: {printedData ? printedData['tempat_lahir_siswa'] : '-'}, {printedData['tgl_lahir_siswa'] ? printedData['tgl_lahir_siswa'].split('-').reverse().join('/') : '-'}</p>
+                                            <p className="font-medium w-2/3">: {printedData ? printedData['tempat_lahir_siswa'] : '-'}, {printedData['tgl_lahir_siswa'] ? `${date_getDay(printedData['tgl_lahir_siswa'])} ${date_getMonth('string' ,printedData['tgl_lahir_siswa'])} ${date_getYear(printedData['tgl_lahir_siswa'])}` : '-'}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-5 w-full">

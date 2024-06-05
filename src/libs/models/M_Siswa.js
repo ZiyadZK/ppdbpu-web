@@ -2,11 +2,10 @@
 
 import { objToQueryURL } from "../query"
 import { urlDelete, urlGet, urlPost, urlPut } from "../web_service"
+import { M_Riwayat_create } from "./M_Riwayat"
 
 export const M_Siswa_getAll = async (parameter) => {
     try {
-
-        console.log(objToQueryURL(parameter))
         
         const response = await urlGet(`/v1/data/siswa${objToQueryURL(parameter)}`)
         
@@ -45,6 +44,12 @@ export const M_Siswa_create = async (payload) => {
     try {
         await urlPost('/v1/data/siswa', payload)
         
+        await M_Riwayat_create({
+            aksi: 'Tambah',
+            keterangan: `Menambah data ke dalam Data Siswa`,
+            data: JSON.stringify(payload)
+        })
+
         return {
             success: true
         }
@@ -62,6 +67,12 @@ export const M_Siswa_delete = async (nisn) => {
         
         await urlDelete('/v1/data/siswa', {nisn})
 
+        await M_Riwayat_create({
+            aksi: 'Hapus',
+            keterangan: `Menghapus data dari Data Siswa`,
+            data: JSON.stringify(nisn)
+        })
+
         return {
             success: true
         }
@@ -77,6 +88,12 @@ export const M_Siswa_delete = async (nisn) => {
 export const M_Siswa_update = async (nisn, payload) => {
     try {
         await urlPut('/v1/data/siswa', {nisn, payload})
+
+        await M_Riwayat_create({
+            aksi: 'Ubah',
+            keterangan: `Mengubah data dari Data Siswa`,
+            data: JSON.stringify({nisn, payload})
+        })
         
         return {
             success: true
