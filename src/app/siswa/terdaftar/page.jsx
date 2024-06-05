@@ -435,17 +435,17 @@ export default function SiswaTerdaftarPage() {
                         const successMessage = responseData.success ? 'Berhasil memproses data!' : 'Gagal memproses data..';
                         const messageText = responseData.success ? 'Berhasil mengupload data import ke data siswa!' : 'Terdapat kendala disaat anda mengimport data ke data siswa!';
 
+                        if(responseData.success) {
+                            await getData()
+                        }
+
                         Swal.fire({
                             icon: responseData.success ? 'success' : 'error',
                             title: successMessage,
                             text: messageText,
                             timer: 2000,
                             showConfirmButton: false
-                        }).then(async () => {
-                            if (responseData.success) {
-                                await getData()
-                            }
-                        });
+                        })
                     }
                 })
             }else{
