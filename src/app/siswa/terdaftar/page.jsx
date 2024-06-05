@@ -408,7 +408,7 @@ export default function SiswaTerdaftarPage() {
                 Swal.fire({
                     title: 'Sedang memproses data',
                     text: 'Harap bersabar, dikarenakan kami sedang memproses data anda.',
-                    timer: 30000,
+                    timer: 60000,
                     timerProgressBar: true,
                     showConfirmButton: false,
                     allowOutsideClick: false,
