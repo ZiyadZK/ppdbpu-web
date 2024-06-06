@@ -106,7 +106,7 @@ export default function MainLayoutPage({ children }) {
                 {loggedAkun ? (
                     <div className="space-y-1">
                         {navLinkMasterData.map((value, index) => value['role'].includes(loggedAkun.role_akun) && (
-                        <button key={index} type="button" onClick={() => router.push(value.url)}  className={` flex items-center px-3 py-2 rounded gap-5 w-full ${!path.startsWith(value.url)  ? 'text-zinc-700 hover:bg-zinc-800 hover:text-zinc-300' : 'text-teal-300 bg-teal-500/10 hover:bg-teal-500/20'}`}>
+                        <button key={index} type="button" onClick={() => router.push(value.url)}  className={` flex items-center px-3 py-2 rounded gap-5 w-full text-start ${!path.startsWith(value.url)  ? 'text-zinc-700 hover:bg-zinc-800 hover:text-zinc-300' : 'text-teal-300 bg-teal-500/10 hover:bg-teal-500/20'}`}>
                             <FontAwesomeIcon icon={value.icon} className={`w-4 h-4 ${!path.startsWith(value.url) ? 'text-inherit' : 'text-teal-500'}`} />
                             {value.name}
                         </button>
@@ -139,7 +139,7 @@ export default function MainLayoutPage({ children }) {
                                     </h1>
                                 </div>
                                 <div className="flex items-center gap-5">
-                                    <div className="space-y-1 hidden md:flex flex-col items-end text-end">
+                                    <div className="space-y-1 hidden md:flex flex-col items-end text-end text-zinc-700">
                                         {loggedAkun ? (
                                             <p className="text-sm">{loggedAkun.email_akun}</p>
                                         ): (
