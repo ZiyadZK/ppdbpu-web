@@ -417,6 +417,18 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                     </div>
                                     <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
                                         <div className="w-full md:w-1/5 opacity-70">
+                                            Status Anak
+                                        </div>
+                                        <div className="w-full md:w-4/5">
+                                            <select required value={data['status_anak']} onChange={e => setData(state => ({...state, status_anak: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                                <option value="" disabled>-- Pilih Status --</option>
+                                                <option value="ANAK KANDUNG">Anak Kandung</option>
+                                                <option value="ANAK ANGKAT">Anak Angkat</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
+                                        <div className="w-full md:w-1/5 opacity-70">
                                             Kategori
                                         </div>
                                         <div className="w-full md:w-4/5">
@@ -915,9 +927,9 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                             <div  ref={componentPDF_1} style={{
                                 width: `${mmToPx(210) * 1.5}px`, height: `${mmToPx(330) * 1.5}px`
                             }} className="bg-white flex-shrink-0 px-10 py-10">
-                                <div className="flex items-center w-full px-20 ">
+                                <div className="flex items-center w-full px-20 pt-10">
                                     <div className="w-fit flex items-center justify-start">
-                                        <Image src={'/jabar.gif'} width={200} height={200} />
+                                        <Image src={'/jabar.gif'} width={160} height={160} />
                                     </div>
                                     <div className={`w-full font-bold tracking-tighter text-center`}>
                                         <h1 className="font-bold tracking-tighter text-center">
@@ -929,21 +941,21 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                         <h3 className="font-bold tracking-tighter text-center">
                                             CABANG DINAS PENDIDIKAN WILAYAH VII
                                         </h3>
-                                        <p className="font-bold tracking-tighter text-center text-3xl">
+                                        <p className="font-bold tracking-tighter text-center">
                                             SMK PEKERJAAN UMUM NEGERI BANDUNG
                                         </p>
-                                        <p className="text-lg tracking-tight">
+                                        <p className="text-sm tracking-tight">
                                             Jl. Garut No. 10 Telp./Fax (022) 7208317 BANDUNG 40271
                                         </p>
-                                        <p className="text-lg tracking-tight">
+                                        <p className="text-sm tracking-tight">
                                             Website : <span className="italic text-blue-600 underline decoration-blue-600">http://www.smkpunegerijabar.sch.id</span>
                                         </p>
-                                        <p className="text-lg tracking-tight">
+                                        <p className="text-sm tracking-tight">
                                             Email : <span className="italic text-blue-600 underline decoration-blue-600">info@smkpunegerijabar.sch.id</span>
                                         </p>
                                     </div>
                                     <div className="w-fit flex items-center justify-end">
-                                        <Image src={'/logo-sekolah-2.png'} width={160} height={160} />
+                                        <Image src={'/logo-sekolah-2.png'} width={120} height={120} />
                                     </div>
                                 </div>
                                 <div className="px-5 pt-5">
@@ -1219,11 +1231,11 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                             <div ref={componentPDF_2} style={{ 
                                 width: `${(mmToPx(210) * 1.5)}px`, 
                                 height: `${(mmToPx(330) * 1.5)}px`,
-                            }} className={`bg-white flex-shrink-0 text-2xl`}
+                            }} className={`bg-white flex-shrink-0 text-lg`}
                             >
                                 <div className="flex items-center w-full px-20 pt-10">
                                     <div className="w-fit flex items-center justify-start">
-                                        <Image src={'/jabar.gif'} width={200} height={200} />
+                                        <Image src={'/jabar.gif'} width={160} height={160} />
                                     </div>
                                     <div className={`w-full font-bold tracking-tighter text-center`}>
                                         <h1 className="font-bold tracking-tighter text-center">
@@ -1235,41 +1247,41 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                         <h3 className="font-bold tracking-tighter text-center">
                                             CABANG DINAS PENDIDIKAN WILAYAH VII
                                         </h3>
-                                        <p className="font-bold tracking-tighter text-center text-3xl">
+                                        <p className="font-bold tracking-tighter text-center">
                                             SMK PEKERJAAN UMUM NEGERI BANDUNG
                                         </p>
-                                        <p className="text-lg tracking-tight">
+                                        <p className="text-sm tracking-tight">
                                             Jl. Garut No. 10 Telp./Fax (022) 7208317 BANDUNG 40271
                                         </p>
-                                        <p className="text-lg tracking-tight">
+                                        <p className="text-sm tracking-tight">
                                             Website : <span className="italic text-blue-600 underline decoration-blue-600">http://www.smkpunegerijabar.sch.id</span>
                                         </p>
-                                        <p className="text-lg tracking-tight">
+                                        <p className="text-sm tracking-tight">
                                             Email : <span className="italic text-blue-600 underline decoration-blue-600">info@smkpunegerijabar.sch.id</span>
                                         </p>
                                     </div>
                                     <div className="w-fit flex items-center justify-end">
-                                        <Image src={'/logo-sekolah-2.png'} width={160} height={160} />
+                                        <Image src={'/logo-sekolah-2.png'} width={120} height={120} />
                                     </div>
                                 </div>
                                 <div className="px-5 pt-5 mb-8">
                                     <div className="w-full border-4 border-zinc-700"></div>
                                 </div>
                                 <h1 className="text-center font-extrabold">LEMBAR BUKU INDUK SMK</h1>
-                                <h2 className="text-center font-extrabold">TAHUN PELAJARAN 2021/2022</h2>
+                                <h2 className="text-center font-extrabold">TAHUN PELAJARAN {date_getYear()}/{Number(date_getYear()) + 1}</h2>
                                 <hr className="my-3 opacity-0" />
                                 <div className="px-20">
                                     <div className="flex w-1/2 items-center gap-2 text-lg">
-                                        <p className="w-2/3">Kelas</p>
+                                        <p className="w-2/3">Kompetensi Keahlian</p>
                                         <p className="w-1/3 font-medium">: X {formatRombel[data.id_rombel]} 1</p>
                                     </div>
                                     <div className="flex w-1/2 items-center gap-2 text-lg">
                                         <p className="w-2/3">No Induk Sekolah</p>
-                                        <p className="w-1/3 font-medium">: {data.nis}</p>
+                                        <p className="w-1/3 font-medium">: {data.nis || '-'}</p>
                                     </div>
                                     <div className="flex w-1/2 items-center gap-2 text-lg">
                                         <p className="w-2/3">No Induk Siswa Nasional</p>
-                                        <p className="w-1/3 font-medium">: {data.nisn}</p>
+                                        <p className="w-1/3 font-medium">: {data.nisn || '-'}</p>
                                     </div>
                                     <hr className="my-3 opacity-0" />
                                     <div className="px-10 text-lg">
@@ -1284,7 +1296,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>1.</p>
                                                     <p>Nama</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.nama_siswa}</p>
+                                                <p className="font-medium w-2/3">: {data.nama_siswa || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1294,7 +1306,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>2.</p>
                                                     <p>NIK</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.nik}</p>
+                                                <p className="font-medium w-2/3">: {data.nik || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1304,7 +1316,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>3.</p>
                                                     <p>Jenis Kelamin</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.jk_siswa}</p>
+                                                <p className="font-medium w-2/3">: {data.jk_siswa || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1314,7 +1326,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>4.</p>
                                                     <p>Tempat dan Tanggal Lahir</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.tempat_lahir_siswa}, {data.tgl_lahir_siswa.split('-').reverse().join('/')}</p>
+                                                <p className="font-medium w-2/3">: {data.tempat_lahir_siswa || '-'}, {date_getDay(data['tgl_lahir_siswa'])} {date_getMonth('string', data['tgl_lahir_siswa'])} {date_getYear(data['tgl_lahir_siswa'])}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1324,7 +1336,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>5.</p>
                                                     <p>Agama</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.agama}</p>
+                                                <p className="font-medium w-2/3">: {data.agama || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1334,7 +1346,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>6.</p>
                                                     <p>Anak ke</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.anak_ke_berapa}</p>
+                                                <p className="font-medium w-2/3">: {data.anak_ke_berapa || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1344,7 +1356,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>7.</p>
                                                     <p>Status dalam Keluarga</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.status_anak}</p>
+                                                <p className="font-medium w-2/3">: {data.status_anak || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1354,7 +1366,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>8.</p>
                                                     <p className="">No Telp</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.no_telp_siswa}</p>
+                                                <p className="font-medium w-2/3">: {data.no_telp_siswa || '-'}</p>
                                             </div>
                                         </div>
                                         <hr className="my-3 opacity-0" />
@@ -1369,7 +1381,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>9.</p>
                                                     <p>Alamat</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.alamat_siswa}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.alamat_siswa || '-'}</p>
                                             </div>
                                         </div>
                                         <hr className="my-3 opacity-0" />
@@ -1384,7 +1396,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>10.</p>
                                                     <p>Asal Sekolah</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.asal_sekolah}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.asal_sekolah || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1394,7 +1406,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>11.</p>
                                                     <p>Tahun Masuk</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.tahun_masuk}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.tahun_masuk || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1404,13 +1416,13 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>12.</p>
                                                     <p>Jalur Masuk</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.kategori}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.kategori || '-'}</p>
                                             </div>
                                         </div>
                                         <hr className="my-3 opacity-0" />
                                         <div className="font-bold flex items-center gap-5">
                                             <p>D.</p>
-                                            <p>KETERANGAN ORANG TUA KANDUNG</p>
+                                            <p>KETERANGAN ORANG TUA KANDUNG / WALI</p>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
                                             <p className="opacity-0">A.</p>
@@ -1419,7 +1431,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>13.</p>
                                                     <p>Nama Ayah</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.nama_ayah}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.nama_ayah || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1429,7 +1441,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>14.</p>
                                                     <p>Pekerjaan Ayah</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.pekerjaan_ayah}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.pekerjaan_ayah || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1439,7 +1451,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>15.</p>
                                                     <p>No Telp Ayah</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.no_telp_ayah}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.no_telp_ayah || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1449,7 +1461,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>16.</p>
                                                     <p>Nama Ibu</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.nama_ibu}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.nama_ibu || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1459,7 +1471,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>17.</p>
                                                     <p>Pekerjaan Ibu</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.pekerjaan_ibu}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.pekerjaan_ibu || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1469,7 +1481,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>18.</p>
                                                     <p>No Telp Ibu</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.no_telp_ibu}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.no_telp_ibu || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1479,7 +1491,17 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>19.</p>
                                                     <p>No Kartu Keluarga</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.no_kk}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.no_kk || '-'}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-5 w-full">
+                                            <p className="opacity-0">A.</p>
+                                            <div className="flex items-center gap-5 w-full">
+                                                <div className="flex items-center gap-5 w-1/3">
+                                                    <p>20.</p>
+                                                    <p>Nama Wali</p>
+                                                </div>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.nama_wali || '-'}</p>
                                             </div>
                                         </div>
                                         <hr className="my-5 opacity-0" />

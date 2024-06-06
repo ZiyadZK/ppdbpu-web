@@ -1097,11 +1097,11 @@ export default function SiswaTerdaftarPage() {
                                 <div className="w-full border-4 border-zinc-700"></div>
                             </div>
                             <h1 className="text-center font-extrabold">LEMBAR BUKU INDUK SMK</h1>
-                            <h2 className="text-center font-extrabold">TAHUN PELAJARAN {date_getYear() - 1}/{date_getYear()}</h2>
+                            <h2 className="text-center font-extrabold">TAHUN PELAJARAN {date_getYear()}/{date_getYear() + 1}</h2>
                             <hr className="my-3 opacity-0" />
                             <div className="px-20">
                                 <div className="flex w-1/2 items-center gap-2 text-lg">
-                                    <p className="w-2/3">Kelas</p>
+                                    <p className="w-2/3">Kompetensi Keahlian</p>
                                     <p className="w-1/3 font-medium">: X {printedData ? formatRombel[printedData['id_rombel']] : '-'} 1</p>
                                 </div>
                                 <div className="flex w-1/2 items-center gap-2 text-lg">
