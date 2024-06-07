@@ -58,20 +58,28 @@ export default function Home() {
     setRekapTahun(state => {
 
       if(type === 'add') {
-        const jumlah = Number(state) + number
-        if(jumlah > Object.keys(dataRekap).reverse()[0]) {
-          return Object.keys(dataRekap).reverse()[0]
+        const jmlIndex = Object.keys(dataRekap).findIndex(value => value == (Number(state) + number))
+        if(jmlIndex !== -1) {
+          if(jmlIndex > Object.keys(dataRekap).length) {
+            return Object.keys(dataRekap).reverse()[0]
+          }else{
+            return Object.keys(dataRekap)[jmlIndex]
+          }
         }else{
-          return jumlah
+          return state
         }
       }
 
       if(type === 'rem') {
-        const jumlah = Number(state) - number;
-        if(jumlah < Math.min.apply(null, Object.keys(dataRekap))) {
-          return state
+        const jmlIndex = Object.keys(dataRekap).findIndex(value => value == (Number(state) - number))
+        if(jmlIndex !== -1) {
+          if(jmlIndex < Object.keys(dataRekap).length) {
+            return Object.keys(dataRekap)[jmlIndex]
+          }else{
+            return state
+          }
         }else{
-          return jumlah
+          return state
         }
       }
     })
