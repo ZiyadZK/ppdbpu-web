@@ -971,10 +971,10 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                 </div>
                                 <div className="text-lg">
                                     <hr className="my-3 opacity-0" />
-                                    <h1 className="text-center font-extrabold text-2xl">
+                                    <h1 className="text-center font-extrabold text-lg">
                                         FORMULIR DAFTAR ULANG
                                     </h1>
-                                    <h1 className="text-center font-extrabold text-2xl">
+                                    <h1 className="text-center font-extrabold text-lg">
                                         PESERTA DIDIK BARU {date_getYear()}
                                     </h1>
                                     <hr className="my-5 opacity-0" /> 
