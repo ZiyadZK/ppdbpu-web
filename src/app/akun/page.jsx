@@ -467,8 +467,9 @@ export default function AkunPage() {
                                                         <p className="opacity-50 w-full md:w-1/3">
                                                             Role
                                                         </p>
-                                                        <select defaultValue={akun['role_akun']} className="w-full md:w-2/3 border px-3 py-1 rounded">
+                                                        <select defaultValue={akun['role_akun']} required  className="w-full md:w-2/3 border px-3 py-1 rounded">
                                                             <option value="Operator">Operator</option>
+                                                            <option value="Account Manager">Account Manager</option>
                                                             <option value="Admin">Admin</option>
                                                         </select>
                                                     </div>
