@@ -935,7 +935,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                             <div  ref={componentPDF_1} style={{
                                 width: `${mmToPx(210) * 1.5}px`, height: `${mmToPx(330) * 1.5}px`
                             }} className="bg-white flex-shrink-0 px-10 py-10">
-                                <div className="flex items-center w-full px-20 pt-10">
+                                <div className="flex items-center w-full px-10 text-lg">
                                     <div className="w-fit flex items-center justify-start">
                                         <Image src={'/jabar.gif'} width={160} height={160} />
                                     </div>
@@ -966,7 +966,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                         <Image src={'/logo-sekolah-2.png'} width={120} height={120} />
                                     </div>
                                 </div>
-                                <div className="px-5 pt-5">
+                                <div className=" pt-5">
                                     <div className="w-full border-4 border-zinc-700"></div>
                                 </div>
                                 <div className="text-lg">
@@ -1272,7 +1272,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                         <Image src={'/logo-sekolah-2.png'} width={120} height={120} />
                                     </div>
                                 </div>
-                                <div className="px-5 pt-5 mb-8">
+                                <div className="px-10 pt-5 mb-8">
                                     <div className="w-full border-4 border-zinc-700"></div>
                                 </div>
                                 <h1 className="text-center font-extrabold">LEMBAR BUKU INDUK SMK</h1>
@@ -1547,7 +1547,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                 </div>
                                                 <div className="w-full flex flex-col justify-between h-60 ">
                                                     <p className="text-center">
-                                                        Bandung, {date_getDay()} {date_getMonth('string')} {date_getYear()}
+                                                        Bandung, ...................................
                                                     </p>
                                                     <p className="text-center font-bold">
                                                         {data['nama_siswa']}
