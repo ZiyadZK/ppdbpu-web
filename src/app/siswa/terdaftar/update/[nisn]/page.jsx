@@ -447,6 +447,14 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                     </div>
                                     <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
                                         <div className="w-full md:w-1/5 opacity-70">
+                                            Keterangan Kategori
+                                        </div>
+                                        <div className="w-full md:w-4/5">
+                                            <input value={data['keterangan_kategori']} required={data['kategori'] === 'PRESTASI KEJUARAAN'} onChange={e => setData(state => ({...state, keterangan_kategori: e.target.value}))} type="text" className="w-full px-3 py-2 rounded-lg border" placeholder="Keterangan untuk Prestasi Kejuaraan" />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
+                                        <div className="w-full md:w-1/5 opacity-70">
                                             NIK
                                         </div>
                                         <div className="w-full md:w-4/5">
@@ -961,17 +969,17 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                 <div className="px-5 pt-5">
                                     <div className="w-full border-4 border-zinc-700"></div>
                                 </div>
-                                <div className="">
+                                <div className="text-lg">
                                     <hr className="my-3 opacity-0" />
-                                    <h1 className="text-center font-extrabold text-3xl">
+                                    <h1 className="text-center font-extrabold text-2xl">
                                         FORMULIR DAFTAR ULANG
                                     </h1>
-                                    <h1 className="text-center font-extrabold text-3xl">
+                                    <h1 className="text-center font-extrabold text-2xl">
                                         PESERTA DIDIK BARU {date_getYear()}
                                     </h1>
                                     <hr className="my-5 opacity-0" /> 
-                                    <h1 className="font-bold text-3xl">IDENTITAS PESERTA DIDIK</h1>
-                                    <div className="flex mt-3 text-xl gap-10">
+                                    <h1 className="font-bold text-2xl">IDENTITAS PESERTA DIDIK</h1>
+                                    <div className="flex mt-3 text-lg gap-10">
                                         <div className="w-1/2 space-y-5 ">
                                             <div className="flex items-center gap-2">
                                                 <div className="flex justify-between items-center w-2/5">
@@ -1022,7 +1030,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p className="font-extrabold">:</p>
                                                 </div>
                                                 <p className="w-3/5">
-                                                    {data['tempat_lahir_siswa']}, {data['tgl_lahir_siswa'].split('-').reverse().join('/')}
+                                                    {data['tempat_lahir_siswa']}, {date_getDay(data['tgl_lahir_siswa'])} {date_getMonth('string', data['tgl_lahir_siswa'])} {date_getYear(data['tgl_lahir_siswa'])}
                                                 </p>
                                             </div>
                                             <div className="flex items-center gap-2">
@@ -1073,7 +1081,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                 </p>
                                             </div>
                                             <hr className="my-8 border border-zinc-700" />
-                                            <h1 className="font-bold text-3xl">DATA PERIODIK</h1>
+                                            <h1 className="font-bold text-2xl">DATA PERIODIK</h1>
                                             <div className="mt-3 space-y-3">
                                                 <div className="flex items-center gap-2">
                                                     <div className="flex justify-between items-center w-2/5">
@@ -1115,90 +1123,90 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                         </div>
                                     </div>
                                     <hr className="my-8 opacity-0" />
-                                    <h1 className="font-bold text-3xl">DATA ORANG TUA DAN WALI SISWA</h1>
+                                    <h1 className="font-bold text-2xl">DATA ORANG TUA DAN WALI SISWA</h1>
                                     <hr className="my-3 opacity-0" />
                                     <div className="grid grid-cols-12 border-b-4 py-3 px-1">
-                                        <div className="col-span-3 flex items-center font-bold text-2xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             
                                         </div>
-                                        <div className="col-span-3 flex items-center font-bold text-2xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             Ayah
                                         </div>
-                                        <div className="col-span-3 flex items-center font-bold text-2xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             Ibu
                                         </div>
-                                        <div className="col-span-3 flex items-center font-bold text-2xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             Wali
                                         </div>
                                     </div>
                                     <div className="divide-y">
                                         <div className="grid grid-cols-12 py-4 px-1">
-                                            <div className="col-span-3 flex items-center font-bold text-xl">
+                                            <div className="col-span-3 flex items-center font-bold text-lg">
                                                 Nama
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['nama_ayah']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['nama_ibu']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {bersamaWali ? data['nama_wali'] : '-'}
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-12 py-4 px-1">
-                                            <div className="col-span-3 flex items-center font-bold text-xl">
+                                            <div className="col-span-3 flex items-center font-bold text-lg">
                                                 No. Telepon
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['no_telp_ayah']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                                 {data['no_telp_ibu']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                                 {bersamaWali ? data['no_telp_wali'] : '-'}
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-12 py-4 px-1">
-                                            <div className="col-span-3 flex items-center font-bold text-xl">
+                                            <div className="col-span-3 flex items-center font-bold text-lg">
                                                 Pekerjaan
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['pekerjaan_ayah']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['pekerjaan_ibu']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {bersamaWali ? data['pekerjaan_wali'] : '-'}
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-12 py-4 px-1">
-                                            <div className="col-span-3 flex items-center font-bold text-xl">
+                                            <div className="col-span-3 flex items-center font-bold text-lg">
                                                 Pendidikan
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['pendidikan_ayah']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['pendidikan_ibu']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {bersamaWali ? data['pendidikan_wali'] : '-'}
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-12 py-4 px-1">
-                                            <div className="col-span-3 flex items-center font-bold text-xl">
+                                            <div className="col-span-3 flex items-center font-bold text-lg">
                                                 Penghasilan
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['penghasilan_ayah']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['penghasilan_ibu']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {bersamaWali ? data['penghasilan_wali'] : '-'}
                                             </div>
                                         </div>
@@ -1505,15 +1513,20 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             </div>
                                         </div>
                                         <hr className="my-5 opacity-0" />
-                                        <div className="flex items-center w-full gap-5">
-                                            <div className="w-1/2"></div>
-                                            <div className="w-1/2 flex flex-col items-center">
-                                                <div className="w-[113.39px] h-[151.18px] border-2 flex items-center justify-center bg-green-500/10 font-bold">
-                                                    <p className="text-zinc-500 text-3xl">3x4</p>
+                                        <div className="flex items-center w-full gap-5 h-full">
+                                            <div className="w-1/2 h-full"></div>
+                                            <div className="w-1/2 flex items-center justify-center gap-5 h-full">
+                                                <div className="w-[113.39px] h-[151.18px] border-2 border-zinc-700 flex items-center justify-center  font-bold flex-shrink-0">
+                                                    <p className="text-zinc-500/0 text-3xl">3x4</p>
                                                 </div>
-                                                <p className="text-sm">tanda tangan siswa dan cap tiga jari</p>
-                                                <hr className="my-12 opacity-0" />
-                                                <p className="font-bold">{data.nama_siswa}</p>
+                                                <div className="w-full flex flex-col justify-between h-60 ">
+                                                    <p className="text-center">
+                                                        Bandung, {date_getDay()} {date_getMonth('string')} {date_getYear()}
+                                                    </p>
+                                                    <p className="text-center font-bold">
+                                                        {data['nama_siswa']}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
