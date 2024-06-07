@@ -756,9 +756,9 @@ export default function SiswaTerdaftarPage() {
                         <div  ref={componentPDF_1} style={{
                             width: `${mmToPx(210) * 1.5}px`, height: `${mmToPx(330) * 1.5}px`
                         }} className="bg-white flex-shrink-0 px-10 py-10">
-                            <div className="flex items-center w-full px-20 ">
+                            <div className="flex items-center w-full px-20 pt-10">
                                 <div className="w-fit flex items-center justify-start">
-                                    <Image src={'/jabar.gif'} width={200} height={200} />
+                                    <Image src={'/jabar.gif'} width={160} height={160} />
                                 </div>
                                 <div className={`w-full font-bold tracking-tighter text-center`}>
                                     <h1 className="font-bold tracking-tighter text-center">
@@ -770,37 +770,37 @@ export default function SiswaTerdaftarPage() {
                                     <h3 className="font-bold tracking-tighter text-center">
                                         CABANG DINAS PENDIDIKAN WILAYAH VII
                                     </h3>
-                                    <p className="font-bold tracking-tighter text-center text-3xl">
+                                    <p className="font-bold tracking-tighter text-center">
                                         SMK PEKERJAAN UMUM NEGERI BANDUNG
                                     </p>
-                                    <p className="text-lg tracking-tight">
+                                    <p className="text-sm tracking-tight">
                                         Jl. Garut No. 10 Telp./Fax (022) 7208317 BANDUNG 40271
                                     </p>
-                                    <p className="text-lg tracking-tight">
+                                    <p className="text-sm tracking-tight">
                                         Website : <span className="italic text-blue-600 underline decoration-blue-600">http://www.smkpunegerijabar.sch.id</span>
                                     </p>
-                                    <p className="text-lg tracking-tight">
+                                    <p className="text-sm tracking-tight">
                                         Email : <span className="italic text-blue-600 underline decoration-blue-600">info@smkpunegerijabar.sch.id</span>
                                     </p>
                                 </div>
                                 <div className="w-fit flex items-center justify-end">
-                                    <Image src={'/logo-sekolah-2.png'} width={160} height={160} />
+                                    <Image src={'/logo-sekolah-2.png'} width={120} height={120} />
                                 </div>
                             </div>
-                            <div className="px-5 pt-5">
+                            <div className="px-5 pt-5 ">
                                 <div className="w-full border-4 border-zinc-700"></div>
                             </div>
                             <div className="">
                                 <hr className="my-3 opacity-0" />
-                                <h1 className="text-center font-extrabold text-3xl">
+                                <h1 className="text-center font-extrabold text-2xl">
                                     FORMULIR DAFTAR ULANG
                                 </h1>
-                                <h1 className="text-center font-extrabold text-3xl">
+                                <h1 className="text-center font-extrabold text-2xl">
                                     PESERTA DIDIK BARU {date_getYear()}
                                 </h1>
                                 <hr className="my-5 opacity-0" /> 
-                                <h1 className="font-bold text-3xl">IDENTITAS PESERTA DIDIK</h1>
-                                <div className="flex mt-3 text-xl gap-10">
+                                <h1 className="font-bold text-2xl">IDENTITAS PESERTA DIDIK</h1>
+                                <div className="flex mt-3 text-lg gap-10">
                                     <div className="w-1/2 space-y-5 ">
                                         <div className="flex items-center gap-2">
                                             <div className="flex justify-between items-center w-2/5">
@@ -834,7 +834,7 @@ export default function SiswaTerdaftarPage() {
                                                 <p className="font-extrabold flex-grow">Rombongan Pelajar</p>
                                                 <p className="font-extrabold">:</p>
                                             </div>
-                                            <p className="w-3/5">X - {printedData ? formatRombel[printedData['id_rombel']] : '-'} - 1</p>
+                                            <p className="w-3/5">X - {printedData ? formatRombel[printedData['id_rombel']] : '-'}</p>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <div className="flex justify-between items-center w-2/5">
@@ -902,7 +902,7 @@ export default function SiswaTerdaftarPage() {
                                             </p>
                                         </div>
                                         <hr className="my-8 border border-zinc-700" />
-                                        <h1 className="font-bold text-3xl">DATA PERIODIK</h1>
+                                        <h1 className="font-bold text-2xl">DATA PERIODIK</h1>
                                         <div className="mt-3 space-y-3">
                                             <div className="flex items-center gap-2">
                                                 <div className="flex justify-between items-center w-2/5">
@@ -944,90 +944,90 @@ export default function SiswaTerdaftarPage() {
                                     </div>
                                 </div>
                                 <hr className="my-8 opacity-0" />
-                                <h1 className="font-bold text-3xl">DATA ORANG TUA DAN WALI SISWA</h1>
+                                <h1 className="font-bold text-2xl">DATA ORANG TUA DAN WALI SISWA</h1>
                                 <hr className="my-3 opacity-0" />
                                 <div className="grid grid-cols-12 border-b-4 py-3 px-1">
-                                    <div className="col-span-3 flex items-center font-bold text-2xl">
+                                    <div className="col-span-3 flex items-center font-bold text-lg">
                                         
                                     </div>
-                                    <div className="col-span-3 flex items-center font-bold text-2xl">
+                                    <div className="col-span-3 flex items-center font-bold text-lg">
                                         Ayah
                                     </div>
-                                    <div className="col-span-3 flex items-center font-bold text-2xl">
+                                    <div className="col-span-3 flex items-center font-bold text-lg">
                                         Ibu
                                     </div>
-                                    <div className="col-span-3 flex items-center font-bold text-2xl">
+                                    <div className="col-span-3 flex items-center font-bold text-lg">
                                         Wali
                                     </div>
                                 </div>
                                 <div className="divide-y">
                                     <div className="grid grid-cols-12 py-4 px-1">
-                                        <div className="col-span-3 flex items-center font-bold text-xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             Nama
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['nama_ayah'] : '-'}
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['nama_ibu'] : '-'}
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['nama_wali'] : '-'}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-12 py-4 px-1">
-                                        <div className="col-span-3 flex items-center font-bold text-xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             No. Telepon
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['no_telp_ayah'] : '-'}
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['no_telp_ibu'] : '-'}
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['no_telp_wali'] : '-'}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-12 py-4 px-1">
-                                        <div className="col-span-3 flex items-center font-bold text-xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             Pekerjaan
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['pekerjaan_ayah'] : '-'}
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['pekerjaan_ibu'] : '-'}
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['pekerjaan_wali'] : '-'}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-12 py-4 px-1">
-                                        <div className="col-span-3 flex items-center font-bold text-xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             Pendidikan
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['pendidikan_ayah'] : '-'}
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['pendidikan_ibu'] : '-'}
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['pendidikan_wali'] : '-'}
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-12 py-4 px-1">
-                                        <div className="col-span-3 flex items-center font-bold text-xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             Penghasilan
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['penghasilan_ayah'] : '-'}
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['penghasilan_ibu'] : '-'}
                                         </div>
-                                        <div className="col-span-3 text-xl flex items-center">
+                                        <div className="col-span-3 text-lg flex items-center">
                                         {printedData ? printedData['penghasilan_wali'] : '-'}
                                         </div>
                                     </div>
@@ -1060,11 +1060,11 @@ export default function SiswaTerdaftarPage() {
                         <div ref={componentPDF_2} style={{ 
                             width: `${(mmToPx(210) * 1.5)}px`, 
                             height: `${(mmToPx(330) * 1.5)}px`,
-                        }} className={`bg-white flex-shrink-0 text-2xl`}
+                        }} className={`bg-white flex-shrink-0`}
                         >
-                            <div className="flex items-center w-full px-20 pt-10">
+                            <div className="flex items-center w-full px-20 pt-10 text-lg">
                                 <div className="w-fit flex items-center justify-start">
-                                    <Image src={'/jabar.gif'} width={200} height={200} />
+                                    <Image src={'/jabar.gif'} width={160} height={160} />
                                 </div>
                                 <div className={`w-full font-bold tracking-tighter text-center`}>
                                     <h1 className="font-bold tracking-tighter text-center">
@@ -1076,33 +1076,33 @@ export default function SiswaTerdaftarPage() {
                                     <h3 className="font-bold tracking-tighter text-center">
                                         CABANG DINAS PENDIDIKAN WILAYAH VII
                                     </h3>
-                                    <p className="font-bold tracking-tighter text-center text-3xl">
+                                    <p className="font-bold tracking-tighter text-center">
                                         SMK PEKERJAAN UMUM NEGERI BANDUNG
                                     </p>
-                                    <p className="text-lg tracking-tight">
+                                    <p className="text-sm tracking-tight">
                                         Jl. Garut No. 10 Telp./Fax (022) 7208317 BANDUNG 40271
                                     </p>
-                                    <p className="text-lg tracking-tight">
+                                    <p className="text-sm tracking-tight">
                                         Website : <span className="italic text-blue-600 underline decoration-blue-600">http://www.smkpunegerijabar.sch.id</span>
                                     </p>
-                                    <p className="text-lg tracking-tight">
+                                    <p className="text-sm tracking-tight">
                                         Email : <span className="italic text-blue-600 underline decoration-blue-600">info@smkpunegerijabar.sch.id</span>
                                     </p>
                                 </div>
                                 <div className="w-fit flex items-center justify-end">
-                                    <Image src={'/logo-sekolah-2.png'} width={160} height={160} />
+                                    <Image src={'/logo-sekolah-2.png'} width={120} height={120} />
                                 </div>
                             </div>
                             <div className="px-5 pt-5 mb-8">
                                 <div className="w-full border-4 border-zinc-700"></div>
                             </div>
                             <h1 className="text-center font-extrabold">LEMBAR BUKU INDUK SMK</h1>
-                            <h2 className="text-center font-extrabold">TAHUN PELAJARAN {date_getYear()}/{date_getYear() + 1}</h2>
+                            <h2 className="text-center font-extrabold">TAHUN PELAJARAN {date_getYear()}/{Number(date_getYear()) + 1}</h2>
                             <hr className="my-3 opacity-0" />
                             <div className="px-20">
                                 <div className="flex w-1/2 items-center gap-2 text-lg">
                                     <p className="w-2/3">Kompetensi Keahlian</p>
-                                    <p className="w-1/3 font-medium">: X {printedData ? formatRombel[printedData['id_rombel']] : '-'} 1</p>
+                                    <p className="w-1/3 font-medium">: X {printedData ? formatRombel[printedData['id_rombel']] : '-'} </p>
                                 </div>
                                 <div className="flex w-1/2 items-center gap-2 text-lg">
                                     <p className="w-2/3">No Induk Sekolah</p>
@@ -1323,16 +1323,56 @@ export default function SiswaTerdaftarPage() {
                                             <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['no_kk'] : '-'}</p>
                                         </div>
                                     </div>
-                                    <hr className="my-5 opacity-0" />
-                                    <div className="flex items-center w-full gap-5">
-                                        <div className="w-1/2"></div>
-                                        <div className="w-1/2 flex flex-col items-center">
-                                            <div className="w-[113.39px] h-[151.18px] border-2 flex items-center justify-center bg-green-500/10 font-bold">
-                                                <p className="text-zinc-500 text-3xl">3x4</p>
+                                    <hr className="my-3 opacity-0" />
+                                    <div className="font-bold flex items-center gap-5">
+                                        <p>D.</p>
+                                        <p>KETERANGAN WALI</p>
+                                    </div>
+                                    <div className="flex items-center gap-5 w-full">
+                                        <p className="opacity-0">A.</p>
+                                        <div className="flex items-center gap-5 w-full">
+                                            <div className="flex items-center gap-5 w-1/3">
+                                                <p>20.</p>
+                                                <p>Nama Wali</p>
                                             </div>
-                                            <p className="text-sm">tanda tangan siswa dan cap tiga jari</p>
-                                            <hr className="my-12 opacity-0" />
-                                            <p className="font-bold">{printedData ? printedData['nama_siswa'] : '-'}</p>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData.nama_wali || '-'}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-5 w-full">
+                                        <p className="opacity-0">A.</p>
+                                        <div className="flex items-center gap-5 w-full">
+                                            <div className="flex items-center gap-5 w-1/3">
+                                                <p>21.</p>
+                                                <p>Pekerjaan Wali</p>
+                                            </div>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData.pekerjaan_wali || '-'}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-5 w-full">
+                                        <p className="opacity-0">A.</p>
+                                        <div className="flex items-center gap-5 w-full">
+                                            <div className="flex items-center gap-5 w-1/3">
+                                                <p>22.</p>
+                                                <p>No Telp Wali</p>
+                                            </div>
+                                            <p className="font-medium w-2/3 text-wrap">: {printedData.no_telp_wali || '-'}</p>
+                                        </div>
+                                    </div>
+                                    <hr className="my-5 opacity-0" />
+                                    <div className="flex items-center w-full gap-5 h-full">
+                                        <div className="w-1/2 h-full"></div>
+                                        <div className="w-1/2 flex items-center justify-center gap-5 h-full">
+                                            <div className="w-[113.39px] h-[151.18px] border-2 border-zinc-700 flex items-center justify-center  font-bold flex-shrink-0">
+                                                <p className="text-zinc-500/0 text-3xl">3x4</p>
+                                            </div>
+                                            <div className="w-full flex flex-col justify-between h-60 ">
+                                                <p className="text-center">
+                                                    Bandung, {date_getDay()} {date_getMonth('string')} {date_getYear()}
+                                                </p>
+                                                <p className="text-center font-bold">
+                                                    {printedData['nama_siswa']}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

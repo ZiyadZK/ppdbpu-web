@@ -1281,7 +1281,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                 <div className="px-20">
                                     <div className="flex w-1/2 items-center gap-2 text-lg">
                                         <p className="w-2/3">Kompetensi Keahlian</p>
-                                        <p className="w-1/3 font-medium">: X {formatRombel[data.id_rombel]} 1</p>
+                                        <p className="w-1/3 font-medium">: X {formatRombel[data.id_rombel]}</p>
                                     </div>
                                     <div className="flex w-1/2 items-center gap-2 text-lg">
                                         <p className="w-2/3">No Induk Sekolah</p>
@@ -1430,7 +1430,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                         <hr className="my-3 opacity-0" />
                                         <div className="font-bold flex items-center gap-5">
                                             <p>D.</p>
-                                            <p>KETERANGAN ORANG TUA KANDUNG / WALI</p>
+                                            <p>KETERANGAN ORANG TUA KANDUNG</p>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
                                             <p className="opacity-0">A.</p>
@@ -1502,6 +1502,11 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                 <p className="font-medium w-2/3 text-wrap">: {data.no_kk || '-'}</p>
                                             </div>
                                         </div>
+                                        <hr className="my-3 opacity-0" />
+                                        <div className="font-bold flex items-center gap-5">
+                                            <p>D.</p>
+                                            <p>KETERANGAN WALI</p>
+                                        </div>
                                         <div className="flex items-center gap-5 w-full">
                                             <p className="opacity-0">A.</p>
                                             <div className="flex items-center gap-5 w-full">
@@ -1512,6 +1517,27 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                 <p className="font-medium w-2/3 text-wrap">: {data.nama_wali || '-'}</p>
                                             </div>
                                         </div>
+                                        <div className="flex items-center gap-5 w-full">
+                                            <p className="opacity-0">A.</p>
+                                            <div className="flex items-center gap-5 w-full">
+                                                <div className="flex items-center gap-5 w-1/3">
+                                                    <p>21.</p>
+                                                    <p>Pekerjaan Wali</p>
+                                                </div>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.pekerjaan_wali || '-'}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-5 w-full">
+                                            <p className="opacity-0">A.</p>
+                                            <div className="flex items-center gap-5 w-full">
+                                                <div className="flex items-center gap-5 w-1/3">
+                                                    <p>22.</p>
+                                                    <p>No Telp Wali</p>
+                                                </div>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.no_telp_wali || '-'}</p>
+                                            </div>
+                                        </div>
+                                        
                                         <hr className="my-5 opacity-0" />
                                         <div className="flex items-center w-full gap-5 h-full">
                                             <div className="w-1/2 h-full"></div>
