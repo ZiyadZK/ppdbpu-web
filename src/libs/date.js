@@ -1,3 +1,5 @@
+
+
 export const date_getDay = (date) => {
     let delimiter = null;
     let day;
@@ -103,14 +105,25 @@ export const date_getYear = (date) => {
 
 export const date_getTime = (type) => {
     const currentDate = new Date();
-    let time;
+    const options = {
+        timeZone: 'Asia/Jakarta',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    };
 
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    const parts = formatter.formatToParts(currentDate);
+
+    let time;
     if (type === 'hour') {
-        time = String(currentDate.getHours()).padStart(2, '0'); // Ensures 2-digit format
+        time = parts.find(part => part.type === 'hour').value;
     } else if (type === 'minutes') {
-        time = String(currentDate.getMinutes()).padStart(2, '0'); // Ensures 2-digit format
+        time = parts.find(part => part.type === 'minute').value;
     } else {
-        return 'Invalid type. Use "hour" or "minutes".';
+        const hour = parts.find(part => part.type === 'hour').value;
+        const minute = parts.find(part => part.type === 'minute').value;
+        time = `${hour}:${minute}`;
     }
 
     return time;
