@@ -108,7 +108,7 @@ const formatSorting = {
     nama_siswa: '', nisn: '', nomor_reg: '', nisn: ''
 }
 
-export default function SiswaTerdaftarPage() {
+export default function SiswaDiterimaPage() {
     const router = useRouter()
 
     const componentPDF_1 = useRef(null)

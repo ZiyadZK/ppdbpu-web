@@ -29,13 +29,35 @@ export const xlsx_export = async (type, dataArr, fileName = 'Data', { header, sh
     }
 
     if(type === 'csv') {
-        const worksheet = XLSX.utils.json_to_sheet(dataArr)
-        const workbook = XLSX.utils.book_new()
-        XLSX.utils.sheet_to_csv(worksheet)
-        XLSX.utils.book_append_sheet(workbook, worksheet, sheetName)
+        const worksheet = XLSX.utils.json_to_sheet(dataArr);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+        XLSX.utils.sheet_add_aoa(worksheet, [header], { origin: 'A1' });
 
-        XLSX.utils.sheet_add_aoa(worksheet, [header], {origin: 'A1'})
+        // Convert worksheet to CSV string
+        let csvString = XLSX.utils.sheet_to_csv(worksheet);
 
-        XLSX.writeFile(workbook, `${fileName}.csv`, { compression: true })
+        // Replace default quote and escape characters
+        const quoteChar = `'`;
+        const escapeChar = `'`;
+
+        // Replace the double quotes with the custom quote character
+        csvString = csvString.replace(/"/g, quoteChar);
+
+        // Replace occurrences of the custom quote character within values with the escape character
+        const escapedQuoteChar = new RegExp(quoteChar, 'g');
+        csvString = csvString.replace(escapedQuoteChar, escapeChar + quoteChar);
+
+        // Create a Blob from the CSV string
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `${fileName}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     }
 }
