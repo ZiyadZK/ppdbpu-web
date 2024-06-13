@@ -692,12 +692,12 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                         <div className="w-full md:w-4/5">
                                             <select required value={data['penghasilan_ayah']} onChange={e => setData(state => ({...state, penghasilan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Penghasilan --</option>
+                                                <option value="TIDAK BERPENGHASILAN">Tidak Berpenghasilan</option>
                                                 <option value="< Rp. 1.000.000">&lt; Rp. 1.000.000</option>
                                                 <option value="Rp. 1.000.000 - Rp. 3.000.000">Rp. 1.000.000 - Rp. 3.000.000</option>
                                                 <option value="Rp. 3.000.000 - Rp. 5.000.000">Rp. 3.000.000 - Rp. 5.000.000</option>
                                                 <option value="Rp. 5.000.000 - Rp. 7.000.000">Rp. 5.000.000 - Rp. 7.000.000</option>
                                                 <option value="> Rp. 7.000.000">&gt; Rp. 7.000.000</option>
-                                                
                                             </select>
                                         </div>
                                     </div>
@@ -790,11 +790,12 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                         <div className="w-full md:w-4/5">
                                             <select required value={data['penghasilan_ibu']} onChange={e => setData(state => ({...state, penghasilan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Penghasilan --</option>
-                                                <option value="< Rp. 1.000.000">&lt; Rp. 1.000.000</option>
-                                                <option value="Rp. 1.000.000 - Rp. 3.000.000">Rp. 1.000.000 - Rp. 3.000.000</option>
-                                                <option value="Rp. 3.000.000 - Rp. 5.000.000">Rp. 3.000.000 - Rp. 5.000.000</option>
-                                                <option value="Rp. 5.000.000 - Rp. 7.000.000">Rp. 5.000.000 - Rp. 7.000.000</option>
-                                                <option value="> Rp. 7.000.000">&gt; Rp. 7.000.000</option>
+                                                    <option value="TIDAK BERPENGHASILAN">Tidak Berpenghasilan</option>
+                                                    <option value="< Rp. 1.000.000">&lt; Rp. 1.000.000</option>
+                                                    <option value="Rp. 1.000.000 - Rp. 3.000.000">Rp. 1.000.000 - Rp. 3.000.000</option>
+                                                    <option value="Rp. 3.000.000 - Rp. 5.000.000">Rp. 3.000.000 - Rp. 5.000.000</option>
+                                                    <option value="Rp. 5.000.000 - Rp. 7.000.000">Rp. 5.000.000 - Rp. 7.000.000</option>
+                                                    <option value="> Rp. 7.000.000">&gt; Rp. 7.000.000</option>
                                             </select>
                                         </div>
                                     </div>
@@ -922,6 +923,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                 <div className="w-full md:w-4/5">
                                                     <select required value={data['penghasilan_wali']} onChange={e => setData(state => ({...state, penghasilan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                         <option value="" disabled>-- Pilih Penghasilan --</option>
+                                                        <option value="TIDAK BERPENGHASILAN">Tidak Berpenghasilan</option>
                                                         <option value="< Rp. 1.000.000">&lt; Rp. 1.000.000</option>
                                                         <option value="Rp. 1.000.000 - Rp. 3.000.000">Rp. 1.000.000 - Rp. 3.000.000</option>
                                                         <option value="Rp. 3.000.000 - Rp. 5.000.000">Rp. 3.000.000 - Rp. 5.000.000</option>
