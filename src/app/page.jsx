@@ -28,7 +28,6 @@ export default function Home() {
   const getDataRekap = async () => {
     setLoadingFetch('loading')
     const response = await M_Siswa_rekap()
-    console.log(response)
     if(response.success) {
       setDataRekap(response.data)
       if(response.data !== null) {
