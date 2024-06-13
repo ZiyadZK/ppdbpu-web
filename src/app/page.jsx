@@ -40,10 +40,11 @@ export default function Home() {
     setLoadingFetch('loading')
     const response = await M_Siswa_rekap()
     if(response.success) {
-      console.log(response.data)
       setDataRekap(response.data)
-      if(!Object.keys(response.data).includes(date_getYear())) {
-        setRekapTahun(Object.keys(response.data)[0])
+      if(response.data !== null) {
+        if(!Object.keys(response.data).includes(date_getYear())) {
+          setRekapTahun(Object.keys(response.data)[0])
+        }
       }
     }
     setLoadingFetch('fetched')
