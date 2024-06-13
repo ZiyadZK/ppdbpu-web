@@ -12,8 +12,8 @@ import Swal from "sweetalert2"
 const navLinkMasterData = [
     { url: '/siswa/terdaftar', icon: faUsers, page: 'Daftar Calon Siswa', name: 'Daftar Calon Siswa', role: ['Admin', 'Operator']},
     { url: '/siswa/diterima', icon: faUserCheck, page: 'Daftar Siswa Diterima', name: 'Daftar Siswa Diterima', role: ['Admin', 'Operator']},
-    { url: '/akun', icon: faUserShield, page: 'Data Akun', name: 'Akun', role: ['Admin', 'Account Manager']},
-    { url: '/riwayat', icon: faTimeline, page: 'Data Riwayat', name: 'Riwayat', role: ['Admin']}
+    { url: '/akun', icon: faUserShield, page: 'Data Akun', name: 'Akun', role: [ 'Account Manager']},
+    { url: '/riwayat', icon: faTimeline, page: 'Data Riwayat', name: 'Riwayat', role: ['Account Manager']}
 ]
 const navLink = [
     { url: '/', icon: faHouse, page: 'Dashboard', name: 'Dashboard', role: ['Admin', 'Operator']},

@@ -2,10 +2,16 @@ import { NextResponse } from "next/server";
 import { decryptData } from "./libs/cryptor";
 import { cookies } from "next/headers";
 
+// const rolePath = {
+//     'Account Manager': ['/', '/akun', '/riwayat'],
+//     'Operator': ['/', '/siswa/diterima', '/siswa/diterima/update', '/siswa/terdaftar', '/siswa/terdaftar/update', '/siswa/terdaftar/new'],
+//     'Admin': ['/', '/akun', '/siswa/diterima', '/siswa/diterima/update', '/siswa/terdaftar', '/siswa/terdaftar/new', '/siswa/terdaftar/update', '/riwayat']
+// }
+
 const rolePath = {
-    'Account Manager': ['/', '/akun', '/riwayat'],
-    'Operator': ['/', '/siswa/diterima', '/siswa/diterima/update', '/siswa/terdaftar', '/siswa/terdaftar/update', '/siswa/terdaftar/new'],
-    'Admin': ['/', '/akun', '/siswa/diterima', '/siswa/diterima/update', '/siswa/terdaftar', '/siswa/terdaftar/new', '/siswa/terdaftar/update', '/riwayat']
+    '/akun': ['Account Manager'],
+    '/riwayat': ['Account Manager'],
+    '/siswa': ['Admin', 'Operator']
 }
 
 export async function middleware(request) {
@@ -15,18 +21,17 @@ export async function middleware(request) {
 
     const encryptedUserdata = cookies().get('userdata')
     const decryptedUserdata = await decryptData(encryptedUserdata)
+    console.log(decryptedUserdata)
     const pathname = request.nextUrl.pathname;
 
-    // Ensure the user's role exists in the rolePath object
-    const allowedPaths = rolePath[decryptedUserdata['role_akun']];
-    if (!allowedPaths) {
-        return NextResponse.redirect(new URL('/', request.url));
-    }
-
-    // Check if the path is allowed for the user's role
-    const isAllowed = allowedPaths.some(path => pathname.startsWith(path) || pathname === '/');
-    if (!isAllowed) {
-        return NextResponse.redirect(new URL('/', request.url)); // Redirect to home page if path is not allowed
+    if(pathname !== '/') {
+        for(let path of Object.keys(rolePath)) {
+            if(pathname.startsWith(path)) {
+                if(!rolePath[path].includes(decryptedUserdata.role_akun)) {
+                    return NextResponse.redirect(new URL('/', request.url))
+                }
+            }
+        }
     }
 
     return NextResponse.next()
