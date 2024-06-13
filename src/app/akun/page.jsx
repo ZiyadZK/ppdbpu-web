@@ -224,12 +224,6 @@ export default function AkunPage() {
                             })
                         }
                     }
-                }).then(() => {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Gagal memproses data, silahkan hubungi administrator',
-                        icon: 'error'
-                    })
                 })
             }else{
                 document.getElementById(modal).showModal()
