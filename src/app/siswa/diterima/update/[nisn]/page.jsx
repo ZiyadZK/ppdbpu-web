@@ -130,6 +130,8 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
     const submitData = async (e) => {
         e.preventDefault()
 
+        document.getElementById('content_print').classList.remove('hidden')
+
         Swal.fire({
             title: 'Sedang menyimpan data..',
             timer: 30000,
@@ -202,6 +204,8 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                         const pdfDataUri = pdf.output('datauristring')
                         // pdf.save(`DATA CALON SISWA DITERIMA - ${data.nama_siswa} - ${data.id_rombel} - ${data.nisn}`)
                         
+                        document.getElementById('content_print').classList.add('hidden')
+
                         Swal.close()
                         Swal.fire({
                             title: 'Sukses',
@@ -215,6 +219,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                             router.push('/siswa/diterima')
                         })
                     }else{
+                        document.getElementById('content_print').classList.add('hidden')
                         toast.fire({
                             title: 'Gagal',
                             text: response.message,
@@ -224,6 +229,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                         })
                     }
                 } catch (error) {
+                    document.getElementById('content_print').classList.add('hidden')
                     console.log(error)
                     toast.fire({
                         title: 'Gagal',
@@ -287,6 +293,18 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                 <div className="space-y-2">
                                     <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
                                         <div className="w-full md:w-1/5 opacity-70">
+                                            Tahap PPDB
+                                        </div>
+                                        <div className="w-full md:w-4/5">
+                                            <select required value={data['tahap']} onChange={e => setData(state => ({...state, tahap: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                                <option value="" disabled>-- Pilih Tahap --</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
+                                        <div className="w-full md:w-1/5 opacity-70">
                                             No Pendaftaran
                                         </div>
                                         <div className="w-full md:w-4/5">
@@ -314,7 +332,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Jurusan
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['id_rombel']} onChange={e => setData(state => ({...state, id_rombel: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['id_rombel']} onChange={e => setData(state => ({...state, id_rombel: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Jurusan --</option>
                                                 {Object.keys(formatRombel).map((rombel, index) => (
                                                     <option key={index} value={rombel}>
@@ -337,7 +355,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Jenis Kelamin
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['jk_siswa']} onChange={e => setData(state => ({...state, jk_siswa: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['jk_siswa']} onChange={e => setData(state => ({...state, jk_siswa: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Jenis Kelamin --</option>
                                                 <option value="Laki - laki">Laki - laki</option>
                                                 <option value="Perempuan">Perempuan</option>
@@ -389,7 +407,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Agama
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['agama']} onChange={e => setData(state => ({...state, agama: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['agama']} onChange={e => setData(state => ({...state, agama: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Agama --</option>
                                                 <option value="ISLAM">Islam</option>
                                                 <option value="PROTESTAN">Protestan</option>
@@ -420,7 +438,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Kategori
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['kategori']} onChange={e => setData(state => ({...state, kategori: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['kategori']} onChange={e => setData(state => ({...state, kategori: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Kategori --</option>
                                                 <option value="ABK">ABK</option>
                                                 <option value="KETM">KETM</option>
@@ -433,6 +451,16 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             </select>
                                         </div>
                                     </div>
+                                    {data['kategori'] === 'PRESTASI KEJUARAAN' && (
+                                        <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
+                                            <div className="w-full md:w-1/5 opacity-70">
+                                                Keterangan Kategori
+                                            </div>
+                                            <div className="w-full md:w-4/5">
+                                                <input value={data['keterangan_kategori']} required={data['kategori'] === 'PRESTASI KEJUARAAN'} onChange={e => setData(state => ({...state, keterangan_kategori: e.target.value}))} type="text" className="w-full px-3 py-2 rounded-lg border" placeholder="Keterangan untuk Prestasi Kejuaraan" />
+                                            </div>
+                                        </div>
+                                    )}
                                     <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
                                         <div className="w-full md:w-1/5 opacity-70">
                                             NIK
@@ -446,7 +474,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Alat Transportasi
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['alat_transport']} onChange={e => setData(state => ({...state, alat_transport: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['alat_transport']} onChange={e => setData(state => ({...state, alat_transport: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Alat Transportasi --</option>
                                                 <option value="ANGKUTAN UMUM">Angkutan Umum</option>
                                                 <option value="ANTAR JEMPUT SEKOLAH">Antar Jemput Sekolah</option>
@@ -477,19 +505,19 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Jarak ke Sekolah (km)
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['jarak']} onChange={e => setData(state => ({...state, jarak: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['jarak']} onChange={e => setData(state => ({...state, jarak: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Jarak --</option>
-                                                <option value="0 - 1 km">0 - 1 km</option>
-                                                <option value="1 - 3 km">1 - 3 km</option>
-                                                <option value="3 - 5 km">3 - 5 km</option>
-                                                <option value="5 - 10 km">5 - 10 km</option>
-                                                <option value="> 10 km">&gt; 10 km</option>
+                                                <option value="0 - 1 km">0 - 1</option>
+                                                <option value="1 - 3 km">1 - 3</option>
+                                                <option value="3 - 5 km">3 - 5</option>
+                                                <option value="5 - 10 km">5 - 10</option>
+                                                <option value="> 10 km">&gt; 10</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
                                         <div className="w-full md:w-1/5 opacity-70">
-                                            Lingkar Kepala
+                                            Lingkar Kepala (cm)
                                         </div>
                                         <div className="w-full md:w-4/5">
                                             <input value={data['lingkar_kepala']} onChange={e => setData(state => ({...state, lingkar_kepala: e.target.value}))} type="text" required className="w-full px-3 py-2 rounded-lg border" placeholder="Lingkar Kepala" />
@@ -497,7 +525,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                     </div>
                                     <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
                                         <div className="w-full md:w-1/5 opacity-70">
-                                            Waktu dari Rumah ke Sekolah
+                                            Waktu dari Rumah ke Sekolah (menit)
                                         </div>
                                         <div className="w-full md:w-4/5">
                                             <input value={data['waktu_dari_rumah_ke_sekolah']} onChange={e => setData(state => ({...state, waktu_dari_rumah_ke_sekolah: e.target.value}))} type="text" required className="w-full px-3 py-2 rounded-lg border" placeholder="Waktu dari Rumah ke Sekolah" />
@@ -524,7 +552,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Tinggal 
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['tinggal']} onChange={e => setData(state => ({...state, tinggal: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['tinggal']} onChange={e => setData(state => ({...state, tinggal: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih --</option>
                                                 <option value="Bersama Orang Tua">Bersama Orang Tua</option>
                                                 <option value="Wali">Bersama Wali</option>
@@ -555,7 +583,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             No Ijazah
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <input value={data['no_ijazah']} onChange={e => setData(state => ({...state, no_ijazah: e.target.value}))} type="text" required className="w-full px-3 py-2 rounded-lg border" placeholder="No Ijazah" />
+                                            <input value={data['no_ijazah']} onChange={e => setData(state => ({...state, no_ijazah: e.target.value}))} type="text" className="w-full px-3 py-2 rounded-lg border" placeholder="No Ijazah" />
                                         </div>
                                     </div>
                                     <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
@@ -563,7 +591,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Tanggal Ijazah
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <input value={data['tgl_ijazah']} onChange={e => setData(state => ({...state, tgl_ijazah: e.target.value}))} type="date" required className="w-full px-3 py-2 rounded-lg border" placeholder="No Ijazah" />
+                                            <input value={data['tgl_ijazah']} onChange={e => setData(state => ({...state, tgl_ijazah: e.target.value}))} type="date" className="w-full px-3 py-2 rounded-lg border" placeholder="No Ijazah" />
                                         </div>
                                     </div>
                                 </div>
@@ -626,10 +654,10 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Pekerjaan Ayah
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['pekerjaan_ayah']} onChange={e => setData(state => ({...state, pekerjaan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['pekerjaan_ayah']} onChange={e => setData(state => ({...state, pekerjaan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Pekerjaan --</option>
                                                 <option value="BURUH">Buruh</option>
-                                                <option value="TIDAK BEKERJA">Tidak Bekerja</option>
+                                                <option value="MENGURUS RUMAH TANGGA">Mengurus Rumah Tangga</option>
                                                 <option value="GURU/DOSEN">Guru / Dosen</option>
                                                 <option value="PEDAGANG/WIRASWASTA">Pedagang / Wiraswasta</option>
                                                 <option value="PEGAWAI SWASTA">Pegawai Swasta</option>
@@ -644,7 +672,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Pendidikan Terakhir Ayah
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['pendidikan_ayah']} onChange={e => setData(state => ({...state, pendidikan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['pendidikan_ayah']} onChange={e => setData(state => ({...state, pendidikan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Pendidikan --</option>
                                                 <option value="TIDAK TAMAT SD/MI/PAKET A">Tidak Tamat SD / MI / Paket A</option>
                                                 <option value="SD/MI/PAKET A">SD / MI / Paket A</option>
@@ -663,7 +691,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Penghasilan Ayah
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['penghasilan_ayah']} onChange={e => setData(state => ({...state, penghasilan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['penghasilan_ayah']} onChange={e => setData(state => ({...state, penghasilan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Penghasilan --</option>
                                                 <option value="< Rp. 1.000.000">&lt; Rp. 1.000.000</option>
                                                 <option value="Rp. 1.000.000 - Rp. 3.000.000">Rp. 1.000.000 - Rp. 3.000.000</option>
@@ -724,10 +752,10 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Pekerjaan Ibu
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['pekerjaan_ibu']} onChange={e => setData(state => ({...state, pekerjaan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['pekerjaan_ibu']} onChange={e => setData(state => ({...state, pekerjaan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Pekerjaan --</option>
                                                 <option value="BURUH">Buruh</option>
-                                                <option value="TIDAK BEKERJA">Tidak Bekerja</option>
+                                                <option value="MENGURUS RUMAH TANGGA">Mengurus Rumah Tangga</option>
                                                 <option value="GURU/DOSEN">Guru / Dosen</option>
                                                 <option value="PEDAGANG/WIRASWASTA">Pedagang / Wiraswasta</option>
                                                 <option value="PEGAWAI SWASTA">Pegawai Swasta</option>
@@ -742,7 +770,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Pendidikan Terakhir Ibu
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['pendidikan_ibu']} onChange={e => setData(state => ({...state, pendidikan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['pendidikan_ibu']} onChange={e => setData(state => ({...state, pendidikan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Pendidikan --</option>
                                                 <option value="TIDAK TAMAT SD/MI/PAKET A">Tidak Tamat SD / MI / Paket A</option>
                                                 <option value="SD/MI/PAKET A">SD / MI / Paket A</option>
@@ -761,7 +789,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Penghasilan Ibu
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select value={data['penghasilan_ibu']} onChange={e => setData(state => ({...state, penghasilan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required value={data['penghasilan_ibu']} onChange={e => setData(state => ({...state, penghasilan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Penghasilan --</option>
                                                 <option value="< Rp. 1.000.000">&lt; Rp. 1.000.000</option>
                                                 <option value="Rp. 1.000.000 - Rp. 3.000.000">Rp. 1.000.000 - Rp. 3.000.000</option>
@@ -778,9 +806,17 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                         <hr className="flex-grow" />
                                     </div>
 
-                                    <div className="flex items-center gap-3">
-                                        <input type="checkbox" id="hubungan_dengan_wali" checked={bersamaWali} onChange={() => setBersamaWali(state => !state)} />
-                                        <label htmlFor="hubungan_dengan_wali" className="opacity-70 hover:opacity-100 cursor-pointer">Bersama Wali?</label>
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <input type="checkbox" id="hubungan_dengan_wali" checked={bersamaWali} onChange={() => setBersamaWali(state => !state)} />
+                                            <label htmlFor="hubungan_dengan_wali" className="opacity-70 hover:opacity-100 cursor-pointer">Bersama Wali?</label>
+                                        </div>
+                                        {!bersamaWali && (
+                                            <button type="submit" className="md:w-fit w-1/2 px-3 py-2 rounded-lg flex items-center justify-center gap-3 bg-green-500 hover:bg-green-400 focus:bg-green-600 text-white">
+                                                <FontAwesomeIcon icon={faSave} className="w-4 h-4 text-inherit" />
+                                                Simpan
+                                            </button>
+                                        )}
                                     </div>
                                     {bersamaWali && (
                                         <>
@@ -789,23 +825,17 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     Hubungan dengan Wali
                                                 </div>
                                                 <div className="w-full md:w-4/5">
-                                                    <select value={data['hubungan_wali']} onChange={e => setData(state => ({...state, hubungan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                                    <select required value={data['hubungan_wali']} onChange={e => setData(state => ({...state, hubungan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                         <option value="" disabled>-- Pilih --</option>
-                                                        <option value="AYAH">Ayah</option>
-                                                        <option value="AYAH KANDUNG">Ayah Kandung</option>
                                                         <option value="AYAH SAMBUNG">Ayah Sambung</option>
-                                                        <option value="BIBI">Bibi</option>
-                                                        <option value="Ibu">Ibu</option>
-                                                        <option value="KAKA KANDUNG">Kakak Kandung</option>
-                                                        <option value="KAKAK">Kakak</option>
-                                                        <option value="KAKAK IPAR">Kakak Ipar</option>
+                                                        <option value="IBU SAMBUNG">Ibu Sambung</option>
                                                         <option value="KAKAK KANDUNG">Kakak Kandung</option>
+                                                        <option value="KAKAK IPAR">Kakak Ipar</option>
                                                         <option value="KAKEK">Kakek</option>
                                                         <option value="NENEK">Nenek</option>
-                                                        <option value="ORANG TUA">Orang Tua</option>
                                                         <option value="PAMAN">Paman</option>
+                                                        <option value="BIBI">Bibi</option>
                                                         <option value="SAUDARA">Saudara</option>
-                                                        <option value="TANTE">Tante</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -854,10 +884,10 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     Pekerjaan Wali
                                                 </div>
                                                 <div className="w-full md:w-4/5">
-                                                    <select value={data['pekerjaan_wali']} onChange={e => setData(state => ({...state, pekerjaan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                                    <select required value={data['pekerjaan_wali']} onChange={e => setData(state => ({...state, pekerjaan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                         <option value="" disabled>-- Pilih Pekerjaan --</option>
                                                         <option value="BURUH">Buruh</option>
-                                                        <option value="TIDAK BEKERJA">Tidak Bekerja</option>
+                                                        <option value="MENGURUS RUMAH TANGGA">Mengurus Rumah Tangga</option>
                                                         <option value="GURU/DOSEN">Guru / Dosen</option>
                                                         <option value="PEDAGANG/WIRASWASTA">Pedagang / Wiraswasta</option>
                                                         <option value="PEGAWAI SWASTA">Pegawai Swasta</option>
@@ -872,7 +902,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     Pendidikan Terakhir Wali
                                                 </div>
                                                 <div className="w-full md:w-4/5">
-                                                    <select value={data['pendidikan_wali']} onChange={e => setData(state => ({...state, pendidikan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                                    <select required value={data['pendidikan_wali']} onChange={e => setData(state => ({...state, pendidikan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                         <option value="" disabled>-- Pilih Pendidikan --</option>
                                                         <option value="TIDAK TAMAT SD/MI/PAKET A">Tidak Tamat SD / MI / Paket A</option>
                                                         <option value="SD/MI/PAKET A">SD / MI / Paket A</option>
@@ -891,7 +921,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     Penghasilan Wali
                                                 </div>
                                                 <div className="w-full md:w-4/5">
-                                                    <select value={data['penghasilan_wali']} onChange={e => setData(state => ({...state, penghasilan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                                    <select required value={data['penghasilan_wali']} onChange={e => setData(state => ({...state, penghasilan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                         <option value="" disabled>-- Pilih Penghasilan --</option>
                                                         <option value="< Rp. 1.000.000">&lt; Rp. 1.000.000</option>
                                                         <option value="Rp. 1.000.000 - Rp. 3.000.000">Rp. 1.000.000 - Rp. 3.000.000</option>
@@ -901,13 +931,19 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div className="flex items-center justify-end">
+                                                <button type="submit" className="md:w-fit w-1/2 px-3 py-2 rounded-lg flex items-center justify-center gap-3 bg-green-500 hover:bg-green-400 focus:bg-green-600 text-white">
+                                                    <FontAwesomeIcon icon={faSave} className="w-4 h-4 text-inherit" />
+                                                    Simpan
+                                                </button>
+                                            </div>
                                         </>
                                     )}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div>
+                    <div id="content_print" className="hidden">
                         <hr className="my-5 opacity-0" />
                         <p>Halaman ini hanya diperuntukkan melihat sekilas layout untuk hasil print saja.</p>
                         <hr className="my-5 opacity-0" />
@@ -915,9 +951,9 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                             <div  ref={componentPDF_1} style={{
                                 width: `${mmToPx(210) * 1.5}px`, height: `${mmToPx(330) * 1.5}px`
                             }} className="bg-white flex-shrink-0 px-10 py-10">
-                                <div className="flex items-center w-full px-20 ">
+                                <div className="flex items-center w-full px-10 text-lg">
                                     <div className="w-fit flex items-center justify-start">
-                                        <Image src={'/jabar.gif'} width={200} height={200} />
+                                        <Image src={'/jabar.gif'} width={160} height={160} />
                                     </div>
                                     <div className={`w-full font-bold tracking-tighter text-center`}>
                                         <h1 className="font-bold tracking-tighter text-center">
@@ -929,37 +965,37 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                         <h3 className="font-bold tracking-tighter text-center">
                                             CABANG DINAS PENDIDIKAN WILAYAH VII
                                         </h3>
-                                        <p className="font-bold tracking-tighter text-center text-3xl">
+                                        <p className="font-bold tracking-tighter text-center">
                                             SMK PEKERJAAN UMUM NEGERI BANDUNG
                                         </p>
-                                        <p className="text-lg tracking-tight">
+                                        <p className="text-sm tracking-tight">
                                             Jl. Garut No. 10 Telp./Fax (022) 7208317 BANDUNG 40271
                                         </p>
-                                        <p className="text-lg tracking-tight">
+                                        <p className="text-sm tracking-tight">
                                             Website : <span className="italic text-blue-600 underline decoration-blue-600">http://www.smkpunegerijabar.sch.id</span>
                                         </p>
-                                        <p className="text-lg tracking-tight">
+                                        <p className="text-sm tracking-tight">
                                             Email : <span className="italic text-blue-600 underline decoration-blue-600">info@smkpunegerijabar.sch.id</span>
                                         </p>
                                     </div>
                                     <div className="w-fit flex items-center justify-end">
-                                        <Image src={'/logo-sekolah-2.png'} width={160} height={160} />
+                                        <Image src={'/logo-sekolah-2.png'} width={120} height={120} />
                                     </div>
                                 </div>
-                                <div className="px-5 pt-5">
+                                <div className=" pt-5">
                                     <div className="w-full border-4 border-zinc-700"></div>
                                 </div>
-                                <div className="">
+                                <div className="text-lg">
                                     <hr className="my-3 opacity-0" />
-                                    <h1 className="text-center font-extrabold text-3xl">
+                                    <h1 className="text-center font-extrabold text-lg">
                                         FORMULIR DAFTAR ULANG
                                     </h1>
-                                    <h1 className="text-center font-extrabold text-3xl">
+                                    <h1 className="text-center font-extrabold text-lg">
                                         PESERTA DIDIK BARU {date_getYear()}
                                     </h1>
                                     <hr className="my-5 opacity-0" /> 
-                                    <h1 className="font-bold text-3xl">IDENTITAS PESERTA DIDIK</h1>
-                                    <div className="flex mt-3 text-xl gap-10">
+                                    <h1 className="font-bold text-2xl">IDENTITAS PESERTA DIDIK</h1>
+                                    <div className="flex mt-3 text-lg gap-10">
                                         <div className="w-1/2 space-y-5 ">
                                             <div className="flex items-center gap-2">
                                                 <div className="flex justify-between items-center w-2/5">
@@ -993,7 +1029,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p className="font-extrabold flex-grow">Rombongan Pelajar</p>
                                                     <p className="font-extrabold">:</p>
                                                 </div>
-                                                <p className="w-3/5">X - {formatRombel[data['id_rombel']]} - 1</p>
+                                                <p className="w-3/5">X - {formatRombel[data['id_rombel']]}</p>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <div className="flex justify-between items-center w-2/5">
@@ -1010,7 +1046,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p className="font-extrabold">:</p>
                                                 </div>
                                                 <p className="w-3/5">
-                                                    {data['tempat_lahir_siswa']}, {data['tgl_lahir_siswa'].split('-').reverse().join('/')}
+                                                    {data['tempat_lahir_siswa']}, {date_getDay(data['tgl_lahir_siswa'])} {date_getMonth('string', data['tgl_lahir_siswa'])} {date_getYear(data['tgl_lahir_siswa'])}
                                                 </p>
                                             </div>
                                             <div className="flex items-center gap-2">
@@ -1061,7 +1097,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                 </p>
                                             </div>
                                             <hr className="my-8 border border-zinc-700" />
-                                            <h1 className="font-bold text-3xl">DATA PERIODIK</h1>
+                                            <h1 className="font-bold text-2xl">DATA PERIODIK</h1>
                                             <div className="mt-3 space-y-3">
                                                 <div className="flex items-center gap-2">
                                                     <div className="flex justify-between items-center w-2/5">
@@ -1103,90 +1139,90 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                         </div>
                                     </div>
                                     <hr className="my-8 opacity-0" />
-                                    <h1 className="font-bold text-3xl">DATA ORANG TUA DAN WALI SISWA</h1>
+                                    <h1 className="font-bold text-2xl">DATA ORANG TUA DAN WALI SISWA</h1>
                                     <hr className="my-3 opacity-0" />
                                     <div className="grid grid-cols-12 border-b-4 py-3 px-1">
-                                        <div className="col-span-3 flex items-center font-bold text-2xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             
                                         </div>
-                                        <div className="col-span-3 flex items-center font-bold text-2xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             Ayah
                                         </div>
-                                        <div className="col-span-3 flex items-center font-bold text-2xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             Ibu
                                         </div>
-                                        <div className="col-span-3 flex items-center font-bold text-2xl">
+                                        <div className="col-span-3 flex items-center font-bold text-lg">
                                             Wali
                                         </div>
                                     </div>
                                     <div className="divide-y">
                                         <div className="grid grid-cols-12 py-4 px-1">
-                                            <div className="col-span-3 flex items-center font-bold text-xl">
+                                            <div className="col-span-3 flex items-center font-bold text-lg">
                                                 Nama
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['nama_ayah']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['nama_ibu']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {bersamaWali ? data['nama_wali'] : '-'}
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-12 py-4 px-1">
-                                            <div className="col-span-3 flex items-center font-bold text-xl">
+                                            <div className="col-span-3 flex items-center font-bold text-lg">
                                                 No. Telepon
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['no_telp_ayah']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                                 {data['no_telp_ibu']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                                 {bersamaWali ? data['no_telp_wali'] : '-'}
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-12 py-4 px-1">
-                                            <div className="col-span-3 flex items-center font-bold text-xl">
+                                            <div className="col-span-3 flex items-center font-bold text-lg">
                                                 Pekerjaan
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['pekerjaan_ayah']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['pekerjaan_ibu']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {bersamaWali ? data['pekerjaan_wali'] : '-'}
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-12 py-4 px-1">
-                                            <div className="col-span-3 flex items-center font-bold text-xl">
+                                            <div className="col-span-3 flex items-center font-bold text-lg">
                                                 Pendidikan
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['pendidikan_ayah']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['pendidikan_ibu']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {bersamaWali ? data['pendidikan_wali'] : '-'}
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-12 py-4 px-1">
-                                            <div className="col-span-3 flex items-center font-bold text-xl">
+                                            <div className="col-span-3 flex items-center font-bold text-lg">
                                                 Penghasilan
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['penghasilan_ayah']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {data['penghasilan_ibu']}
                                             </div>
-                                            <div className="col-span-3 text-xl flex items-center">
+                                            <div className="col-span-3 text-lg flex items-center">
                                             {bersamaWali ? data['penghasilan_wali'] : '-'}
                                             </div>
                                         </div>
@@ -1219,11 +1255,11 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                             <div ref={componentPDF_2} style={{ 
                                 width: `${(mmToPx(210) * 1.5)}px`, 
                                 height: `${(mmToPx(330) * 1.5)}px`,
-                            }} className={`bg-white flex-shrink-0 text-2xl`}
+                            }} className={`bg-white flex-shrink-0 text-lg`}
                             >
                                 <div className="flex items-center w-full px-20 pt-10">
                                     <div className="w-fit flex items-center justify-start">
-                                        <Image src={'/jabar.gif'} width={200} height={200} />
+                                        <Image src={'/jabar.gif'} width={160} height={160} />
                                     </div>
                                     <div className={`w-full font-bold tracking-tighter text-center`}>
                                         <h1 className="font-bold tracking-tighter text-center">
@@ -1235,41 +1271,41 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                         <h3 className="font-bold tracking-tighter text-center">
                                             CABANG DINAS PENDIDIKAN WILAYAH VII
                                         </h3>
-                                        <p className="font-bold tracking-tighter text-center text-3xl">
+                                        <p className="font-bold tracking-tighter text-center">
                                             SMK PEKERJAAN UMUM NEGERI BANDUNG
                                         </p>
-                                        <p className="text-lg tracking-tight">
+                                        <p className="text-sm tracking-tight">
                                             Jl. Garut No. 10 Telp./Fax (022) 7208317 BANDUNG 40271
                                         </p>
-                                        <p className="text-lg tracking-tight">
+                                        <p className="text-sm tracking-tight">
                                             Website : <span className="italic text-blue-600 underline decoration-blue-600">http://www.smkpunegerijabar.sch.id</span>
                                         </p>
-                                        <p className="text-lg tracking-tight">
+                                        <p className="text-sm tracking-tight">
                                             Email : <span className="italic text-blue-600 underline decoration-blue-600">info@smkpunegerijabar.sch.id</span>
                                         </p>
                                     </div>
                                     <div className="w-fit flex items-center justify-end">
-                                        <Image src={'/logo-sekolah-2.png'} width={160} height={160} />
+                                        <Image src={'/logo-sekolah-2.png'} width={120} height={120} />
                                     </div>
                                 </div>
-                                <div className="px-5 pt-5 mb-8">
+                                <div className="px-10 pt-5 mb-8">
                                     <div className="w-full border-4 border-zinc-700"></div>
                                 </div>
                                 <h1 className="text-center font-extrabold">LEMBAR BUKU INDUK SMK</h1>
-                                <h2 className="text-center font-extrabold">TAHUN PELAJARAN 2021/2022</h2>
+                                <h2 className="text-center font-extrabold">TAHUN PELAJARAN {date_getYear()}/{Number(date_getYear()) + 1}</h2>
                                 <hr className="my-3 opacity-0" />
                                 <div className="px-20">
                                     <div className="flex w-1/2 items-center gap-2 text-lg">
-                                        <p className="w-2/3">Kelas</p>
-                                        <p className="w-1/3 font-medium">: X {formatRombel[data.id_rombel]} 1</p>
+                                        <p className="w-2/3">Kompetensi Keahlian</p>
+                                        <p className="w-1/3 font-medium">: X {formatRombel[data.id_rombel]}</p>
                                     </div>
                                     <div className="flex w-1/2 items-center gap-2 text-lg">
                                         <p className="w-2/3">No Induk Sekolah</p>
-                                        <p className="w-1/3 font-medium">: {data.nis}</p>
+                                        <p className="w-1/3 font-medium">: {data.nis || '-'}</p>
                                     </div>
                                     <div className="flex w-1/2 items-center gap-2 text-lg">
                                         <p className="w-2/3">No Induk Siswa Nasional</p>
-                                        <p className="w-1/3 font-medium">: {data.nisn}</p>
+                                        <p className="w-1/3 font-medium">: {data.nisn || '-'}</p>
                                     </div>
                                     <hr className="my-3 opacity-0" />
                                     <div className="px-10 text-lg">
@@ -1284,7 +1320,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>1.</p>
                                                     <p>Nama</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.nama_siswa}</p>
+                                                <p className="font-medium w-2/3">: {data.nama_siswa || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1294,7 +1330,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>2.</p>
                                                     <p>NIK</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.nik}</p>
+                                                <p className="font-medium w-2/3">: {data.nik || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1304,7 +1340,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>3.</p>
                                                     <p>Jenis Kelamin</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.jk_siswa}</p>
+                                                <p className="font-medium w-2/3">: {data.jk_siswa || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1314,7 +1350,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>4.</p>
                                                     <p>Tempat dan Tanggal Lahir</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.tempat_lahir_siswa}, {data.tgl_lahir_siswa.split('-').reverse().join('/')}</p>
+                                                <p className="font-medium w-2/3">: {data.tempat_lahir_siswa || '-'}, {date_getDay(data['tgl_lahir_siswa'])} {date_getMonth('string', data['tgl_lahir_siswa'])} {date_getYear(data['tgl_lahir_siswa'])}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1324,7 +1360,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>5.</p>
                                                     <p>Agama</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.agama}</p>
+                                                <p className="font-medium w-2/3">: {data.agama || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1334,7 +1370,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                                     <p>6.</p>
                                                     <p>Anak ke</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.anak_ke_berapa}</p>
+                                                <p className="font-medium w-2/3">: {data.anak_ke_berapa || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1342,19 +1378,9 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             <div className="flex items-center gap-5 w-full">
                                                 <div className="flex items-center gap-5 w-1/3">
                                                     <p>7.</p>
-                                                    <p>Status dalam Keluarga</p>
-                                                </div>
-                                                <p className="font-medium w-2/3">: {data.status_anak}</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-5 w-full">
-                                            <p className="opacity-0">A.</p>
-                                            <div className="flex items-center gap-5 w-full">
-                                                <div className="flex items-center gap-5 w-1/3">
-                                                    <p>8.</p>
                                                     <p className="">No Telp</p>
                                                 </div>
-                                                <p className="font-medium w-2/3">: {data.no_telp_siswa}</p>
+                                                <p className="font-medium w-2/3">: {data.no_telp_siswa || '-'}</p>
                                             </div>
                                         </div>
                                         <hr className="my-3 opacity-0" />
@@ -1366,10 +1392,10 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             <p className="opacity-0">A.</p>
                                             <div className="flex  gap-5 w-full">
                                                 <div className="flex gap-5 w-1/3">
-                                                    <p>9.</p>
+                                                    <p>8.</p>
                                                     <p>Alamat</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.alamat_siswa}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.alamat_siswa || '-'}</p>
                                             </div>
                                         </div>
                                         <hr className="my-3 opacity-0" />
@@ -1381,10 +1407,20 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             <p className="opacity-0">A.</p>
                                             <div className="flex items-center gap-5 w-full">
                                                 <div className="flex items-center gap-5 w-1/3">
-                                                    <p>10.</p>
+                                                    <p>9.</p>
                                                     <p>Asal Sekolah</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.asal_sekolah}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.asal_sekolah || '-'}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-5 w-full">
+                                            <p className="opacity-0">A.</p>
+                                            <div className="flex items-center gap-5 w-full">
+                                                <div className="flex items-center gap-5 w-1/3">
+                                                    <p>10.</p>
+                                                    <p>Tahun Masuk</p>
+                                                </div>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.tahun_masuk || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1392,19 +1428,9 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             <div className="flex items-center gap-5 w-full">
                                                 <div className="flex items-center gap-5 w-1/3">
                                                     <p>11.</p>
-                                                    <p>Tahun Masuk</p>
-                                                </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.tahun_masuk}</p>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-5 w-full">
-                                            <p className="opacity-0">A.</p>
-                                            <div className="flex items-center gap-5 w-full">
-                                                <div className="flex items-center gap-5 w-1/3">
-                                                    <p>12.</p>
                                                     <p>Jalur Masuk</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.kategori}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.kategori || '-'}</p>
                                             </div>
                                         </div>
                                         <hr className="my-3 opacity-0" />
@@ -1416,10 +1442,20 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             <p className="opacity-0">A.</p>
                                             <div className="flex items-center gap-5 w-full">
                                                 <div className="flex items-center gap-5 w-1/3">
-                                                    <p>13.</p>
+                                                    <p>12.</p>
                                                     <p>Nama Ayah</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.nama_ayah}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.nama_ayah || '-'}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-5 w-full">
+                                            <p className="opacity-0">A.</p>
+                                            <div className="flex items-center gap-5 w-full">
+                                                <div className="flex items-center gap-5 w-1/3">
+                                                    <p>13.</p>
+                                                    <p>Pekerjaan Ayah</p>
+                                                </div>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.pekerjaan_ayah || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1427,9 +1463,9 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             <div className="flex items-center gap-5 w-full">
                                                 <div className="flex items-center gap-5 w-1/3">
                                                     <p>14.</p>
-                                                    <p>Pekerjaan Ayah</p>
+                                                    <p>No Telp Ayah</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.pekerjaan_ayah}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.no_telp_ayah || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1437,9 +1473,9 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             <div className="flex items-center gap-5 w-full">
                                                 <div className="flex items-center gap-5 w-1/3">
                                                     <p>15.</p>
-                                                    <p>No Telp Ayah</p>
+                                                    <p>Nama Ibu</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.no_telp_ayah}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.nama_ibu || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1447,9 +1483,9 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             <div className="flex items-center gap-5 w-full">
                                                 <div className="flex items-center gap-5 w-1/3">
                                                     <p>16.</p>
-                                                    <p>Nama Ibu</p>
+                                                    <p>Pekerjaan Ibu</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.nama_ibu}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.pekerjaan_ibu || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1457,9 +1493,9 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             <div className="flex items-center gap-5 w-full">
                                                 <div className="flex items-center gap-5 w-1/3">
                                                     <p>17.</p>
-                                                    <p>Pekerjaan Ibu</p>
+                                                    <p>No Telp Ibu</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.pekerjaan_ibu}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.no_telp_ibu || '-'}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
@@ -1467,31 +1503,62 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             <div className="flex items-center gap-5 w-full">
                                                 <div className="flex items-center gap-5 w-1/3">
                                                     <p>18.</p>
-                                                    <p>No Telp Ibu</p>
+                                                    <p>No Kartu Keluarga</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.no_telp_ibu}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.no_kk || '-'}</p>
                                             </div>
+                                        </div>
+                                        <hr className="my-3 opacity-0" />
+                                        <div className="font-bold flex items-center gap-5">
+                                            <p>D.</p>
+                                            <p>KETERANGAN WALI</p>
                                         </div>
                                         <div className="flex items-center gap-5 w-full">
                                             <p className="opacity-0">A.</p>
                                             <div className="flex items-center gap-5 w-full">
                                                 <div className="flex items-center gap-5 w-1/3">
                                                     <p>19.</p>
-                                                    <p>No Kartu Keluarga</p>
+                                                    <p>Nama Wali</p>
                                                 </div>
-                                                <p className="font-medium w-2/3 text-wrap">: {data.no_kk}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.nama_wali || '-'}</p>
                                             </div>
                                         </div>
-                                        <hr className="my-5 opacity-0" />
-                                        <div className="flex items-center w-full gap-5">
-                                            <div className="w-1/2"></div>
-                                            <div className="w-1/2 flex flex-col items-center">
-                                                <div className="w-[113.39px] h-[151.18px] border-2 flex items-center justify-center bg-green-500/10 font-bold">
-                                                    <p className="text-zinc-500 text-3xl">3x4</p>
+                                        <div className="flex items-center gap-5 w-full">
+                                            <p className="opacity-0">A.</p>
+                                            <div className="flex items-center gap-5 w-full">
+                                                <div className="flex items-center gap-5 w-1/3">
+                                                    <p>20.</p>
+                                                    <p>Pekerjaan Wali</p>
                                                 </div>
-                                                <p className="text-sm">tanda tangan siswa dan cap tiga jari</p>
-                                                <hr className="my-12 opacity-0" />
-                                                <p className="font-bold">{data.nama_siswa}</p>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.pekerjaan_wali || '-'}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-5 w-full">
+                                            <p className="opacity-0">A.</p>
+                                            <div className="flex items-center gap-5 w-full">
+                                                <div className="flex items-center gap-5 w-1/3">
+                                                    <p>21.</p>
+                                                    <p>No Telp Wali</p>
+                                                </div>
+                                                <p className="font-medium w-2/3 text-wrap">: {data.no_telp_wali || '-'}</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <hr className="my-5 opacity-0" />
+                                        <div className="flex items-center w-full gap-5 h-full">
+                                            <div className="w-1/2 h-full"></div>
+                                            <div className="w-1/2 flex items-center justify-center gap-5 h-full">
+                                                <div className="w-[113.39px] h-[151.18px] border-2 border-zinc-700 flex items-center justify-center  font-bold flex-shrink-0">
+                                                    <p className="text-zinc-500/0 text-3xl">3x4</p>
+                                                </div>
+                                                <div className="w-full flex flex-col justify-between h-60 ">
+                                                    <p className="text-center">
+                                                        Bandung, ...................................
+                                                    </p>
+                                                    <p className="text-center font-bold">
+                                                        {data['nama_siswa']}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

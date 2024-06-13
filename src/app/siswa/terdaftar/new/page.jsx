@@ -645,7 +645,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         <select required value={data['pekerjaan_ibu']} onChange={e => setData(state => ({...state, pekerjaan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Pekerjaan --</option>
                                             <option value="BURUH">Buruh</option>
-                                            <option value="TIDAK BEKERJA">Tidak Bekerja</option>
+                                            <option value="MENGURUS RUMAH TANGGA">Mengurus Rumah Tangga</option>
                                             <option value="GURU/DOSEN">Guru / Dosen</option>
                                             <option value="PEDAGANG/WIRASWASTA">Pedagang / Wiraswasta</option>
                                             <option value="PEGAWAI SWASTA">Pegawai Swasta</option>
@@ -777,7 +777,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                                 <select required value={data['pekerjaan_wali']} onChange={e => setData(state => ({...state, pekerjaan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                     <option value="" disabled>-- Pilih Pekerjaan --</option>
                                                     <option value="BURUH">Buruh</option>
-                                                    <option value="TIDAK BEKERJA">Tidak Bekerja</option>
+                                                    <option value="MENGURUS RUMAH TANGGA">Mengurus Rumah Tangga</option>
                                                     <option value="GURU/DOSEN">Guru / Dosen</option>
                                                     <option value="PEDAGANG/WIRASWASTA">Pedagang / Wiraswasta</option>
                                                     <option value="PEGAWAI SWASTA">Pegawai Swasta</option>
