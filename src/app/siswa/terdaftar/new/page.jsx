@@ -183,18 +183,6 @@ export default function SiswaTerdaftarUpdatePage() {
                             <div className="space-y-2">
                                 <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
                                     <div className="w-full md:w-1/5 opacity-70">
-                                       Tahap
-                                    </div>
-                                    <div className="w-full md:w-4/5">
-                                        <select value={data['tahap']} required onChange={e => setData(state => ({...state, tahap: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer" >
-                                            <option value="" disabled>-- Pilih Tahap --</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
-                                    <div className="w-full md:w-1/5 opacity-70">
                                         No Pendaftaran
                                     </div>
                                     <div className="w-full md:w-4/5">
@@ -222,7 +210,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Jurusan
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['id_rombel']} onChange={e => setData(state => ({...state, id_rombel: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['id_rombel']} onChange={e => setData(state => ({...state, id_rombel: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Jurusan --</option>
                                             {Object.keys(formatRombel).map((rombel, index) => (
                                                 <option key={index} value={rombel}>
@@ -245,7 +233,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Jenis Kelamin
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['jk_siswa']} onChange={e => setData(state => ({...state, jk_siswa: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['jk_siswa']} onChange={e => setData(state => ({...state, jk_siswa: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Jenis Kelamin --</option>
                                             <option value="Laki - laki">Laki - laki</option>
                                             <option value="Perempuan">Perempuan</option>
@@ -297,7 +285,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Agama
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['agama']} onChange={e => setData(state => ({...state, agama: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['agama']} onChange={e => setData(state => ({...state, agama: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Agama --</option>
                                             <option value="ISLAM">Islam</option>
                                             <option value="PROTESTAN">Protestan</option>
@@ -328,7 +316,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Kategori
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['kategori']} onChange={e => setData(state => ({...state, kategori: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['kategori']} onChange={e => setData(state => ({...state, kategori: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Kategori --</option>
                                             <option value="ABK">ABK</option>
                                             <option value="KETM">KETM</option>
@@ -341,6 +329,16 @@ export default function SiswaTerdaftarUpdatePage() {
                                         </select>
                                     </div>
                                 </div>
+                                {data['kategori'] === 'PRESTASI KEJUARAAN' && (
+                                    <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
+                                        <div className="w-full md:w-1/5 opacity-70">
+                                            Keterangan Kategori
+                                        </div>
+                                        <div className="w-full md:w-4/5">
+                                            <input value={data['keterangan_kategori']} required={data['kategori'] === 'PRESTASI KEJUARAAN'} onChange={e => setData(state => ({...state, keterangan_kategori: e.target.value}))} type="text" className="w-full px-3 py-2 rounded-lg border" placeholder="Keterangan untuk Prestasi Kejuaraan" />
+                                        </div>
+                                    </div>
+                                )}
                                 <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
                                     <div className="w-full md:w-1/5 opacity-70">
                                         NIK
@@ -354,7 +352,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Alat Transportasi
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['alat_transport']} onChange={e => setData(state => ({...state, alat_transport: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['alat_transport']} onChange={e => setData(state => ({...state, alat_transport: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Alat Transportasi --</option>
                                             <option value="ANGKUTAN UMUM">Angkutan Umum</option>
                                             <option value="ANTAR JEMPUT SEKOLAH">Antar Jemput Sekolah</option>
@@ -385,19 +383,19 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Jarak ke Sekolah (km)
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['jarak']} onChange={e => setData(state => ({...state, jarak: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['jarak']} onChange={e => setData(state => ({...state, jarak: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Jarak --</option>
-                                            <option value="0 - 1 km">0 - 1 km</option>
-                                            <option value="1 - 3 km">1 - 3 km</option>
-                                            <option value="3 - 5 km">3 - 5 km</option>
-                                            <option value="5 - 10 km">5 - 10 km</option>
-                                            <option value="> 10 km">&gt; 10 km</option>
+                                            <option value="0 - 1 km">0 - 1</option>
+                                            <option value="1 - 3 km">1 - 3</option>
+                                            <option value="3 - 5 km">3 - 5</option>
+                                            <option value="5 - 10 km">5 - 10</option>
+                                            <option value="> 10 km">&gt; 10</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
                                     <div className="w-full md:w-1/5 opacity-70">
-                                        Lingkar Kepala
+                                        Lingkar Kepala (cm)
                                     </div>
                                     <div className="w-full md:w-4/5">
                                         <input value={data['lingkar_kepala']} onChange={e => setData(state => ({...state, lingkar_kepala: e.target.value}))} type="text" required className="w-full px-3 py-2 rounded-lg border" placeholder="Lingkar Kepala" />
@@ -405,7 +403,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                 </div>
                                 <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
                                     <div className="w-full md:w-1/5 opacity-70">
-                                        Waktu dari Rumah ke Sekolah
+                                        Waktu dari Rumah ke Sekolah (menit)
                                     </div>
                                     <div className="w-full md:w-4/5">
                                         <input value={data['waktu_dari_rumah_ke_sekolah']} onChange={e => setData(state => ({...state, waktu_dari_rumah_ke_sekolah: e.target.value}))} type="text" required className="w-full px-3 py-2 rounded-lg border" placeholder="Waktu dari Rumah ke Sekolah" />
@@ -432,7 +430,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Tinggal 
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['tinggal']} onChange={e => setData(state => ({...state, tinggal: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['tinggal']} onChange={e => setData(state => ({...state, tinggal: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih --</option>
                                             <option value="Bersama Orang Tua">Bersama Orang Tua</option>
                                             <option value="Wali">Bersama Wali</option>
@@ -463,7 +461,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         No Ijazah
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <input value={data['no_ijazah']} onChange={e => setData(state => ({...state, no_ijazah: e.target.value}))} type="text" required className="w-full px-3 py-2 rounded-lg border" placeholder="No Ijazah" />
+                                        <input value={data['no_ijazah']} onChange={e => setData(state => ({...state, no_ijazah: e.target.value}))} type="text" className="w-full px-3 py-2 rounded-lg border" placeholder="No Ijazah" />
                                     </div>
                                 </div>
                                 <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
@@ -471,7 +469,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Tanggal Ijazah
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <input value={data['tgl_ijazah']} onChange={e => setData(state => ({...state, tgl_ijazah: e.target.value}))} type="date" required className="w-full px-3 py-2 rounded-lg border" placeholder="No Ijazah" />
+                                        <input value={data['tgl_ijazah']} onChange={e => setData(state => ({...state, tgl_ijazah: e.target.value}))} type="date" className="w-full px-3 py-2 rounded-lg border" placeholder="No Ijazah" />
                                     </div>
                                 </div>
                             </div>
@@ -534,10 +532,10 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Pekerjaan Ayah
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['pekerjaan_ayah']} onChange={e => setData(state => ({...state, pekerjaan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['pekerjaan_ayah']} onChange={e => setData(state => ({...state, pekerjaan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Pekerjaan --</option>
                                             <option value="BURUH">Buruh</option>
-                                            <option value="TIDAK BEKERJA">Tidak Bekerja</option>
+                                            <option value="MENGURUS RUMAH TANGGA">Mengurus Rumah Tangga</option>
                                             <option value="GURU/DOSEN">Guru / Dosen</option>
                                             <option value="PEDAGANG/WIRASWASTA">Pedagang / Wiraswasta</option>
                                             <option value="PEGAWAI SWASTA">Pegawai Swasta</option>
@@ -552,7 +550,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Pendidikan Terakhir Ayah
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['pendidikan_ayah']} onChange={e => setData(state => ({...state, pendidikan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['pendidikan_ayah']} onChange={e => setData(state => ({...state, pendidikan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Pendidikan --</option>
                                             <option value="TIDAK TAMAT SD/MI/PAKET A">Tidak Tamat SD / MI / Paket A</option>
                                             <option value="SD/MI/PAKET A">SD / MI / Paket A</option>
@@ -571,7 +569,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Penghasilan Ayah
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['penghasilan_ayah']} onChange={e => setData(state => ({...state, penghasilan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['penghasilan_ayah']} onChange={e => setData(state => ({...state, penghasilan_ayah: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Penghasilan --</option>
                                             <option value="< Rp. 1.000.000">&lt; Rp. 1.000.000</option>
                                             <option value="Rp. 1.000.000 - Rp. 3.000.000">Rp. 1.000.000 - Rp. 3.000.000</option>
@@ -632,7 +630,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Pekerjaan Ibu
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['pekerjaan_ibu']} onChange={e => setData(state => ({...state, pekerjaan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['pekerjaan_ibu']} onChange={e => setData(state => ({...state, pekerjaan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Pekerjaan --</option>
                                             <option value="BURUH">Buruh</option>
                                             <option value="TIDAK BEKERJA">Tidak Bekerja</option>
@@ -650,7 +648,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Pendidikan Terakhir Ibu
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['pendidikan_ibu']} onChange={e => setData(state => ({...state, pendidikan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['pendidikan_ibu']} onChange={e => setData(state => ({...state, pendidikan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Pendidikan --</option>
                                             <option value="TIDAK TAMAT SD/MI/PAKET A">Tidak Tamat SD / MI / Paket A</option>
                                             <option value="SD/MI/PAKET A">SD / MI / Paket A</option>
@@ -669,7 +667,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                         Penghasilan Ibu
                                     </div>
                                     <div className="w-full md:w-4/5">
-                                        <select value={data['penghasilan_ibu']} onChange={e => setData(state => ({...state, penghasilan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                        <select required value={data['penghasilan_ibu']} onChange={e => setData(state => ({...state, penghasilan_ibu: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                             <option value="" disabled>-- Pilih Penghasilan --</option>
                                             <option value="< Rp. 1.000.000">&lt; Rp. 1.000.000</option>
                                             <option value="Rp. 1.000.000 - Rp. 3.000.000">Rp. 1.000.000 - Rp. 3.000.000</option>
@@ -686,9 +684,17 @@ export default function SiswaTerdaftarUpdatePage() {
                                     <hr className="flex-grow" />
                                 </div>
 
-                                <div className="flex items-center gap-3">
-                                    <input type="checkbox" id="hubungan_dengan_wali" checked={bersamaWali} onChange={() => setBersamaWali(state => !state)} />
-                                    <label htmlFor="hubungan_dengan_wali" className="opacity-70 hover:opacity-100 cursor-pointer">Bersama Wali?</label>
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <input type="checkbox" id="hubungan_dengan_wali" checked={bersamaWali} onChange={() => setBersamaWali(state => !state)} />
+                                        <label htmlFor="hubungan_dengan_wali" className="opacity-70 hover:opacity-100 cursor-pointer">Bersama Wali?</label>
+                                    </div>
+                                    {!bersamaWali && (
+                                        <button type="submit" className="md:w-fit w-1/2 px-3 py-2 rounded-lg flex items-center justify-center gap-3 bg-green-500 hover:bg-green-400 focus:bg-green-600 text-white">
+                                            <FontAwesomeIcon icon={faSave} className="w-4 h-4 text-inherit" />
+                                            Simpan
+                                        </button>
+                                    )}
                                 </div>
                                 {bersamaWali && (
                                     <>
@@ -697,23 +703,19 @@ export default function SiswaTerdaftarUpdatePage() {
                                                 Hubungan dengan Wali
                                             </div>
                                             <div className="w-full md:w-4/5">
-                                                <select value={data['hubungan_wali']} onChange={e => setData(state => ({...state, hubungan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                                <select required value={data['hubungan_wali']} onChange={e => setData(state => ({...state, hubungan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                     <option value="" disabled>-- Pilih --</option>
                                                     <option value="AYAH">Ayah</option>
-                                                    <option value="AYAH KANDUNG">Ayah Kandung</option>
+                                                    <option value="IBU">Ibu</option>
                                                     <option value="AYAH SAMBUNG">Ayah Sambung</option>
-                                                    <option value="BIBI">Bibi</option>
-                                                    <option value="Ibu">Ibu</option>
-                                                    <option value="KAKA KANDUNG">Kakak Kandung</option>
-                                                    <option value="KAKAK">Kakak</option>
-                                                    <option value="KAKAK IPAR">Kakak Ipar</option>
+                                                    <option value="IBU SAMBUNG">Ibu Sambung</option>
                                                     <option value="KAKAK KANDUNG">Kakak Kandung</option>
+                                                    <option value="KAKAK IPAR">Kakak Ipar</option>
                                                     <option value="KAKEK">Kakek</option>
                                                     <option value="NENEK">Nenek</option>
-                                                    <option value="ORANG TUA">Orang Tua</option>
                                                     <option value="PAMAN">Paman</option>
+                                                    <option value="BIBI">Bibi</option>
                                                     <option value="SAUDARA">Saudara</option>
-                                                    <option value="TANTE">Tante</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -762,7 +764,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                                 Pekerjaan Wali
                                             </div>
                                             <div className="w-full md:w-4/5">
-                                                <select value={data['pekerjaan_wali']} onChange={e => setData(state => ({...state, pekerjaan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                                <select required value={data['pekerjaan_wali']} onChange={e => setData(state => ({...state, pekerjaan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                     <option value="" disabled>-- Pilih Pekerjaan --</option>
                                                     <option value="BURUH">Buruh</option>
                                                     <option value="TIDAK BEKERJA">Tidak Bekerja</option>
@@ -780,7 +782,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                                 Pendidikan Terakhir Wali
                                             </div>
                                             <div className="w-full md:w-4/5">
-                                                <select value={data['pendidikan_wali']} onChange={e => setData(state => ({...state, pendidikan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                                <select required value={data['pendidikan_wali']} onChange={e => setData(state => ({...state, pendidikan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                     <option value="" disabled>-- Pilih Pendidikan --</option>
                                                     <option value="TIDAK TAMAT SD/MI/PAKET A">Tidak Tamat SD / MI / Paket A</option>
                                                     <option value="SD/MI/PAKET A">SD / MI / Paket A</option>
@@ -799,7 +801,7 @@ export default function SiswaTerdaftarUpdatePage() {
                                                 Penghasilan Wali
                                             </div>
                                             <div className="w-full md:w-4/5">
-                                                <select value={data['penghasilan_wali']} onChange={e => setData(state => ({...state, penghasilan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                                <select required value={data['penghasilan_wali']} onChange={e => setData(state => ({...state, penghasilan_wali: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                     <option value="" disabled>-- Pilih Penghasilan --</option>
                                                     <option value="< Rp. 1.000.000">&lt; Rp. 1.000.000</option>
                                                     <option value="Rp. 1.000.000 - Rp. 3.000.000">Rp. 1.000.000 - Rp. 3.000.000</option>
@@ -808,6 +810,12 @@ export default function SiswaTerdaftarUpdatePage() {
                                                     <option value="> Rp. 7.000.000">&gt; Rp. 7.000.000</option>
                                                 </select>
                                             </div>
+                                        </div>
+                                        <div className="flex items-center justify-end">
+                                            <button type="submit" className="md:w-fit w-1/2 px-3 py-2 rounded-lg flex items-center justify-center gap-3 bg-green-500 hover:bg-green-400 focus:bg-green-600 text-white">
+                                                <FontAwesomeIcon icon={faSave} className="w-4 h-4 text-inherit" />
+                                                Simpan
+                                            </button>
                                         </div>
                                     </>
                                 )}
