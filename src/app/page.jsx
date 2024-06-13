@@ -6,7 +6,7 @@ import { M_Akun_getUserdata } from "@/libs/models/M_Akun";
 import { M_Siswa_rekap } from "@/libs/models/M_Siswa";
 import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BarChart, LineChart, PieChart, pieArcLabelClasses } from "@mui/x-charts";
+import { BarChart, LineChart, PieChart, barLabelClasses, pieArcLabelClasses } from "@mui/x-charts";
 import { useEffect, useState } from "react";
 
 const colors = ['#22c55e', '#92400e', '#2563eb', '#f97316', '#6b7280', '#e11d48'];
@@ -94,11 +94,42 @@ export default function Home() {
               <div className="w-full md:w-1/2">
               <BarChart
                 xAxis={[{ scaleType: 'band', data: ['Siswa Terdaftar', 'Penerimaan Tahap 1', 'Penerimaan Tahap 2'] }]}
-                series={[{ data: [dataRekap[rekapTahun]['total_terdaftar'] || 0, dataRekap[rekapTahun]['total_terdaftar_tahap1'] || 0, dataRekap[rekapTahun]['total_terdaftar_tahap2']] || 0, label: "Total Pendaftar" }, { data: [dataRekap[rekapTahun]['total_daftarUlang'] || 0, dataRekap[rekapTahun]['total_daftarUlang_tahap1'] || 0, dataRekap[rekapTahun]['total_daftarUlang_tahap2'] || 0], label: "Sudah Daftar Ulang" }]}
+                series={[
+                  
+                  { 
+                    data: [
+                      dataRekap[rekapTahun]['total_terdaftar'] || 0,
+                      dataRekap[rekapTahun]['total_terdaftar_tahap1'] || 0,
+                      dataRekap[rekapTahun]['total_terdaftar_tahap2']
+                    ],
+                    label: "Total Pendaftar"
+                  }, 
+                  { 
+                    data: [
+                      dataRekap[rekapTahun]['total_daftarUlang'] || 0, 
+                      dataRekap[rekapTahun]['total_daftarUlang_tahap1'] || 0, 
+                      dataRekap[rekapTahun]['total_daftarUlang_tahap2'] || 0
+                    ], 
+                    label: "Sudah Daftar Ulang" 
+                  }
+
+                ]}
                 height={300}
                 className="w-full"
                 borderRadius={10}
-                barLabel={'value'}
+                barLabel={(item, context) => {
+                  if((item.value ?? 0) > 5) {
+                    return item.value
+                  }
+                }}
+
+                sx={{
+                  [`& .${barLabelClasses.root}`]: {
+                    fill: 'white',
+                    fontWeight: 'bold',
+                  },
+                }}
+                
               />
               </div>
               <div className="w-full md:w-1/2 flex items-center">
@@ -343,11 +374,31 @@ export default function Home() {
                   }
                 }}
                 xAxis={[{ scaleType: 'band', data: ['KETM', 'PRESTASI KEJUARAAN', 'RAPOR UNGGULAN', 'KATEGORI LAIN'] }]}
-                series={[{ data: [dataRekap[rekapTahun]['total_terdaftar_kategori_ketm'], dataRekap[rekapTahun]['total_terdaftar_kategori_kejuaraan'], dataRekap[rekapTahun]['total_terdaftar_kategori_rapor'], dataRekap[rekapTahun]['total_terdaftar_kategori_lain']]}]}
+                series={[
+                  { 
+                    data: [
+                      dataRekap[rekapTahun]['total_terdaftar_kategori_ketm'], 
+                      dataRekap[rekapTahun]['total_terdaftar_kategori_kejuaraan'], 
+                      dataRekap[rekapTahun]['total_terdaftar_kategori_rapor'], 
+                      dataRekap[rekapTahun]['total_terdaftar_kategori_lain']
+                    ]
+                  }
+                ]}
                 height={300}
                 className="w-full"
                 borderRadius={10}
-                barLabel={'value'}
+                barLabel={(item, context) => {
+                  if((item.value ?? 0) > 5) {
+                    return item.value
+                  }
+                }}
+
+                sx={{
+                  [`& .${barLabelClasses.root}`]: {
+                    fill: 'white',
+                    fontWeight: 'bold',
+                  },
+                }}
               />
             </div>
           </div>
