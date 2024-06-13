@@ -380,7 +380,7 @@ export default function SiswaDiterimaPage() {
             return setPrintedData(selectedPrintedData)
         }
 
-        console.log('print')
+        document.getElementById('content_print').classList.remove('hidden')
 
         Swal.fire({
             title: 'Sedang memproses data..',
@@ -437,6 +437,7 @@ export default function SiswaDiterimaPage() {
                 const pdfDataUri = pdf.output('datauristring');
                 const pdfBlob = pdf.output('blob')
                 const pdfUrl = URL.createObjectURL(pdfBlob)
+                document.getElementById('content_print').classList.add('hidden')
 
                 Swal.close()
                 toast.fire({
@@ -748,7 +749,7 @@ export default function SiswaDiterimaPage() {
                     Halaman Print
                 </h1>
                 <hr className="my-3 opacity-0" />
-                <div>
+                <div id="content_print" className="hidden">
                     <hr className="my-5 opacity-0" />
                     <p>Halaman ini hanya diperuntukkan melihat sekilas layout untuk hasil print saja.</p>
                     <hr className="my-5 opacity-0" />
