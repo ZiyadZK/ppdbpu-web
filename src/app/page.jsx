@@ -6,22 +6,11 @@ import { M_Akun_getUserdata } from "@/libs/models/M_Akun";
 import { M_Siswa_rekap } from "@/libs/models/M_Siswa";
 import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BarChart, LineChart } from "@mui/x-charts";
+import { BarChart, LineChart, PieChart, pieArcLabelClasses } from "@mui/x-charts";
 import { useEffect, useState } from "react";
 
-const option = {
-  chart: {
-    id: 'apexchart-example'
-  },
-  xaxis: {
-    categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
-  }
-}
+const colors = ['#22c55e', '#92400e', '#2563eb', '#f97316', '#6b7280', '#e11d48'];
 
-const series = [{
-  name: 'series-1',
-  data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
-}]
 export default function Home() {
 
   const [rekapTahun, setRekapTahun] = useState(date_getYear())
@@ -39,6 +28,7 @@ export default function Home() {
   const getDataRekap = async () => {
     setLoadingFetch('loading')
     const response = await M_Siswa_rekap()
+    console.log(response)
     if(response.success) {
       setDataRekap(response.data)
       if(response.data !== null) {
@@ -144,20 +134,202 @@ export default function Home() {
             <h1 className="px-3 py-2 rounded-full bg-zinc-200 text-zinc-700 font-medium w-fit">
               Data Jurusan
             </h1>
-            <div className="w-full">
-              <BarChart
-                slotProps={{
-                  noDataOverlay: {
-                    message: 'Data tidak ada!'
-                  }
-                }}
-                xAxis={[{ scaleType: 'band', data: ['TKJ', 'DPIB', 'TKR', 'TPM', 'TITL', 'GEO'] }]}
-                series={[{ data: [dataRekap[rekapTahun]['total_terdaftar_tkj'], dataRekap[rekapTahun]['total_terdaftar_dpib'], dataRekap[rekapTahun]['total_terdaftar_tkr'], dataRekap[rekapTahun]['total_terdaftar_tpm'], dataRekap[rekapTahun]['total_terdaftar_titl'], dataRekap[rekapTahun]['total_terdaftar_geo']], label: "Total Pendaftar" }, { data: [dataRekap[rekapTahun]['total_daftarUlang_tkj'], dataRekap[rekapTahun]['total_daftarUlang_dpib'], dataRekap[rekapTahun]['total_daftarUlang_tkr'], dataRekap[rekapTahun]['total_daftarUlang_tpm'], dataRekap[rekapTahun]['total_daftarUlang_titl'], dataRekap[rekapTahun]['total_daftarUlang_geo']], label: "Sudah Daftar Ulang" }]}
-                height={300}
-                className="w-full"
-                borderRadius={10}
-                barLabel={'value'}
-              />
+            <div className="w-full grid md:grid-cols-2 gap-2 pt-2">
+              <div className="w-full flex flex-col items-center p-3 rounded-2xl shadow hover:shadow-lg transition-all duration-300">
+                <h1 className="font-semibold">
+                  DATA TKJ
+                </h1>
+                <PieChart
+                  
+                // Use palette
+                  series={[
+                    {
+                      arcLabel: (item) => item.value > 0 && `${item.value}`,
+                      data: [
+                        { value: dataRekap[rekapTahun]['total_daftarUlang_tkj'], color: 'green', label: 'Sudah Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_terdaftar_tkj'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
+                        // ...
+                      ],
+                      innerRadius: 30,
+                      outerRadius: 100,
+                      cornerRadius: 10,
+                      cx: 150,
+                      cy: 150,
+                    },
+                  ]}
+
+                  sx={{
+                    [`& .${pieArcLabelClasses.root}`]: {
+                      fill: 'white',
+                      fontWeight: 'bold',
+                    },
+                  }}
+
+                  height={300}
+                  className="w-full"
+                />
+              </div>
+              <div className="w-full flex flex-col items-center p-3 rounded-2xl shadow hover:shadow-lg transition-all duration-300">
+                <h1 className="font-semibold">
+                  DATA DPIB
+                </h1>
+                <PieChart
+                  series={[
+                    {
+                      arcLabel: (item) => item.value > 0 && `${item.value}`,
+                      data: [
+                        { value: dataRekap[rekapTahun]['total_daftarUlang_dpib'], color: 'brown', label: 'Sudah Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_terdaftar_dpib'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
+                        // ...
+                      ],
+                      innerRadius: 30,
+                      outerRadius: 100,
+                      cornerRadius: 10,
+                      cx: 150,
+                      cy: 150,
+                    },
+                  ]}
+                  sx={{
+                    [`& .${pieArcLabelClasses.root}`]: {
+                      fill: 'white',
+                      fontWeight: 'bold',
+                    },
+                  }}
+
+                  height={300}
+                  className="w-full"
+                />
+              </div>
+              <div className="w-full flex flex-col items-center p-3 rounded-2xl shadow hover:shadow-lg transition-all duration-300">
+                <h1 className="font-semibold">
+                  DATA TKR
+                </h1>
+                <PieChart
+                // Use palette
+                  series={[
+                    {
+                      arcLabel: (item) => item.value > 0 && `${item.value}`,
+                      data: [
+                        { value: dataRekap[rekapTahun]['total_daftarUlang_tkr'], color: 'blue', label: 'Sudah Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_terdaftar_tkr'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
+                        // ...
+                      ],
+                      innerRadius: 30,
+                      outerRadius: 100,
+                      cornerRadius: 10,
+                      cx: 150,
+                      cy: 150,
+                    },
+                  ]}
+                  sx={{
+                    [`& .${pieArcLabelClasses.root}`]: {
+                      fill: 'white',
+                      fontWeight: 'bold',
+                    },
+                  }}
+
+                  height={300}
+                  className="w-full"
+                />
+              </div>
+              <div className="w-full flex flex-col items-center p-3 rounded-2xl shadow hover:shadow-lg transition-all duration-300">
+                <h1 className="font-semibold">
+                  DATA TPM
+                </h1>
+                <PieChart
+                // Use palette
+                  series={[
+                    {
+                      arcLabel: (item) => item.value > 0 && `${item.value}`,
+                      data: [
+                        { value: dataRekap[rekapTahun]['total_daftarUlang_tpm'], color: 'orange', label: 'Sudah Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_terdaftar_tpm'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
+                        // ...
+                      ],
+                      innerRadius: 30,
+                      outerRadius: 100,
+                      cornerRadius: 10,
+                      cx: 150,
+                      cy: 150,
+                    },
+                  ]}
+                  sx={{
+                    [`& .${pieArcLabelClasses.root}`]: {
+                      fill: 'white',
+                      fontWeight: 'bold',
+                    },
+                  }}
+
+                  height={300}
+                  className="w-full"
+                />
+              </div>
+              <div className="w-full flex flex-col items-center p-3 rounded-2xl shadow hover:shadow-lg transition-all duration-300">
+                <h1 className="font-semibold">
+                  DATA GEO
+                </h1>
+                <PieChart
+                // Use palette
+                  series={[
+                    {
+                      arcLabel: (item) => item.value > 0 && `${item.value}`,
+                      data: [
+                        { value: dataRekap[rekapTahun]['total_daftarUlang_geo'], color: 'red', label: 'Sudah Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_terdaftar_geo'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
+                        // ...
+                      ],
+                      innerRadius: 30,
+                      outerRadius: 100,
+                      cornerRadius: 10,
+                      cx: 150,
+                      cy: 150,
+                    },
+                  ]}
+
+                  sx={{
+                    [`& .${pieArcLabelClasses.root}`]: {
+                      fill: 'white',
+                      fontWeight: 'bold',
+                    },
+                  }}
+
+                  height={300}
+                  className="w-full"
+                />
+              </div>
+              <div className="w-full flex flex-col items-center p-3 rounded-2xl shadow hover:shadow-lg transition-all duration-300">
+                <h1 className="font-semibold">
+                  DATA TITL
+                </h1>
+                <PieChart
+                // Use palette
+                  series={[
+                    {
+                      arcLabel: (item) => item.value > 0 && `${item.value}`,
+                      data: [
+                        { value: dataRekap[rekapTahun]['total_daftarUlang_titl'], color: 'grey', label: 'Sudah Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_terdaftar_titl'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
+                        // ...
+                      ],
+                      innerRadius: 30,
+                      outerRadius: 100,
+                      cornerRadius: 10,
+                      cx: 150,
+                      cy: 150,
+                    },
+                  ]}
+                  sx={{
+                    [`& .${pieArcLabelClasses.root}`]: {
+                      fill: 'white',
+                      fontWeight: 'bold',
+                    },
+                  }}
+
+                  height={300}
+                  className="w-full"
+                />
+              </div>
+              
             </div>
             <hr className="my-2 opacity-0" />
             <h1 className="px-3 py-2 rounded-full bg-zinc-200 text-zinc-700 font-medium w-fit">
@@ -247,8 +419,8 @@ export default function Home() {
                   }
                 }}
                 series={[
-                  { data: Object.keys(dataRekap).slice(0, 5).map(year => dataRekap[year]['total_terdaftar_jk_laki']), label: 'Laki - laki' },
-                  { data: Object.keys(dataRekap).slice(0, 5).map(year => dataRekap[year]['total_terdaftar_jk_perempuan']), label: 'Perempuan' },
+                  { data: Object.keys(dataRekap).slice(0, 5).map(year => dataRekap[year]['total_terdaftar_jk_laki']), label: 'Laki - laki', color: 'red' },
+                  { data: Object.keys(dataRekap).slice(0, 5).map(year => dataRekap[year]['total_terdaftar_jk_perempuan']), label: 'Perempuan', color: 'blue' },
                 ]}
                 xAxis={[{ scaleType: 'point', data: Object.keys(dataRekap).slice(0, 5) }]}
                 height={300}
