@@ -21,7 +21,6 @@ export async function middleware(request) {
 
     const encryptedUserdata = cookies().get('userdata')
     const decryptedUserdata = await decryptData(encryptedUserdata)
-    console.log(decryptedUserdata)
     const pathname = request.nextUrl.pathname;
 
     if(pathname !== '/') {

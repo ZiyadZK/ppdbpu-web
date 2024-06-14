@@ -295,7 +295,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             Tahap PPDB
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <select required value={data['tahap']} onChange={e => setData(state => ({...state, tahap: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
+                                            <select required readOnly value={data['tahap']} onChange={e => setData(state => ({...state, tahap: e.target.value}))} className="w-full px-3 py-2 rounded-lg border cursor-pointer">
                                                 <option value="" disabled>-- Pilih Tahap --</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -307,7 +307,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             No Pendaftaran
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <input type="text" required className="w-full px-3 py-2 rounded-lg border" placeholder="No Pendaftaran" value={data['nomor_reg']} onChange={e => setData(state => ({...state, nomor_reg: e.target.value}))} />
+                                            <input type="text" required readOnly className="w-full px-3 py-2 rounded-lg border" placeholder="No Pendaftaran" value={data['nomor_reg']} onChange={e => setData(state => ({...state, nomor_reg: e.target.value}))} />
                                         </div>
                                     </div>
                                     <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
@@ -315,7 +315,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                             NISN
                                         </div>
                                         <div className="w-full md:w-4/5">
-                                            <input value={data['nisn']} onChange={e => setData(state => ({...state, nisn: e.target.value}))} type="text" required className="w-full px-3 py-2 rounded-lg border" placeholder="NISN" />
+                                            <input value={data['nisn']} readOnly onChange={e => setData(state => ({...state, nisn: e.target.value}))} type="text" required className="w-full px-3 py-2 rounded-lg border" placeholder="NISN" />
                                         </div>
                                     </div>
                                     <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-0">
