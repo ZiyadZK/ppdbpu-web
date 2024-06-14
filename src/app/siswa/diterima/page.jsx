@@ -9,7 +9,7 @@ import { faArrowDown, faArrowUp, faArrowsUpDown, faFile, faPrint, faTrash, faUpl
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useRef, useState } from "react"
 import Swal from "sweetalert2"
-import {  M_Siswa_delete, M_Siswa_getAll } from "@/libs/models/M_Siswa"
+import {  M_Siswa_delete, M_Siswa_getAll, M_Siswa_update } from "@/libs/models/M_Siswa"
 import { date_getDay, date_getMonth, date_getYear } from "@/libs/date"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
@@ -496,46 +496,75 @@ export default function SiswaDiterimaPage() {
         })
 
         Swal.fire({
-            title: 'Sedang memproses data...',
-            timer: 30000,
+            title: 'Apakah anda yakin?',
+            text: 'Export data secara langsung akan menghapus data siswa yang di export dari server, pastikan bahwa PPDB sudah selesai!',
+            icon: 'question',
+            showCancelButton: true,
+            cancelButtonText: 'Tidak',
+            confirmButtonText: 'Ya',
+            timer: 15000,
             timerProgressBar: true,
-            showConfirmButton: false,
-            allowOutsideClick: false,
-            didOpen: async () => {
-                if(type === 'xlsx') {
-                    return await xlsx_export('xlsx', updatedData, `PPDB - DATA SISWA DITERIMA - ${date_getYear()}`, {
-                        header: Object.keys(updatedData[0]),
-                        sheetName: `TAHUN ${date_getYear()}`
-                    }).then(() => {
-                        Swal.close()
-                        return toast.fire({
-                            title: 'Sukses',
-                            text: 'Berhasil mengexport Data PPDB Siswa yang Diterima!',
-                            icon: 'success',
-                            timer: 3000, 
-                            timerProgressBar: true
-                        })
-                    })
-                }
-
-                if(type === 'csv') {
-                    return await xlsx_export('csv', updatedData, `PPDB - DATA SISWA DITERIMA - ${date_getYear()}`, {
-                        header: Object.keys(updatedData[0]),
-                        sheetName: `TAHUN ${date_getYear()}`
-                    }).then(() => {
-                        Swal.close()
-                        return toast.fire({
-                            title: 'Sukses',
-                            text: 'Berhasil mengexport Data PPDB Siswa yang Diterima!',
-                            icon: 'success',
-                            timer: 3000, 
-                            timerProgressBar: true
-                        })
-                    })
-                }
-
+            allowOutsideClick: true
+        }).then(answer => {
+            if(answer.isConfirmed) {
+                Swal.fire({
+                    title: 'Sedang memproses data...',
+                    timer: 30000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    didOpen: async () => {
+                        const response = await M_Siswa_update(data.map(v => v['nisn']), { aktif: 0 })
+                        if(response.success) {
+                            await getData()
+                            if(type === 'xlsx') {
+                                return await xlsx_export('xlsx', updatedData, `PPDB - DATA SISWA DITERIMA - ${date_getYear()}`, {
+                                    header: Object.keys(updatedData[0]),
+                                    sheetName: `TAHUN ${date_getYear()}`
+                                }).then(() => {
+                                    Swal.close()
+                                    return toast.fire({
+                                        title: 'Sukses',
+                                        text: 'Berhasil mengexport Data PPDB Siswa yang Diterima!',
+                                        icon: 'success',
+                                        timer: 3000, 
+                                        timerProgressBar: true
+                                    })
+                                })
+                            }
+            
+                            if(type === 'csv') {
+                                return await xlsx_export('csv', updatedData, `PPDB - DATA SISWA DITERIMA - ${date_getYear()}`, {
+                                    header: Object.keys(updatedData[0]),
+                                    sheetName: `TAHUN ${date_getYear()}`
+                                }).then(() => {
+                                    Swal.close()
+                                    return toast.fire({
+                                        title: 'Sukses',
+                                        text: 'Berhasil mengexport Data PPDB Siswa yang Diterima!',
+                                        icon: 'success',
+                                        timer: 3000, 
+                                        timerProgressBar: true
+                                    })
+                                })
+                            }
+                        }else{
+                            Swal.fire({
+                                title: 'Gagal',
+                                text: 'Terdapat error disaat memproses data, hubungi Administrator!',
+                                icon: 'error',
+                                timer: 5000,
+                                timerProgressBar: true
+                            })
+                        }
+        
+                    }
+                })
             }
         })
+
+        
+
     }
 
     return (
