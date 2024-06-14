@@ -477,7 +477,7 @@ export default function SiswaDiterimaPage() {
                 nik: state['nik'],
                 no_kk: state['no_kk'],
                 tempat_lahir: state['tempat_lahir_siswa'],
-                tanggal_lahir: state['tgl_lahir_siswa'].split('-').reverse().join('/'),
+                tanggal_lahir: state['tgl_lahir_siswa'],
                 agama: state['agama'],
                 status_dalam_keluarga: state['status_anak'],
                 anak_ke: state['anak_ke_berapa'],
