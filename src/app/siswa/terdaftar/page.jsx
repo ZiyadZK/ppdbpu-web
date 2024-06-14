@@ -6,7 +6,7 @@ import { xlsx_getSheets } from "@/libs/excel"
 import { formatFileSize } from "@/libs/formatFileSize"
 import { M_Akun_getUserdata } from "@/libs/models/M_Akun"
 import { faEdit, faFile, faSave } from "@fortawesome/free-regular-svg-icons"
-import { faArrowDown, faArrowUp, faArrowsUpDown, faCheck, faDownload, faPlusSquare, faPowerOff, faSearch, faTrash, faTurnDown, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { faArrowDown, faArrowUp, faArrowsUpDown, faBookmark, faCheck, faDownload, faPlusSquare, faPowerOff, faSearch, faTrash, faTurnDown, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react"
 import Swal from "sweetalert2"
@@ -587,6 +587,8 @@ export default function SiswaTerdaftarPage() {
         }
     }
 
+
+
     const handleDeleteData = async (nisn) => {
         Swal.fire({
             title: 'Apakah anda yakin?',
@@ -659,6 +661,32 @@ export default function SiswaTerdaftarPage() {
         })
     }
 
+    const exportFormat = async (type = 'xlsx', fileName = 'Format Data XLSX', {header = [], sheetName = 'Format Data PPDB'}) => {
+        if(type === 'xlsx') {
+            const worksheet = XLSX.utils.json_to_sheet([])
+            const workbook = XLSX.utils.book_new()
+            XLSX.utils.sheet_to_csv(worksheet)
+            XLSX.utils.book_append_sheet(workbook, worksheet, sheetName)
+    
+            XLSX.utils.sheet_add_aoa(worksheet, [header], { origin: 'A1' })
+            return XLSX.writeFile(workbook, `${fileName}.${type}`, { compression: true })
+
+        }else{
+            const worksheet = XLSX.utils.json_to_sheet([])
+            const workbook = XLSX.utils.book_new()
+            XLSX.utils.book_append_sheet(workbook, worksheet, sheetName)
+    
+            XLSX.utils.sheet_add_aoa(worksheet, [header], { origin: 'A1' })
+            return XLSX.writeFile(workbook, `${fileName}.${type}`, { compression: true })
+        }
+    }
+
+    const downloadFormat = async (type = 'xlsx') => {
+        return await exportFormat(type, 'Format Data', {
+            header: Object.keys(formatData)
+        })
+    }
+
     return (
         <MainLayoutPage>
             <div className="bg-white h-full md:p-5 px-5 md:rounded-2xl">
@@ -683,6 +711,12 @@ export default function SiswaTerdaftarPage() {
                             <h3 className="font-bold text-lg">Import Data</h3>
                             <hr className="my-2 opacity-0" />
                             <p className="text-sm">File harus berupa .CSV atau .XLSX, dan usahakan kolom-kolom didalamnya sudah cocok dengan yang ada di sistem.</p>
+                            <hr className="my-1 opacity-0" />
+                            <button type="button" onClick={() => downloadFormat()} className="w-fit px-3 py-2 rounded-lg flex items-center justify-center gap-3 text-sm bg-zinc-100 dark:bg-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-600">
+                                <FontAwesomeIcon icon={faBookmark} className="w-3 h-3 text-inherit" />
+                                Unduh Format
+                            </button>
+                            <hr className="my-1 opacity-0" />
                             <form onSubmit={e => handleImportFile(e, 'import_data')} className="space-y-2 mt-5">
                                 <input type="file" onChange={e => handleChangeFile(e.target.files[0])} required className="w-full" />
                                 {listSheet.length > 0 && (
