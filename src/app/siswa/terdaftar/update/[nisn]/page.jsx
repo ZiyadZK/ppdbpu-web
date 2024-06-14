@@ -562,7 +562,7 @@ export default function SiswaTerdaftarUpdatePage({params: {nisn}}) {
                                 </div>
                             </div>
                         </div>
-                        <div className="collapse bg-zinc-50 hover:bg-white border border-zinc-500/0 hover:border-zinc-200 collapse-arrow hover:shadow-lg transition-all duration-300 sticky top-4">
+                        <div className="collapse bg-zinc-50 hover:bg-white border border-zinc-500/0 hover:border-zinc-200 collapse-arrow hover:shadow-lg transition-all duration-300">
                             <input type="checkbox" defaultChecked /> 
                             <div className="collapse-title text-xl font-medium">
                                 Data Asal Sekolah
