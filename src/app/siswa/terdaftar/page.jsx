@@ -17,7 +17,6 @@ import { date_getYear } from "@/libs/date"
 import { useRouter } from "next/navigation"
 
 const formatData = {
-    id_siswa: "ID siswa",
     nomor_reg: "Nomor registrasi",
     nisn: "NISN",
     nis: "NIS",
