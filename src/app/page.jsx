@@ -97,8 +97,8 @@ export default function Home() {
                   
                   { 
                     data: [
-                      dataRekap[rekapTahun]['total_terdaftar'] || 0,
-                      dataRekap[rekapTahun]['total_terdaftar_tahap1'] || 0,
+                      dataRekap[rekapTahun]['total_terdaftar'],
+                      dataRekap[rekapTahun]['total_terdaftar_tahap1'],
                       dataRekap[rekapTahun]['total_terdaftar_tahap2']
                     ],
                     label: "Total Pendaftar"
@@ -109,7 +109,18 @@ export default function Home() {
                       dataRekap[rekapTahun]['total_daftarUlang_tahap1'], 
                       dataRekap[rekapTahun]['total_daftarUlang_tahap2']
                     ], 
-                    label: "Sudah Daftar Ulang" 
+                    label: "Sudah Daftar Ulang",
+                    stack: 'stack2' 
+                  },
+                  {
+                    data: [
+                      dataRekap[rekapTahun]['total_terdaftar'] - dataRekap[rekapTahun]['total_daftarUlang'], 
+                      dataRekap[rekapTahun]['total_terdaftar_tahap1'] - dataRekap[rekapTahun]['total_daftarUlang_tahap1'], 
+                      dataRekap[rekapTahun]['total_terdaftar_tahap2'] - dataRekap[rekapTahun]['total_daftarUlang_tahap2']
+                    ], 
+                    label: "Sisa Pendaftar",
+                    stack: 'stack2',
+                    color: '#818181'
                   }
 
                 ]}
