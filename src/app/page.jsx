@@ -105,9 +105,9 @@ export default function Home() {
                   }, 
                   { 
                     data: [
-                      dataRekap[rekapTahun]['total_daftarUlang'] || 0, 
-                      dataRekap[rekapTahun]['total_daftarUlang_tahap1'] || 0, 
-                      dataRekap[rekapTahun]['total_daftarUlang_tahap2'] || 0
+                      dataRekap[rekapTahun]['total_daftarUlang'], 
+                      dataRekap[rekapTahun]['total_daftarUlang_tahap1'], 
+                      dataRekap[rekapTahun]['total_daftarUlang_tahap2']
                     ], 
                     label: "Sudah Daftar Ulang" 
                   }
@@ -177,7 +177,7 @@ export default function Home() {
                       arcLabel: (item) => item.value > 0 && `${item.value}`,
                       data: [
                         { value: dataRekap[rekapTahun]['total_daftarUlang_tkj'], color: 'green', label: 'Sudah Daftar Ulang' }, // Use color property
-                        { value: dataRekap[rekapTahun]['total_terdaftar_tkj'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_terdaftar_tkj'] - dataRekap[rekapTahun]['total_daftarUlang_tkj'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
                         // ...
                       ],
                       innerRadius: 30,
@@ -209,7 +209,7 @@ export default function Home() {
                       arcLabel: (item) => item.value > 0 && `${item.value}`,
                       data: [
                         { value: dataRekap[rekapTahun]['total_daftarUlang_dpib'], color: 'yellow', label: 'Sudah Daftar Ulang' }, // Use color property
-                        { value: dataRekap[rekapTahun]['total_terdaftar_dpib'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_terdaftar_dpib'] - dataRekap[rekapTahun]['total_daftarUlang_dpib'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
                         // ...
                       ],
                       innerRadius: 30,
@@ -241,7 +241,7 @@ export default function Home() {
                       arcLabel: (item) => item.value > 0 && `${item.value}`,
                       data: [
                         { value: dataRekap[rekapTahun]['total_daftarUlang_tkr'], color: 'blue', label: 'Sudah Daftar Ulang' }, // Use color property
-                        { value: dataRekap[rekapTahun]['total_terdaftar_tkr'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_terdaftar_tkr'] - dataRekap[rekapTahun]['total_daftarUlang_tkr'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
                         // ...
                       ],
                       innerRadius: 30,
@@ -273,7 +273,7 @@ export default function Home() {
                       arcLabel: (item) => item.value > 0 && `${item.value}`,
                       data: [
                         { value: dataRekap[rekapTahun]['total_daftarUlang_tpm'], color: '#573924', label: 'Sudah Daftar Ulang' }, // Use color property
-                        { value: dataRekap[rekapTahun]['total_terdaftar_tpm'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_terdaftar_tpm'] - dataRekap[rekapTahun]['total_daftarUlang_tpm'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
                         // ...
                       ],
                       innerRadius: 30,
@@ -305,7 +305,7 @@ export default function Home() {
                       arcLabel: (item) => item.value > 0 && `${item.value}`,
                       data: [
                         { value: dataRekap[rekapTahun]['total_daftarUlang_geo'], color: 'red', label: 'Sudah Daftar Ulang' }, // Use color property
-                        { value: dataRekap[rekapTahun]['total_terdaftar_geo'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_terdaftar_geo'] - dataRekap[rekapTahun]['total_daftarUlang_geo'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
                         // ...
                       ],
                       innerRadius: 30,
@@ -338,7 +338,7 @@ export default function Home() {
                       arcLabel: (item) => item.value > 0 && `${item.value}`,
                       data: [
                         { value: dataRekap[rekapTahun]['total_daftarUlang_titl'], color: 'grey', label: 'Sudah Daftar Ulang' }, // Use color property
-                        { value: dataRekap[rekapTahun]['total_terdaftar_titl'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_terdaftar_titl'] - dataRekap[rekapTahun]['total_daftarUlang_titl'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
                         // ...
                       ],
                       innerRadius: 30,
