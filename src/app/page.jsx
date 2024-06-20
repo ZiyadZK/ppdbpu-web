@@ -208,7 +208,7 @@ export default function Home() {
                     {
                       arcLabel: (item) => item.value > 0 && `${item.value}`,
                       data: [
-                        { value: dataRekap[rekapTahun]['total_daftarUlang_dpib'], color: 'brown', label: 'Sudah Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_daftarUlang_dpib'], color: 'yellow', label: 'Sudah Daftar Ulang' }, // Use color property
                         { value: dataRekap[rekapTahun]['total_terdaftar_dpib'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
                         // ...
                       ],
@@ -272,7 +272,7 @@ export default function Home() {
                     {
                       arcLabel: (item) => item.value > 0 && `${item.value}`,
                       data: [
-                        { value: dataRekap[rekapTahun]['total_daftarUlang_tpm'], color: 'orange', label: 'Sudah Daftar Ulang' }, // Use color property
+                        { value: dataRekap[rekapTahun]['total_daftarUlang_tpm'], color: '#573924', label: 'Sudah Daftar Ulang' }, // Use color property
                         { value: dataRekap[rekapTahun]['total_terdaftar_tpm'], color: 'lightgrey', label: 'Belum Daftar Ulang' }, // Use color property
                         // ...
                       ],
@@ -440,9 +440,9 @@ export default function Home() {
                 }}
                 series={[
                   { data: Object.keys(dataRekap).slice(0, 5).map(year => dataRekap[year]['total_terdaftar_tkj']), label: 'TKJ', color: '#22c55e' },
-                  { data: Object.keys(dataRekap).slice(0, 5).map(year => dataRekap[year]['total_terdaftar_dpib']), label: 'DPIB', color: '#92400e' },
+                  { data: Object.keys(dataRekap).slice(0, 5).map(year => dataRekap[year]['total_terdaftar_dpib']), label: 'DPIB', color: '#FFD900' },
                   { data: Object.keys(dataRekap).slice(0, 5).map(year => dataRekap[year]['total_terdaftar_tkr']), label: 'TKR', color: '#2563eb' },
-                  { data: Object.keys(dataRekap).slice(0, 5).map(year => dataRekap[year]['total_terdaftar_tpm']), label: 'TPM', color: '#f97316' },
+                  { data: Object.keys(dataRekap).slice(0, 5).map(year => dataRekap[year]['total_terdaftar_tpm']), label: 'TPM', color: '#573924' },
                   { data: Object.keys(dataRekap).slice(0, 5).map(year => dataRekap[year]['total_terdaftar_titl']), label: 'TITL', color: '#6b7280' },
                   { data: Object.keys(dataRekap).slice(0, 5).map(year => dataRekap[year]['total_terdaftar_geo']), label: 'GEO', color: '#e11d48' }
                 ]}
