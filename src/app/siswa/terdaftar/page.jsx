@@ -489,7 +489,7 @@ export default function SiswaTerdaftarPage() {
         // Filter Search Data
         if(searchData !== '') {
             updatedData = updatedData.filter(value => 
-                value['nama_siswa'].toLowerCase().includes(searchData) ||
+                value['nama_siswa'].toLowerCase().includes(searchData.toLowerCase()) ||
                 value['nomor_reg'].includes(searchData) ||
                 value['nisn'].includes(searchData)
             )
