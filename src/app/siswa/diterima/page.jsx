@@ -1208,21 +1208,12 @@ export default function SiswaDiterimaPage() {
                                             <p className="font-medium w-2/3">: {printedData ? printedData['anak_ke_berapa'] : '-'}</p>
                                         </div>
                                     </div>
+                                    
                                     <div className="flex items-center gap-5 w-full">
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
                                                 <p>7.</p>
-                                                <p>Status dalam Keluarga</p>
-                                            </div>
-                                            <p className="font-medium w-2/3">: {printedData ? printedData['status_anak'] : '-'}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center gap-5 w-full">
-                                        <p className="opacity-0">A.</p>
-                                        <div className="flex items-center gap-5 w-full">
-                                            <div className="flex items-center gap-5 w-1/3">
-                                                <p>8.</p>
                                                 <p className="">No Telp</p>
                                             </div>
                                             <p className="font-medium w-2/3">: {printedData ? printedData['no_telp_siswa'] : '-'}</p>
@@ -1237,7 +1228,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex  gap-5 w-full">
                                             <div className="flex gap-5 w-1/3">
-                                                <p>9.</p>
+                                                <p>8.</p>
                                                 <p>Alamat</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['alamat_siswa'] : '-'}</p>
@@ -1252,7 +1243,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>10.</p>
+                                                <p>9.</p>
                                                 <p>Asal Sekolah</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['asal_sekolah'] : '-'}</p>
@@ -1262,7 +1253,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>11.</p>
+                                                <p>10.</p>
                                                 <p>Tahun Masuk</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['tahun_masuk'] : '-'}</p>
@@ -1272,7 +1263,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>12.</p>
+                                                <p>11.</p>
                                                 <p>Jalur Masuk</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['kategori'] : '-'}</p>
@@ -1287,7 +1278,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>13.</p>
+                                                <p>12.</p>
                                                 <p>Nama Ayah</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nama_ayah'] : '-'}</p>
@@ -1297,7 +1288,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>14.</p>
+                                                <p>13.</p>
                                                 <p>Pekerjaan Ayah</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['pekerjaan_ayah'] : '-'}</p>
@@ -1307,7 +1298,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>15.</p>
+                                                <p>14.</p>
                                                 <p>No Telp Ayah</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['no_telp_ayah'] : '-'}</p>
@@ -1317,7 +1308,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>16.</p>
+                                                <p>15.</p>
                                                 <p>Nama Ibu</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['nama_ibu'] : '-'}</p>
@@ -1327,7 +1318,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>17.</p>
+                                                <p>16.</p>
                                                 <p>Pekerjaan Ibu</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['pekerjaan_ibu'] : '-'}</p>
@@ -1337,7 +1328,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>18.</p>
+                                                <p>17.</p>
                                                 <p>No Telp Ibu</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['no_telp_ibu'] : '-'}</p>
@@ -1347,7 +1338,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>19.</p>
+                                                <p>18.</p>
                                                 <p>No Kartu Keluarga</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData ? printedData['no_kk'] : '-'}</p>
@@ -1362,7 +1353,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>20.</p>
+                                                <p>19.</p>
                                                 <p>Nama Wali</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData.nama_wali || '-'}</p>
@@ -1372,7 +1363,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>21.</p>
+                                                <p>20.</p>
                                                 <p>Pekerjaan Wali</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData.pekerjaan_wali || '-'}</p>
@@ -1382,7 +1373,7 @@ export default function SiswaDiterimaPage() {
                                         <p className="opacity-0">A.</p>
                                         <div className="flex items-center gap-5 w-full">
                                             <div className="flex items-center gap-5 w-1/3">
-                                                <p>22.</p>
+                                                <p>21.</p>
                                                 <p>No Telp Wali</p>
                                             </div>
                                             <p className="font-medium w-2/3 text-wrap">: {printedData.no_telp_wali || '-'}</p>
