@@ -466,9 +466,8 @@ export default function SiswaDiterimaPage() {
             })
         }
 
-        const updatedData = data.map(state => {
-            document.getElementById(modal).close()
-
+        document.getElementById(modal).close()
+        const dataSimak = data.map(state => {
             return {
                 kelas: 'X',
                 rombel: `${formatRombel[state['id_rombel']]}`,
@@ -497,6 +496,8 @@ export default function SiswaDiterimaPage() {
             }   
         })
 
+        const dataDapodik = data
+
         Swal.fire({
             title: 'Apakah anda yakin?',
             text: 'Export data secara langsung akan menghapus data siswa yang di export dari server, pastikan bahwa PPDB sudah selesai!',
@@ -520,10 +521,8 @@ export default function SiswaDiterimaPage() {
                         if(response.success) {
                             await getData()
                             if(type === 'xlsx') {
-                                return await xlsx_export('xlsx', updatedData, `PPDB - DATA SISWA DITERIMA - ${date_getYear()}`, {
-                                    header: Object.keys(updatedData[0]),
-                                    sheetName: `TAHUN ${date_getYear()}`
-                                }).then(() => {
+                                return await xlsx_export('xlsx', [dataDapodik, dataSimak], `HASIL PPDB - Data SISWA DITERIMA - ${date_getYear()}`, [[Object.keys(dataDapodik[0])], [Object.keys(dataSimak[0])]], ['DATA DAPODIK', 'DATA SIMAK'])
+                                .then(() => {
                                     Swal.close()
                                     return toast.fire({
                                         title: 'Sukses',
@@ -536,10 +535,8 @@ export default function SiswaDiterimaPage() {
                             }
             
                             if(type === 'csv') {
-                                return await xlsx_export('csv', updatedData, `PPDB - DATA SISWA DITERIMA - ${date_getYear()}`, {
-                                    header: Object.keys(updatedData[0]),
-                                    sheetName: `TAHUN ${date_getYear()}`
-                                }).then(() => {
+                                return await xlsx_export('csv', [dataDapodik, dataSimak], `HASIL PPDB - Data SISWA DITERIMA - ${date_getYear()}`, [[Object.keys(dataDapodik[0])], [Object.keys(dataSimak[0])]], ['DATA DAPODIK', 'DATA SIMAK'])
+                                .then(() => {
                                     Swal.close()
                                     return toast.fire({
                                         title: 'Sukses',
@@ -569,7 +566,7 @@ export default function SiswaDiterimaPage() {
     }
 
     const handleExportData = async (type) => {
-        const updatedData = data.map(state => {
+        const dataSimak = data.map(state => {
             return {
                 kelas: 'X',
                 rombel: `${formatRombel[state['id_rombel']]}`,
@@ -598,11 +595,11 @@ export default function SiswaDiterimaPage() {
             }   
         })
 
+        const dataDapodik = data
+
         if(type === 'xlsx') {
-            return await xlsx_export('xlsx', updatedData, `PPDB - DATA SISWA DITERIMA - ${date_getYear()}`, {
-                header: Object.keys(updatedData[0]),
-                sheetName: `TAHUN ${date_getYear()}`
-            }).then(() => {
+            return await xlsx_export('xlsx', [dataDapodik, dataSimak], `HASIL PPDB - Data SISWA DITERIMA - ${date_getYear()}`, [[Object.keys(dataDapodik[0])], [Object.keys(dataSimak[0])]], ['DATA DAPODIK', 'DATA SIMAK'])
+            .then(() => {
                 Swal.close()
                 return toast.fire({
                     title: 'Sukses',
@@ -615,10 +612,8 @@ export default function SiswaDiterimaPage() {
         }
 
         if(type === 'csv') {
-            return await xlsx_export('csv', updatedData, `PPDB - DATA SISWA DITERIMA - ${date_getYear()}`, {
-                header: Object.keys(updatedData[0]),
-                sheetName: `TAHUN ${date_getYear()}`
-            }).then(() => {
+            return await xlsx_export('csv', [dataDapodik, dataSimak], `HASIL PPDB - Data SISWA DITERIMA - ${date_getYear()}`, [[Object.keys(dataDapodik[0])], [Object.keys(dataSimak[0])]], ['DATA DAPODIK', 'DATA SIMAK'])
+            .then(() => {
                 Swal.close()
                 return toast.fire({
                     title: 'Sukses',
@@ -1469,7 +1464,7 @@ export default function SiswaDiterimaPage() {
             </div>
             <hr className="my-5 opacity-0" />
             <div className="flex justify-end items-center">
-                {['Admin'].includes(loggedAkun.role_akun) && (
+                {loggedAkun && ['Admin'].includes(loggedAkun.role_akun) && (
                     <button type="button" onClick={() => document.getElementById('tutup_ppdb').showModal()} className="flex items-center w-fit px-3 py-2 rounded-lg justify-center gap-3 bg-red-500 hover:bg-red-400 focus:bg-red-600 text-white">
                         <FontAwesomeIcon icon={faPowerOff} className="w-4 h-4 text-inherit" />
                         Tutup PPDB

@@ -18,28 +18,31 @@ export const xlsx_getSheets = file => {
     })
 }
 
-export const xlsx_export = async (type, dataArr, fileName = 'Data', { header, sheetName = 'Data'}) => {
-    if(type === 'xlsx') {
-        const worksheet = XLSX.utils.json_to_sheet(dataArr)
-        const workbook = XLSX.utils.book_new()
-        XLSX.utils.book_append_sheet(workbook, worksheet, sheetName)
-    
-        XLSX.utils.sheet_add_aoa(worksheet, [header], { origin: 'A1' })
-    
-        return XLSX.writeFile(workbook, `${fileName}.xlsx`, { compression: true })
+export const xlsx_export = async (type, dataArrs, fileName = 'Data', headers, sheetNames) => {
+    if (type === 'xlsx') {
+        const workbook = XLSX.utils.book_new();
+        
+        dataArrs.forEach((dataArr, index) => {
+            const worksheet = XLSX.utils.json_to_sheet(dataArr);
+            XLSX.utils.sheet_add_aoa(worksheet, [headers[index]], { origin: 'A1' });
+            XLSX.utils.book_append_sheet(workbook, worksheet, sheetNames[index]);
+        });
+
+        return XLSX.writeFile(workbook, `${fileName}.xlsx`, { compression: true });
     }
 
-    if(type === 'csv') {
+    if (type === 'csv') {
+        // CSV export does not support multiple sheets, so handle it as per the original requirement
         let csvString = Papa.unparse({
-            fields: header,
-            data: dataArr.map(obj => Object.values(obj))
+            fields: headers[0], // Assume the first header set is used for CSV
+            data: dataArrs[0].map(obj => Object.values(obj)) // Export only the first data array
         }, {
             quotes: true,
             delimiter: ",",
             header: true,
             quoteChar: `'`,
         });
-        
+
         // Create a Blob from the CSV string
         const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
@@ -52,4 +55,4 @@ export const xlsx_export = async (type, dataArr, fileName = 'Data', { header, sh
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
     }
-}
+};
