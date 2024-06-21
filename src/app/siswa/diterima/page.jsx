@@ -5,7 +5,7 @@ import { toast } from "@/libs/alert"
 import { xlsx_export} from "@/libs/excel"
 import { M_Akun_getUserdata } from "@/libs/models/M_Akun"
 import { faEdit, faUser } from "@fortawesome/free-regular-svg-icons"
-import { faArrowDown, faArrowUp, faArrowsUpDown, faFile, faPrint, faTrash, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { faArrowDown, faArrowUp, faArrowsUpDown, faFile, faPowerOff, faPrint, faTrash, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useRef, useState } from "react"
 import Swal from "sweetalert2"
@@ -454,7 +454,7 @@ export default function SiswaDiterimaPage() {
         })
     }
 
-    const handleExportData = async (type) => {
+    const handleTutupPPDB = async (modal, type) => {
         if(data.length < 1) {
             return toast.fire({
                 title: 'Error',
@@ -467,6 +467,8 @@ export default function SiswaDiterimaPage() {
         }
 
         const updatedData = data.map(state => {
+            document.getElementById(modal).close()
+
             return {
                 kelas: 'X',
                 rombel: `${formatRombel[state['id_rombel']]}`,
@@ -560,11 +562,73 @@ export default function SiswaDiterimaPage() {
         
                     }
                 })
+            }else{
+                document.getElementById(modal).showModal()
             }
         })
+    }
 
-        
+    const handleExportData = async (type) => {
+        const updatedData = data.map(state => {
+            return {
+                kelas: 'X',
+                rombel: `${formatRombel[state['id_rombel']]}`,
+                no_rombel: '',
+                nama_siswa: state['nama_siswa'],
+                nis: state['nis'],
+                nisn: state['nisn'],
+                nik: state['nik'],
+                no_kk: state['no_kk'],
+                tempat_lahir: state['tempat_lahir_siswa'],
+                tanggal_lahir: state['tgl_lahir_siswa'],
+                agama: state['agama'],
+                status_dalam_keluarga: state['status_anak'],
+                anak_ke: state['anak_ke_berapa'],
+                alamat: state['alamat_siswa'],
+                no_hp_siswa: state['no_telp_siswa'],
+                asal_sekolah: state['asal_sekolah'],
+                kategori: state['kategori'],
+                tahun_masuk: state['tahun_masuk'],
+                nama_ayah: state['nama_ayah'],
+                nama_ibu: state['nama_ibu'],
+                telp_ortu: state['no_telp_ayah'] || state['no_telp_ibu'],
+                pekerjaan_ayah: state['pekerjaan_ayah'],
+                pekerjaan_ibu: state['pekerjaan_ibu'],
+                aktif: 'aktif'
+            }   
+        })
 
+        if(type === 'xlsx') {
+            return await xlsx_export('xlsx', updatedData, `PPDB - DATA SISWA DITERIMA - ${date_getYear()}`, {
+                header: Object.keys(updatedData[0]),
+                sheetName: `TAHUN ${date_getYear()}`
+            }).then(() => {
+                Swal.close()
+                return toast.fire({
+                    title: 'Sukses',
+                    text: 'Berhasil mengexport Data PPDB Siswa yang Diterima!',
+                    icon: 'success',
+                    timer: 3000, 
+                    timerProgressBar: true
+                })
+            })
+        }
+
+        if(type === 'csv') {
+            return await xlsx_export('csv', updatedData, `PPDB - DATA SISWA DITERIMA - ${date_getYear()}`, {
+                header: Object.keys(updatedData[0]),
+                sheetName: `TAHUN ${date_getYear()}`
+            }).then(() => {
+                Swal.close()
+                return toast.fire({
+                    title: 'Sukses',
+                    text: 'Berhasil mengexport Data PPDB Siswa yang Diterima!',
+                    icon: 'success',
+                    timer: 3000, 
+                    timerProgressBar: true
+                })
+            })
+        }
     }
 
     return (
@@ -1402,6 +1466,35 @@ export default function SiswaDiterimaPage() {
                     </div>
                     
                 </div>
+            </div>
+            <hr className="my-5 opacity-0" />
+            <div className="flex justify-end items-center">
+                {['Admin'].includes(loggedAkun.role_akun) && (
+                    <button type="button" onClick={() => document.getElementById('tutup_ppdb').showModal()} className="flex items-center w-fit px-3 py-2 rounded-lg justify-center gap-3 bg-red-500 hover:bg-red-400 focus:bg-red-600 text-white">
+                        <FontAwesomeIcon icon={faPowerOff} className="w-4 h-4 text-inherit" />
+                        Tutup PPDB
+                    </button>
+                )}
+                <dialog id="tutup_ppdb" className="modal">
+                    <div className="modal-box">
+                        <form method="dialog">
+                        {/* if there is a button in form, it will close the modal */}
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                        </form>
+                        <h3 className="font-bold text-lg">Apakah anda yakin?</h3>
+                        <hr className="my-3 opacity-0" />
+                        <p className="text-sm">Dengan anda menutup PPDB Tahun ini, data PPDB yang ada di tahun ini akan hilang. Silahkan pilih terlebih dahulu ekstensi apa yang ingin anda gunakan untuk meng-extract data tersebut.</p>
+                        <hr className="my-2 opacity-0" />
+                        <button type="button" onClick={() => handleTutupPPDB('tutup_ppdb', 'xlsx')} className="px-3 py-2 rounded-lg flex items-center gap-3 bg-green-500 hover:bg-green-400 focus:bg-green-600 text-white text-sm">
+                            <FontAwesomeIcon icon={faFile} className="w-3 h-3 text-inherit" />
+                            Export sebagai XLSX
+                        </button>
+                        <button type="button" onClick={() => handleTutupPPDB('tutup_ppdb', 'csv')} className="px-3 py-2 rounded-lg flex items-center gap-3 bg-green-500 hover:bg-green-400 focus:bg-green-600 text-white text-sm">
+                            <FontAwesomeIcon icon={faFile} className="w-3 h-3 text-inherit" />
+                            Export sebagai CSV
+                        </button>
+                    </div>
+                </dialog>
             </div>
         </MainLayoutPage>
     )
