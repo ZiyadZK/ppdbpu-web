@@ -414,22 +414,9 @@ export default function SiswaTerdaftarPage() {
                     allowEnterKey: false,
                     allowEscapeKey: false,
                     didOpen: async () => {
-                        let responseData = { success: false }
-                        if(uploadedData.length > 50) {
-                            const numBatches = Math.ceil(uploadedData.length / 50)
-                            const responseList = []
-                            for(let i = 0; i < numBatches; i ++) {
-                                const start = i * 50
-                                const end = Math.min(start + 50, uploadedData.length)
-                                const batch = uploadedData.slice(start, end)
-                                const response = await M_Siswa_create(batch)
-                                responseList.push(response.success ? 'success': 'failed')
-                            }
-                            responseData.success = responseList.includes('success')
-                        }else{
-                            const response = await M_Siswa_create(uploadedData)
-                            responseData.success = response.success
-                        }
+                        const responseData = { success: false }
+                        const response = await M_Siswa_create(uploadedData)
+                        responseData.success = response.success
 
                         const successMessage = responseData.success ? 'Berhasil memproses data!' : 'Gagal memproses data..';
                         const messageText = responseData.success ? 'Berhasil mengupload data import ke data siswa!' : 'Terdapat kendala disaat anda mengimport data ke data siswa!';
